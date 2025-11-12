@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EID 감정유형 테스트</title>
+<style>
+body{font-family:Arial,Helvetica,'Noto Sans KR',sans-serif;background:#F7F2EC;color:#1f2937;margin:0;padding:20px}
+.container{max-width:800px;margin:0 auto;background:#fff;padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.06)}
+h1{margin:0 0 8px}
+.q{margin:14px 0 6px;font-weight:700}
+.opt label{margin-right:10px}
+.btn{padding:10px 16px;border-radius:10px;border:0;background:#111827;color:#fff;cursor:pointer}
+.result{margin-top:14px;padding:14px;background:#f3f4f6;border-radius:10px}
+.progress{height:8px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin:10px 0}
+.bar{height:100%;width:0;background:#111827;transition:width .3s}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🧠 EID 감정유형 테스트</h1>
+  <p>16문항 · 3분. 모든 문항 체크 후 결과를 확인하세요.</p>
+  <div class="progress"><div id="bar" class="bar"></div></div>
+  <div id="quiz"></div>
+  <button class="btn" onclick="showResult()">결과 보기</button>
+  <div id="res" class="result" style="display:none"></div>
+</div>
+
+<script>
+const questions = [
+{t:'Intensity',q:'작은 일도 감정이 크게 요동칩니다.'},
+{t:'Intensity',q:'기쁨·슬픔을 느낄 때 깊게 몰입합니다.'},
+{t:'Intensity',q:'자극에 강하게 반응하는 편입니다.'},
+{t:'Intensity',q:'감정이 쉽게 사라지지 않습니다.'},
+{t:'Expression',q:'감정이 표정이나 말에 바로 드러납니다.'},
+{t:'Expression',q:'감정을 숨기면 답답함을 느낍니다.'},
+{t:'Expression',q:'화나 슬픔을 참기 어렵습니다.'},
+{t:'Expression',q:'솔직한 감정표현이 중요하다고 생각합니다.'},
+{t:'Recovery',q:'기분이 나빠도 금방 잊는 편입니다.',rev:false},
+{t:'Recovery',q:'스트레스를 받으면 며칠씩 갑니다.',rev:true},
+{t:'Recovery',q:'감정적으로 힘든 일이 지나도 잔상이 남습니다.',rev:true},
+{t:'Recovery',q:'감정을 회복시키는 나만의 루틴이 있습니다.',rev:false},
+{t:'Resonance',q:'주변 사람의 분위기에 쉽게 영향을 받습니다.'},
+{t:'Resonance',q:'타인의 감정 변화에 민감합니다.'},
+{t:'Resonance',q:'감정적인 사람과 있으면 나도 감정적이 됩니다.'},
+{t:'Resonance',q:'누군가의 기쁨·슬픔이 곧 내 감정처럼 느껴집니다.'}
+];
+const quizEl = document.getElementById('quiz');
+const barEl  = document.getElementById('bar');
+
+questions.forEach((it,idx)=>{
+  const name='q'+idx;
+  const div=document.createElement('div');
+  div.innerHTML = `<div class="q">${idx+1}. ${it.q}</div>
+  <div class="opt">
+    <label><input type="radio" name="${name}" value="1" onchange="upd()"> 1</label>
+    <label><input type="radio" name="${name}" value="2" onchange="upd()"> 2</label>
+    <label><input type="radio" name="${name}" value="3" onchange="upd()"> 3</label>
+    <label><input type="radio" name="${name}" value="4" onchange="upd()"> 4</label>
+    <label><input type="radio" name="${name}" value="5" onchange="upd()"> 5</label>
+  </div>`;
+  quizEl.appendChild(div);
+});
+
+function upd(){
+  const answered=[...document.querySelectorAll('input[type=radio]:checked')].length;
+  barEl.style.width = (answered/questions.length*100)+'%';
+}
+
+function showResult(){
+  for(let i=0;i<questions.length;i++){
+    if(!document.querySelector('input[name="q'+i+'"]:checked')){
+      alert('모든 문항에 응답하세요'); return;
+    }
+  }
+  const sums={Intensity:0,Expression:0,Recovery:0,Resonance:0},cnt={Intensity:0,Expression:0,Recovery:0,Resonance:0};
+  questions.forEach((it,i)=>{
+    let v=parseInt(document.querySelector('input[name="q'+i+'"]:checked').value,10);
+    if(it.rev) v = 6 - v;
+    sums[it.t]+=v; cnt[it.t]++;
+  });
+  const score={};
+  Object.keys(sums).forEach(k=>score[k]=(sums[k]/cnt[k]).toFixed(2));
+  const s={I:+score.Intensity,X:+score.Expression,R:+score.Recovery,Z:+score.Resonance};
+  let type='ANCHOR';
+  if(s.I>=3.6 && s.X>=3.6 && s.R<3.6 && s.Z>=3.6) type='FLARE';
+  else if(s.I<=2.4 && s.X>=3.6 && s.R>=3.6) type='FLOW';
+  else if(s.I>=3.0 && s.X<=3.4 && s.R<3.6) type='CORE';
+  else if(s.Z>=3.6) type='ECHO';
+  else if(s.R>=3.6) type='ANCHOR';
+  else type='VAULT';
+  const dict={
+    FLARE:{n:'🔥 플레어형',d:'감정을 강하게 느끼고 표현합니다.',r:['깊은호흡 3분','기록 5줄','수면 7시간']},
+    FLOW:{n:'🌊 플로우형',d:'감정이 유동적입니다.',r:['산책 10분','물 2잔','호흡']},
+    ECHO:{n:'🔊 에코형',d:'남 감정에 민감합니다.',r:['경계문장 준비','휴식 5분','셀프체크']},
+    ANCHOR:{n:'⚓ 앵커형',d:'감정을 안정시킵니다.',r:['루틴 유지','수분','짧은운동']},
+    VAULT:{n:'🔒 볼트형',d:'감정을 억누릅니다.',r:['표현연습','대화1회','스트레칭']},
+    CORE:{n:'🌑 코어형',d:'감정이 깊습니다.',r:['조용한시간','저자극','일기']}
+  };
+  const res=dict[type];
+  const out=`<h3>${res.n}</h3><p>${res.d}</p>
+  <b>점수</b><p>I:${score.Intensity} / X:${score.Expression} / R:${score.Recovery} / Z:${score.Resonance}</p>
+  <b>오늘의 루틴</b><ol>${res.r.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+  const rdiv=document.getElementById('res'); rdiv.innerHTML=out; rdiv.style.display='block';
+}
+</script>
+</body>
+</html>
