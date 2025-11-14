@@ -27,7 +27,7 @@
       -webkit-font-smoothing: antialiased;
     }
     .wrap {
-      max-width: 760px; /* 더 넓게 사용 */
+      max-width: 760px;
       margin: 0 auto;
       min-height: 100vh;
       padding: 28px 16px 32px;
@@ -152,6 +152,33 @@
     .primary-btn:active {
       transform: translateY(1px);
       box-shadow: 0 8px 18px rgba(15,23,42,0.3);
+    }
+
+    /* 추천 블록 */
+    .intro-reco {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: rgba(248,250,252,0.96);
+      border: 1px solid rgba(226,232,240,0.9);
+    }
+    .intro-reco h2 {
+      font-size: 15px;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .intro-reco ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.6;
+    }
+    .intro-reco li {
+      margin-bottom: 4px;
+    }
+    .nowrap {
+      white-space: nowrap;
     }
 
     /* 질문 화면 */
@@ -391,6 +418,17 @@
               서버에 저장되지 않습니다.
             </p>
           </div>
+        </div>
+
+        <!-- 이런 분들께 추천합니다 블록 -->
+        <div class="intro-reco">
+          <h2>이런 분들께 <span class="nowrap">추천합니다</span></h2>
+          <ul>
+            <li>내 감정 패턴이 어떤지 한 번 구조적으로 점검해 보고 싶은 분</li>
+            <li>감정 기복·감정 피로 때문에 스스로도 헷갈리는 분</li>
+            <li>일·관계에서 감정 때문에 자주 지치거나 오해가 생기는 분</li>
+            <li>상담/코칭 전에, 가볍게 현재 상태를 먼저 확인해 보고 싶은 분</li>
+          </ul>
         </div>
 
         <button class="primary-btn" onclick="startTest()">무료 테스트 시작하기</button>
@@ -832,5 +870,6 @@
   </script>
 </body>
 </html>
+
 
 
