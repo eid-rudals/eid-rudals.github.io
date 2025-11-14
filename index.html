@@ -144,12 +144,8 @@
       color: var(--text-sub);
       margin-bottom: 8px;
     }
-    .scale-labels span:first-child {
-      padding-left: 2px;
-    }
-    .scale-labels span:last-child {
-      padding-right: 2px;
-    }
+    .scale-labels span:first-child { padding-left: 2px; }
+    .scale-labels span:last-child { padding-right: 2px; }
     .scale-buttons {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
@@ -181,9 +177,7 @@
       background: #eef2ff;
       box-shadow: 0 0 0 1px rgba(129,140,248,0.35);
     }
-    .progress-wrap {
-      margin-top: 16px;
-    }
+    .progress-wrap { margin-top: 16px; }
     .progress-bar {
       width: 100%;
       height: 6px;
@@ -205,6 +199,32 @@
     }
 
     /* 결과 화면 */
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .type-avatar-wrap {
+      flex-shrink: 0;
+    }
+    .type-avatar {
+      width: 76px;
+      height: 76px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 34px;
+      box-shadow: 0 16px 28px rgba(15,23,42,0.28);
+      color: #ffffff;
+      border: 1px solid rgba(255,255,255,0.55);
+      background: linear-gradient(135deg,#4f46e5,#6366f1);
+    }
+    .type-main-head {
+      flex: 1;
+      min-width: 0;
+    }
     .type-pill {
       display: inline-flex;
       align-items: center;
@@ -214,21 +234,32 @@
       background: var(--accent-soft);
       color: var(--accent);
       font-size: 12px;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
       font-weight: 600;
     }
-    .result-main {
-      margin-top: 4px;
-      margin-bottom: 12px;
-    }
     .result-main h2 {
-      font-size: 22px;
-      margin-bottom: 6px;
+      font-size: 21px;
+      margin-bottom: 4px;
     }
     .result-main p {
-      font-size: 14px;
+      font-size: 13px;
       color: #4b5563;
     }
+    .result-main {
+      margin-top: 2px;
+    }
+    .type-label-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      color: #0f172a;
+      background: rgba(248,250,252,0.9);
+      border: 1px solid rgba(209,213,219,0.9);
+      margin-top: 4px;
+    }
+
     .result-block {
       margin-top: 14px;
       padding-top: 12px;
@@ -244,9 +275,7 @@
       font-size: 13px;
       color: #4b5563;
     }
-    .result-block li {
-      margin-bottom: 4px;
-    }
+    .result-block li { margin-bottom: 4px; }
     .small {
       font-size: 11px;
       color: #9ca3af;
@@ -258,6 +287,16 @@
       .card { padding: 20px 16px 18px; border-radius: 22px; }
       h1 { font-size: 22px; }
       .q-text { font-size: 17px; }
+      .result-header {
+        flex-direction: row;
+        align-items: center;
+      }
+      .type-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 30px;
+        border-radius: 22px;
+      }
     }
   </style>
 </head>
@@ -307,10 +346,18 @@
 
       <!-- 결과 화면 -->
       <section id="result" class="section">
-        <div class="type-pill">나의 EID 감정유형</div>
-        <div class="result-main">
-          <h2 id="typeName">유형 이름</h2>
-          <p id="typeOneLine">한 줄 설명</p>
+        <div class="result-header">
+          <div class="type-avatar-wrap">
+            <div id="typeAvatar" class="type-avatar">🙂</div>
+          </div>
+          <div class="type-main-head">
+            <div class="type-pill">나의 EID 감정유형</div>
+            <div class="result-main">
+              <h2 id="typeName">유형 이름</h2>
+              <p id="typeOneLine">한 줄 설명</p>
+              <div id="typeKeyword" class="type-label-chip"></div>
+            </div>
+          </div>
         </div>
 
         <div class="result-block">
@@ -476,6 +523,11 @@
         FLAME: {
           name: "FLAME 타입 · 반응과 표현이 빠른 직감형",
           oneLine: "감정이 선명하게 타올랐다가 식는 속도도 빠른, 직감적인 불꽃형입니다.",
+          keyword: "에너지 · 속도 · 직감",
+          emoji: "🔥",
+          gradient: "linear-gradient(135deg,#f97316,#ef4444)",
+          accent: "#f97316",
+          accentSoft: "rgba(254,215,170,0.7)",
           desc:
             "FLAME 유형은 변화에 즉각적으로 반응하고, 느낀 것을 비교적 솔직하게 드러내는 패턴을 가지고 있습니다. " +
             "기분이 좋을 때는 주변까지 함께 끌어올리는 에너지가 있고, 하고 싶은 말이 생기면 어느 정도는 표현해야 마음이 편해집니다. " +
@@ -496,6 +548,11 @@
         DRIVE: {
           name: "DRIVE 타입 · 감정을 동력으로 바꾸는 추진형",
           oneLine: "감정의 흔들림을 ‘해야 할 일’에 연결해 버리는 드라이브형입니다.",
+          keyword: "목표 · 실행 · 추진",
+          emoji: "🚀",
+          gradient: "linear-gradient(135deg,#22c55e,#16a34a)",
+          accent: "#16a34a",
+          accentSoft: "rgba(187,247,208,0.7)",
           desc:
             "DRIVE 유형은 예상과 다른 일이 생겨도 비교적 빠르게 대안을 찾고, 상황을 정리해 앞으로 나아가려는 힘이 강합니다. " +
             "스트레스를 받더라도 결국 '그래서 지금 내가 할 수 있는 건 뭔데?'라는 질문으로 돌아오는 편입니다. " +
@@ -516,6 +573,11 @@
         STORM: {
           name: "STORM 타입 · 깊고 오래가는 파도형 감정가",
           oneLine: "한 번 마음이 움직이면 그 여파가 오래 이어지는, 깊은 파도형입니다.",
+          keyword: "깊이 · 밀도 · 여운",
+          emoji: "🌊",
+          gradient: "linear-gradient(135deg,#0ea5e9,#1d4ed8)",
+          accent: "#0ea5e9",
+          accentSoft: "rgba(186,230,253,0.8)",
           desc:
             "STORM 유형은 사건과 말, 관계의 순간들을 깊게 받아들이는 편입니다. " +
             "좋은 기억도 오래 남지만, 상처가 되는 경험 역시 마음속에서 오래 머무를 수 있습니다. " +
@@ -536,6 +598,11 @@
         SPONGE: {
           name: "SPONGE 타입 · 분위기를 흡수하는 공명형",
           oneLine: "주변 사람의 기분과 에너지를 유난히 잘 받아들이는 흡수형입니다.",
+          keyword: "공감 · 민감함 · 온도",
+          emoji: "🫧",
+          gradient: "linear-gradient(135deg,#a855f7,#6366f1)",
+          accent: "#a855f7",
+          accentSoft: "rgba(233,213,255,0.75)",
           desc:
             "SPONGE 유형은 표정·말투·눈빛 같은 정서적 신호에 민감합니다. " +
             "모임에서 누군가 어색해하거나 힘들어 보이면 그냥 지나치기 어렵고, 타인의 상태가 내 컨디션에 크게 영향을 줄 수 있습니다. " +
@@ -556,6 +623,11 @@
         CALM: {
           name: "CALM 타입 · 회복력이 높은 잔잔형",
           oneLine: "파도가 와도 결국 제자리로 돌아오는, 기본선이 안정적인 타입입니다.",
+          keyword: "안정 · 균형 · 꾸준함",
+          emoji: "🪵",
+          gradient: "linear-gradient(135deg,#0d9488,#22c55e)",
+          accent: "#0d9488",
+          accentSoft: "rgba(204,251,241,0.8)",
           desc:
             "CALM 유형은 감정의 높낮이가 아주 없진 않지만, 어느 선 이상으로 크게 출렁이진 않는 편입니다. " +
             "힘든 일이 있어도 기본적인 일과는 유지하려 하고, 시간이 지나면 자연스럽게 균형점을 다시 찾아갑니다. " +
@@ -576,6 +648,11 @@
         FOCUS: {
           name: "FOCUS 타입 · 감정조절이 뛰어난 전략가형",
           oneLine: "감정보다 ‘상황과 목표’를 먼저 보는, 전략적 조절형입니다.",
+          keyword: "전략 · 거리두기 · 판단",
+          emoji: "🎯",
+          gradient: "linear-gradient(135deg,#0f172a,#4b5563)",
+          accent: "#0f172a",
+          accentSoft: "rgba(209,213,219,0.8)",
           desc:
             "FOCUS 유형은 감정을 느끼지 않는 것이 아니라, 감정을 바로 행동으로 옮기기 전에 '지금은 어떻게 움직이는 게 제일 이득인가?'를 한 번 더 생각하는 편입니다. " +
             "갈등 상황에서도 감정싸움보다는 해결 루트를 찾으려 하고, 중요한 선택일수록 장기적인 그림을 떠올립니다.",
@@ -595,6 +672,11 @@
         OBSERVER: {
           name: "OBSERVER 타입 · 한 발 물러서 보는 관찰형",
           oneLine: "감정 한가운데 뛰어들기보다, 전체 그림을 먼저 보는 관찰형입니다.",
+          keyword: "관찰 · 거리 · 맥락",
+          emoji: "👀",
+          gradient: "linear-gradient(135deg,#6366f1,#0ea5e9)",
+          accent: "#6366f1",
+          accentSoft: "rgba(199,210,254,0.8)",
           desc:
             "OBSERVER 유형은 즉각적인 반응보다 상황 파악을 우선합니다. " +
             "갈등이나 변화가 있을 때도 나와 타인의 감정을 함께 보려 하고, 섣불리 판단하기보다 '조금 더 지켜보자'는 쪽에 가깝습니다. " +
@@ -615,6 +697,11 @@
         MUSE: {
           name: "MUSE 타입 · 사색과 감성이 짙은 내면형",
           oneLine: "혼자만의 생각과 감정의 세계가 깊은, 창조적인 뮤즈형입니다.",
+          keyword: "사색 · 상상 · 표현",
+          emoji: "💫",
+          gradient: "linear-gradient(135deg,#ec4899,#8b5cf6)",
+          accent: "#ec4899",
+          accentSoft: "rgba(251,207,232,0.85)",
           desc:
             "MUSE 유형은 겉으로 보이는 행동보다, 머릿속과 마음속에서 많은 일들이 일어나는 타입입니다. " +
             "일상적인 장면에서도 의미를 찾고, 사람과 관계, 삶에 대한 상상을 자주 합니다. " +
@@ -639,6 +726,16 @@
       document.getElementById("typeName").textContent = data.name;
       document.getElementById("typeOneLine").textContent = data.oneLine;
       document.getElementById("typeDesc").textContent = data.desc;
+      document.getElementById("typeKeyword").textContent = data.keyword;
+
+      const avatar = document.getElementById("typeAvatar");
+      avatar.textContent = data.emoji;
+      avatar.style.backgroundImage = data.gradient;
+
+      // pill 색상도 유형별로 살짝 맞춰주기
+      const root = document.documentElement;
+      root.style.setProperty('--accent', data.accent);
+      root.style.setProperty('--accent-soft', data.accentSoft);
 
       const sList = document.getElementById("typeStrengths");
       const wList = document.getElementById("typeWarnings");
@@ -661,6 +758,5 @@
   </script>
 </body>
 </html>
-
 
 
