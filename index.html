@@ -7,15 +7,15 @@
   <style>
     * { box-sizing: border-box; }
     :root {
-      --bg-gradient: radial-gradient(circle at top left, #e0f2fe 0, #f9fafb 40%, #e5e7eb 100%);
-      --card-bg: rgba(255,255,255,0.78);
-      --card-border: rgba(148,163,184,0.35);
+      --bg-gradient: radial-gradient(circle at top left, #dbeafe 0, #f9fafb 40%, #e5e7eb 100%);
+      --card-bg: rgba(255,255,255,0.82);
+      --card-border: rgba(148,163,184,0.45);
       --accent: #2563eb;
       --accent-soft: #e0edff;
       --text-main: #0f172a;
       --text-sub: #6b7280;
-      --shadow-soft: 0 24px 40px rgba(15,23,42,0.18);
-      --radius-card: 26px;
+      --shadow-soft: 0 24px 50px rgba(15,23,42,0.22);
+      --radius-card: 28px;
       --radius-pill: 999px;
     }
     body {
@@ -27,12 +27,12 @@
       -webkit-font-smoothing: antialiased;
     }
     .wrap {
-      max-width: 640px;
+      max-width: 760px; /* 더 넓게 사용 */
       margin: 0 auto;
       min-height: 100vh;
-      padding: 32px 20px 40px;
+      padding: 28px 16px 32px;
       display: flex;
-      align-items: center;
+      align-items: stretch;
       justify-content: center;
     }
     .card {
@@ -40,10 +40,13 @@
       background: var(--card-bg);
       border-radius: var(--radius-card);
       box-shadow: var(--shadow-soft);
-      padding: 26px 22px 22px;
+      padding: 28px 26px 22px;
       border: 1px solid var(--card-border);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
+      backdrop-filter: blur(26px);
+      -webkit-backdrop-filter: blur(26px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
     h1, h2, h3 {
       margin: 0;
@@ -51,7 +54,7 @@
       letter-spacing: -0.02em;
     }
     h1 {
-      font-size: 26px;
+      font-size: 28px;
       line-height: 1.25;
       margin-bottom: 10px;
     }
@@ -73,15 +76,51 @@
       border-radius: var(--radius-pill);
       background: #eef2ff;
       color: #4f46e5;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
       font-weight: 600;
-      border: 1px solid rgba(129,140,248,0.25);
+      border: 1px solid rgba(129,140,248,0.3);
     }
     .badge span.icon {
       width: 16px;
       height: 16px;
       border-radius: var(--radius-pill);
       background: linear-gradient(135deg, #4f46e5, #38bdf8);
+    }
+    .intro-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+    }
+    .intro-main p {
+      font-size: 14px;
+    }
+    .intro-meta {
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(248,250,252,0.95);
+      border: 1px solid rgba(226,232,240,0.95);
+      font-size: 12px;
+      color: var(--text-sub);
+      display: grid;
+      row-gap: 4px;
+    }
+    .intro-meta-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .intro-meta-label {
+      color: #9ca3af;
+    }
+    .intro-meta-value {
+      font-weight: 600;
+      color: #111827;
+    }
+    .intro-note {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-sub);
     }
     .sub {
       margin-top: 10px;
@@ -101,14 +140,14 @@
       cursor: pointer;
       background: linear-gradient(135deg, #111827, #1f2937);
       color: white;
-      margin-top: 20px;
-      box-shadow: 0 10px 20px rgba(15,23,42,0.35);
+      margin-top: 18px;
+      box-shadow: 0 10px 22px rgba(15,23,42,0.35);
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
                   background 0.12s ease-out;
     }
     .primary-btn:hover {
       background: linear-gradient(135deg, #0f172a, #111827);
-      box-shadow: 0 16px 30px rgba(15,23,42,0.45);
+      box-shadow: 0 18px 32px rgba(15,23,42,0.45);
     }
     .primary-btn:active {
       transform: translateY(1px);
@@ -134,8 +173,8 @@
       margin-top: 22px;
       padding: 10px 12px 12px;
       border-radius: 18px;
-      background: rgba(248,250,252,0.9);
-      border: 1px solid rgba(226,232,240,0.9);
+      background: rgba(248,250,252,0.96);
+      border: 1px solid rgba(226,232,240,0.96);
     }
     .scale-labels {
       display: flex;
@@ -259,7 +298,6 @@
       border: 1px solid rgba(209,213,219,0.9);
       margin-top: 4px;
     }
-
     .result-block {
       margin-top: 14px;
       padding-top: 12px;
@@ -282,8 +320,14 @@
       margin-top: 12px;
     }
 
+    @media (max-width: 640px) {
+      .intro-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+      }
+    }
     @media (max-width: 480px) {
-      .wrap { padding: 20px 14px 28px; }
+      .wrap { padding: 18px 12px 26px; }
       .card { padding: 20px 16px 18px; border-radius: 22px; }
       h1 { font-size: 22px; }
       .q-text { font-size: 17px; }
@@ -307,18 +351,49 @@
       <section id="intro" class="section active">
         <div class="badge">
           <span class="icon"></span>
-          EID Emotion ID Test
+          EID Emotion ID · 감정 패턴 분석 검사
         </div>
-        <h1>당신의 감정 패턴을<br>8가지 EID 유형으로 분석합니다</h1>
-        <p>
-          하루에도 수십 번 바뀌는 기분, 관계에서 반복되는 패턴들.<br>
-          EID 감정유형 테스트는 <b>반응 속도·표현 방식·회복력·공감 패턴</b>을 바탕으로
-          당신의 감정 사용 습관을 읽어냅니다.
-        </p>
-        <p class="sub">
-          약 5분 / 총 40문항 · 선택은 전부 익명이며 어디에도 저장되지 않습니다.
-        </p>
-        <button class="primary-btn" onclick="startTest()">테스트 시작하기</button>
+
+        <div class="intro-layout">
+          <div class="intro-main">
+            <h1>당신의 감정 사용 습관을<br>8가지 EID 유형으로 진단합니다</h1>
+            <p>
+              같은 상황에서도 사람마다 감정을 느끼고 쓰는 방식은 크게 다릅니다.<br>
+              EID 감정유형 테스트는 <b>반응 속도 · 표현 방식 · 회복력 · 공명(공감) · 조절</b> 다섯 축을 통해<br>
+              당신의 감정 패턴을 구조적으로 살펴보는 <b>전문 성향 검사</b>입니다.
+            </p>
+            <p class="sub">
+              결과는 성향 이해를 돕기 위한 참고용이며, 임상 진단이나 치료를 대신하지 않습니다.
+            </p>
+          </div>
+
+          <div>
+            <div class="intro-meta">
+              <div class="intro-meta-row">
+                <span class="intro-meta-label">소요 시간</span>
+                <span class="intro-meta-value">약 5분</span>
+              </div>
+              <div class="intro-meta-row">
+                <span class="intro-meta-label">문항 수</span>
+                <span class="intro-meta-value">총 40문항</span>
+              </div>
+              <div class="intro-meta-row">
+                <span class="intro-meta-label">검사 유형</span>
+                <span class="intro-meta-value">감정 패턴 성향 검사</span>
+              </div>
+              <div class="intro-meta-row">
+                <span class="intro-meta-label">이용 비용</span>
+                <span class="intro-meta-value">전액 무료</span>
+              </div>
+            </div>
+            <p class="intro-note">
+              모든 응답은 익명으로 처리되며,<br>
+              서버에 저장되지 않습니다.
+            </p>
+          </div>
+        </div>
+
+        <button class="primary-btn" onclick="startTest()">무료 테스트 시작하기</button>
       </section>
 
       <!-- 질문 화면 -->
@@ -732,7 +807,6 @@
       avatar.textContent = data.emoji;
       avatar.style.backgroundImage = data.gradient;
 
-      // pill 색상도 유형별로 살짝 맞춰주기
       const root = document.documentElement;
       root.style.setProperty('--accent', data.accent);
       root.style.setProperty('--accent-soft', data.accentSoft);
