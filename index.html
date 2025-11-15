@@ -2,597 +2,921 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EID 감정유형 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="반응 속도 · 표현 방식 · 회복력 · 공명 · 조절력 다섯 축으로 감정 사용 습관을 진단하는 EID 감정 패턴 검사"
+  />
+
   <style>
-    * { box-sizing: border-box; }
     :root {
-      --bg-gradient: radial-gradient(circle at top left, #dbeafe 0, #f9fafb 40%, #e5e7eb 100%);
-      --card-bg: rgba(255,255,255,0.82);
-      --card-border: rgba(148,163,184,0.45);
-      --accent: #2563eb;
-      --accent-soft: #e0edff;
-      --text-main: #0f172a;
-      --text-sub: #6b7280;
-      --shadow-soft: 0 24px 50px rgba(15,23,42,0.22);
-      --radius-card: 28px;
-      --radius-pill: 999px;
+      --bg: #050816;
+      --bg-soft: #0b1020;
+      --card: rgba(12, 16, 32, 0.82);
+      --card-soft: rgba(19, 26, 48, 0.94);
+      --border-soft: rgba(148, 163, 184, 0.3);
+      --accent: #6366f1;
+      --accent-soft: rgba(129, 140, 248, 0.16);
+      --accent-strong: #4f46e5;
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --text-muted: #6b7280;
+      --danger: #f97373;
+      --radius-xl: 32px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.65);
+      --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.7);
+      --blur: 22px;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Noto Sans KR",
-                   system-ui, sans-serif;
-      background: var(--bg-gradient);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap {
-      max-width: 760px;
-      margin: 0 auto;
       min-height: 100vh;
-      padding: 28px 16px 32px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Noto Sans KR", sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.28), transparent 55%),
+        radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.26), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.12), transparent 55%),
+        linear-gradient(145deg, #020617, #020617);
       display: flex;
-      align-items: stretch;
       justify-content: center;
     }
-    .card {
+
+    .page {
       width: 100%;
-      background: var(--card-bg);
-      border-radius: var(--radius-card);
-      box-shadow: var(--shadow-soft);
-      padding: 28px 26px 22px;
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(26px);
-      -webkit-backdrop-filter: blur(26px);
+      max-width: 1120px;
+      padding: 32px 20px 40px;
+    }
+
+    header {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
     }
-    h1, h2, h3 {
-      margin: 0;
-      font-weight: 700;
-      letter-spacing: -0.02em;
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
     }
-    h1 {
-      font-size: 28px;
-      line-height: 1.25;
-      margin-bottom: 10px;
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 200deg,
+        #38bdf8,
+        #6366f1,
+        #a855f7,
+        #ec4899,
+        #f97316,
+        #22c55e,
+        #38bdf8
+      );
+      padding: 3px;
+      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.4);
     }
-    h2 {
-      font-size: 20px;
-      margin-bottom: 8px;
+
+    .brand-mark-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      background: radial-gradient(circle at 30% 20%, #e5e7eb, #020617);
     }
-    p {
-      margin: 0;
-      line-height: 1.6;
-      font-size: 14px;
+
+    .brand-name {
+      font-size: 15px;
+      color: #e5e7eb;
     }
-    .badge {
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .pill {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text-soft);
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      background: #eef2ff;
-      color: #4f46e5;
-      margin-bottom: 12px;
-      font-weight: 600;
-      border: 1px solid rgba(129,140,248,0.3);
     }
-    .badge span.icon {
-      width: 16px;
-      height: 16px;
-      border-radius: var(--radius-pill);
-      background: linear-gradient(135deg, #4f46e5, #38bdf8);
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #a5b4fc, #4f46e5);
     }
-    .intro-layout {
+
+    main {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .shell {
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.96));
+      border-radius: var(--radius-xl);
+      padding: 28px 26px 26px;
+      backdrop-filter: blur(var(--blur));
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
+        radial-gradient(circle at 90% 10%, rgba(129, 140, 248, 0.16), transparent 55%),
+        radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.08), transparent 60%);
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    .shell-inner {
+      position: relative;
+      z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 22px;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
+      gap: 32px;
       align-items: center;
     }
-    .intro-main p {
-      font-size: 14px;
-    }
-    .intro-meta {
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(248,250,252,0.95);
-      border: 1px solid rgba(226,232,240,0.95);
-      font-size: 12px;
-      color: var(--text-sub);
-      display: grid;
-      row-gap: 4px;
-    }
-    .intro-meta-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-    }
-    .intro-meta-label {
-      color: #9ca3af;
-    }
-    .intro-meta-value {
-      font-weight: 600;
-      color: #111827;
-    }
-    .intro-note {
-      margin-top: 8px;
-      font-size: 11px;
-      color: var(--text-sub);
-    }
-    .sub {
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--text-sub);
-    }
-    .section { display: none; }
-    .section.active { display: block; }
 
-    .primary-btn {
-      width: 100%;
-      border: none;
-      border-radius: var(--radius-pill);
-      padding: 13px 18px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      background: linear-gradient(135deg, #111827, #1f2937);
-      color: white;
-      margin-top: 18px;
-      box-shadow: 0 10px 22px rgba(15,23,42,0.35);
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-                  background 0.12s ease-out;
-    }
-    .primary-btn:hover {
-      background: linear-gradient(135deg, #0f172a, #111827);
-      box-shadow: 0 18px 32px rgba(15,23,42,0.45);
-    }
-    .primary-btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 8px 18px rgba(15,23,42,0.3);
+    @media (max-width: 880px) {
+      .shell-inner {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 26px;
+      }
     }
 
-    /* 추천 블록 */
-    .intro-reco {
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 18px;
-      background: rgba(248,250,252,0.96);
-      border: 1px solid rgba(226,232,240,0.9);
+    .hero-title-wrap {
+      margin-bottom: 16px;
     }
-    .intro-reco h2 {
-      font-size: 15px;
-      margin-bottom: 8px;
-      letter-spacing: -0.02em;
-    }
-    .intro-reco ul {
-      margin: 0;
-      padding-left: 18px;
+
+    .eyebrow {
       font-size: 13px;
-      color: #4b5563;
+      color: var(--accent-soft);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .eyebrow span.badge {
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+
+    h1 {
+      font-size: 32px;
+      line-height: 1.25;
+      margin: 0;
+      letter-spacing: -0.03em;
+    }
+
+    h1 strong {
+      color: #e5e7eb;
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-soft);
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+
+    .hero-sub em {
+      font-style: normal;
+      color: #c4b5fd;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .steps {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .step-card {
+      background: radial-gradient(circle at 0% 0%, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.96));
+      border-radius: 20px;
+      padding: 16px 15px 14px;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .step-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at 15% 0%,
+        rgba(129, 140, 248, 0.25),
+        transparent 55%
+      );
+      opacity: 0.7;
+      mix-blend-mode: screen;
+      pointer-events: none;
+    }
+
+    .step-label {
+      font-size: 11px;
+      color: #cbd5f5;
+      margin-bottom: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .step-label span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #a5b4fc;
+    }
+
+    .step-title {
+      font-size: 14px;
+      color: #e5e7eb;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.55;
+    }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .stats-card {
+      border-radius: 20px;
+      padding: 16px 18px 14px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.96));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      box-shadow: var(--shadow-card);
+    }
+
+    .stats-title {
+      font-size: 13px;
+      color: #d1d5db;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .stat-item {
+      padding: 9px 10px;
+      border-radius: 14px;
+      background: rgba(15, 23, 42, 0.98);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .stat-value {
+      font-size: 13px;
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .pill-soft {
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      color: var(--text-soft);
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: var(--text-muted);
       line-height: 1.6;
     }
-    .intro-reco li {
-      margin-bottom: 4px;
+
+    .hero-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .nowrap {
+
+    .btn-primary {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 13px 22px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #f9fafb;
+      background: radial-gradient(circle at 0% 0%, #22c55e, transparent 55%),
+        linear-gradient(135deg, var(--accent-strong), #22c55e);
+      box-shadow: 0 14px 40px rgba(56, 189, 248, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary span.chevron {
+      font-size: 18px;
+      transform: translateY(1px);
+    }
+
+    .btn-secondary {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 10px 14px;
+      font-size: 12px;
+      color: var(--text-soft);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    /* 질문 섹션 */
+
+    .question-shell {
+      margin-top: 18px;
+      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.12), transparent 60%),
+        radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.12), transparent 60%),
+        linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
+      border-radius: var(--radius-xl);
+      padding: 24px 22px 26px;
+      backdrop-filter: blur(var(--blur));
+      border: 1px solid rgba(148, 163, 184, 0.3);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .q-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .q-title {
+      font-size: 15px;
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .q-step {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .progress {
+      width: 100%;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      overflow: hidden;
+      margin-top: 6px;
+      border: 1px solid rgba(31, 41, 55, 1);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #38bdf8, #6366f1);
+      transition: width 0.3s ease-out;
+    }
+
+    .progress-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .q-body {
+      margin-top: 16px;
+    }
+
+    .q-text {
+      font-size: 17px;
+      line-height: 1.6;
+      color: #e5e7eb;
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+    }
+
+    .q-scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding: 0 4px;
+    }
+
+    .scale-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    .scale-btn {
+      flex: 1 1 0;
+      min-width: 0;
+      border-radius: 999px;
+      border: 1px solid rgba(75, 85, 99, 0.9);
+      background: rgba(15, 23, 42, 0.96);
+      color: var(--text-soft);
+      font-size: 12px;
+      padding: 9px 4px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.18s ease-out;
+    }
+
+    .scale-btn .num {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+
+    .scale-btn .label {
+      font-size: 11px;
       white-space: nowrap;
     }
 
-    /* 질문 화면 */
-    .q-header {
-      margin-bottom: 18px;
-    }
-    .q-step {
-      font-size: 12px;
-      color: var(--text-sub);
-      margin-bottom: 6px;
-    }
-    .q-text {
-      font-size: 19px;
-      line-height: 1.45;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-    .scale-wrapper {
-      margin-top: 22px;
-      padding: 10px 12px 12px;
-      border-radius: 18px;
-      background: rgba(248,250,252,0.96);
-      border: 1px solid rgba(226,232,240,0.96);
-    }
-    .scale-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-sub);
-      margin-bottom: 8px;
-    }
-    .scale-labels span:first-child { padding-left: 2px; }
-    .scale-labels span:last-child { padding-right: 2px; }
-    .scale-buttons {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
-    }
-    .scale-btn {
-      border: 1px solid #e5e7eb;
-      background: white;
-      border-radius: var(--radius-pill);
-      padding: 9px 4px;
-      font-size: 13px;
-      cursor: pointer;
-      transition: all 0.12s ease-out;
-      color: #111827;
-    }
-    .scale-btn span.num {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 3px;
-      font-size: 13px;
-    }
-    .scale-btn span.label {
-      display: block;
-      font-size: 11px;
-      color: #9ca3af;
-    }
     .scale-btn:hover {
-      border-color: #c7d2fe;
-      background: #eef2ff;
-      box-shadow: 0 0 0 1px rgba(129,140,248,0.35);
-    }
-    .progress-wrap { margin-top: 16px; }
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      border-radius: var(--radius-pill);
-      background: #e5e7eb;
-      overflow: hidden;
-    }
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #4f46e5, #22c55e);
-      transition: width 0.2s ease-out;
-    }
-    .progress-text {
-      font-size: 11px;
-      color: var(--text-sub);
-      text-align: right;
-      margin-top: 4px;
-    }
-
-    /* 결과 화면 */
-    .result-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 10px;
-    }
-    .type-avatar-wrap {
-      flex-shrink: 0;
-    }
-    .type-avatar {
-      width: 76px;
-      height: 76px;
-      border-radius: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 34px;
-      box-shadow: 0 16px 28px rgba(15,23,42,0.28);
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.55);
-      background: linear-gradient(135deg,#4f46e5,#6366f1);
-    }
-    .type-main-head {
-      flex: 1;
-      min-width: 0;
-    }
-    .type-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 5px 11px;
-      border-radius: var(--radius-pill);
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 12px;
-      margin-bottom: 4px;
-      font-weight: 600;
-    }
-    .result-main h2 {
-      font-size: 21px;
-      margin-bottom: 4px;
-    }
-    .result-main p {
-      font-size: 13px;
-      color: #4b5563;
-    }
-    .result-main {
-      margin-top: 2px;
-    }
-    .type-label-chip {
-      display: inline-flex;
-      align-items: center;
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      color: #0f172a;
-      background: rgba(248,250,252,0.9);
-      border: 1px solid rgba(209,213,219,0.9);
-      margin-top: 4px;
-    }
-    .result-block {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(209,213,219,0.9);
-    }
-    .result-block h3 {
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-    .result-block ul {
-      margin: 0;
-      padding-left: 18px;
-      font-size: 13px;
-      color: #4b5563;
-    }
-    .result-block li { margin-bottom: 4px; }
-    .small {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 12px;
+      border-color: var(--accent);
+      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.16), transparent 60%),
+        rgba(15, 23, 42, 1);
+      color: #e5e7eb;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
     }
 
     @media (max-width: 640px) {
-      .intro-layout {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 14px;
+      .scale-btn .label {
+        font-size: 10px;
       }
     }
-    @media (max-width: 480px) {
-      .wrap { padding: 18px 12px 26px; }
-      .card { padding: 20px 16px 18px; border-radius: 22px; }
-      h1 { font-size: 22px; }
-      .q-text { font-size: 17px; }
-      .result-header {
-        flex-direction: row;
-        align-items: center;
+
+    /* 결과 섹션 */
+
+    .result-shell {
+      margin-top: 18px;
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.97), rgba(15, 23, 42, 1));
+      border-radius: var(--radius-xl);
+      padding: 24px 22px 26px;
+      border: 1px solid rgba(148, 163, 184, 0.32);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(var(--blur));
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: var(--shadow-card);
+      background-size: 160% 160%;
+      background-position: center;
+    }
+
+    .result-main-title {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .result-badge {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .result-body {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
+      gap: 22px;
+    }
+
+    @media (max-width: 880px) {
+      .result-body {
+        grid-template-columns: minmax(0, 1fr);
       }
-      .type-avatar {
-        width: 70px;
-        height: 70px;
-        font-size: 30px;
-        border-radius: 22px;
-      }
+    }
+
+    .result-desc {
+      font-size: 13px;
+      color: var(--text-soft);
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .pill-keyword {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      border: 1px solid rgba(129, 140, 248, 0.6);
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-bottom: 10px;
+    }
+
+    .result-list-block {
+      font-size: 12px;
+    }
+
+    .result-list-block h3 {
+      font-size: 12px;
+      margin: 0 0 6px;
+      color: #e5e7eb;
+    }
+
+    .result-list {
+      list-style: none;
+      margin: 0;
+      padding-left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      color: var(--text-soft);
+    }
+
+    .result-list li::before {
+      content: "• ";
+      color: var(--accent);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <div class="card">
-      <!-- 인트로 화면 -->
-      <section id="intro" class="section active">
-        <div class="badge">
-          <span class="icon"></span>
-          EID Emotion ID · 감정 패턴 분석 검사
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-mark">
+          <div class="brand-mark-inner"></div>
         </div>
+        <div>
+          <div class="brand-name">EID Emotion ID</div>
+          <div class="brand-sub">감정 패턴 분석 검사</div>
+        </div>
+      </div>
+      <span class="pill">
+        <span class="pill-dot"></span>
+        베타 테스트 · 개인용 리포트
+      </span>
+    </header>
 
-        <div class="intro-layout">
-          <div class="intro-main">
-            <h1>당신의 감정 사용 습관을<br>8가지 EID 유형으로 진단합니다</h1>
-            <p>
-            <p style="line-height: 1.65; font-size:16px; color:#4b5563; margin: 6px 0;">
-  같은 상황에서 사람마다 감정을 느끼고 쓰는 방식은<br>
+    <main>
+      <!-- INTRO -->
+      <section id="intro" class="section active">
+        <div class="shell">
+          <div class="shell-inner">
+            <div>
+              <div class="hero-title-wrap">
+                <div class="eyebrow">
+                  <span class="badge">EID Emotion ID</span>
+                  <span>반응 · 표현 · 회복 · 공명 · 조절 5축 감정 성향 진단</span>
+                </div>
+                <h1>
+                  당신의 감정 사용 습관을<br />
+                  <strong>8가지 EID 유형</strong>으로 진단합니다.
+                </h1>
+                <p class="hero-sub">
+                  같은 상황에서 사람마다 감정을 느끼고 쓰는 방식은<br>
   크게 다릅니다.<br><br>
 
   EID 감정유형 테스트는 총 5개의 축<br>
   반응 속도 · 표현 방식 · 회복력 · 공감 · 조절을 통해<br>
   당신의 감정 패턴을 구조적으로 살펴보는<br>
   전문 성향 검사입니다.
-</p>
 
-            </p>
-            <p class="sub">
-              결과는 성향 이해를 돕기 위한 참고용이며, 임상 진단이나 치료를 대신하지 않습니다.
-            </p>
-          </div>
+                </p>
+              </div>
 
-          <div>
-            <div class="intro-meta">
-              <div class="intro-meta-row">
-                <span class="intro-meta-label">소요 시간</span>
-                <span class="intro-meta-value">약 5분</span>
-              </div>
-              <div class="intro-meta-row">
-                <span class="intro-meta-label">문항 수</span>
-                <span class="intro-meta-value">총 40문항</span>
-              </div>
-              <div class="intro-meta-row">
-                <span class="intro-meta-label">검사 유형</span>
-                <span class="intro-meta-value">감정 패턴 성향 검사</span>
-              </div>
-              <div class="intro-meta-row">
-                <span class="intro-meta-label">이용 비용</span>
-                <span class="intro-meta-value">전액 무료</span>
+              <div class="steps">
+                <div class="step-card">
+                  <div class="step-label">
+                    <span class="dot"></span>
+                    1단계
+                  </div>
+                  <div class="step-title">테스트 진행</div>
+                  <p class="step-desc">
+                    40개의 짧은 질문에 답하면서, 평소의 반응과 행동 패턴을 체크합니다.
+                    모두 일상적인 상황을 바탕으로 구성되어 부담 없이 응답할 수 있습니다.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <div class="step-label">
+                    <span class="dot"></span>
+                    2단계
+                  </div>
+                  <div class="step-title">EID 유형 분석</div>
+                  <p class="step-desc">
+                    5개 축 점수를 기반으로 8가지 EID 코드 중 하나를 산출합니다.
+                    단순 결과가 아니라, 감정의 흐름과 사용 구조를 함께 설명합니다.
+                  </p>
+                </div>
+
+                <div class="step-card">
+                  <div class="step-label">
+                    <span class="dot"></span>
+                    3단계
+                  </div>
+                  <div class="step-title">활용 가이드</div>
+                  <p class="step-desc">
+                    강점·주의점·생활 활용 팁을 제공하여 상담·관계·업무 등에서
+                    감정을 더 효율적으로 쓰는 방향을 제안합니다.
+                  </p>
+                </div>
               </div>
             </div>
-            <p class="intro-note">
-              모든 응답은 익명으로 처리되며,<br>
-              서버에 저장되지 않습니다.
-            </p>
+
+            <div class="hero-right">
+              <div class="stats-card">
+                <div class="stats-title">
+                  검사 정보
+                  <span class="pill-soft">베타 버전 · 무료 이용</span>
+                </div>
+                <div class="stats-grid">
+                  <div class="stat-item">
+                    <div class="stat-label">소요 시간</div>
+                    <div class="stat-value">약 5분</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">문항 수</div>
+                    <div class="stat-value">총 40문항</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">검사 유형</div>
+                    <div class="stat-value">감정 패턴 성향 검사</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-label">이용 비용</div>
+                    <div class="stat-value">전액 무료</div>
+                  </div>
+                </div>
+                <p class="hero-note">
+                  결과는 성향 이해를 돕기 위한 참고용이며, 임상 진단이나 치료를
+                  대신하지 않습니다. 응답 내용은 익명으로 처리되며 서버에
+                  별도 저장되지 않습니다.
+                </p>
+                <div class="hero-actions">
+                  <button class="btn-primary" onclick="startTest()">
+                    무료 테스트 시작하기
+                    <span class="chevron">›</span>
+                  </button>
+                  <div class="btn-secondary">
+                    <span style="font-size: 13px;">ⓘ</span>
+                    평균 5분 내외로 완료됩니다.
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
-        <!-- 이런 분들께 추천합니다 블록 -->
-        <div class="intro-reco">
-          <h2>이런 분들께 <span class="nowrap">추천합니다</span></h2>
-          <ul>
-            <li>내 감정 패턴이 어떤지 구조적으로 점검해 보고 싶은 분</li>
-            <li>감정 기복·감정 피로 때문에 스스로도 헷갈리는 분</li>
-            <li>일·관계에서 감정으로 자주 지치거나 오해가 생기는 분</li>
-            <li>상담/코칭 전에 현재 상태를 먼저 확인해 보고 싶은 분</li>
-          </ul>
-        </div>
-
-        <button class="primary-btn" onclick="startTest()">무료 테스트 시작하기</button>
       </section>
 
-      <!-- 질문 화면 -->
+      <!-- QUESTION -->
       <section id="question" class="section">
-        <div class="q-header">
-          <div class="q-step" id="qStep"></div>
-          <div class="q-text" id="qText"></div>
-        </div>
-
-        <div class="scale-wrapper">
-          <div class="scale-labels">
-            <span>전혀 아니다</span>
-            <span>매우 그렇다</span>
-          </div>
-          <div class="scale-buttons" id="scaleButtons"></div>
-        </div>
-
-        <div class="progress-wrap">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
-          <div class="progress-text" id="progressText"></div>
-        </div>
-      </section>
-
-      <!-- 결과 화면 -->
-      <section id="result" class="section">
-        <div class="result-header">
-          <div class="type-avatar-wrap">
-            <div id="typeAvatar" class="type-avatar">🙂</div>
-          </div>
-          <div class="type-main-head">
-            <div class="type-pill">나의 EID 감정유형</div>
-            <div class="result-main">
-              <h2 id="typeName">유형 이름</h2>
-              <p id="typeOneLine">한 줄 설명</p>
-              <div id="typeKeyword" class="type-label-chip"></div>
+        <div class="question-shell">
+          <div class="q-header">
+            <div>
+              <div class="q-title">EID 감정유형 테스트</div>
+              <div class="q-step" id="qStep"></div>
+              <div class="progress">
+                <div id="progressFill" class="progress-fill"></div>
+              </div>
+              <div id="progressText" class="progress-text">0% 진행됨</div>
             </div>
           </div>
-        </div>
 
-        <div class="result-block">
-          <h3>유형 설명</h3>
-          <p id="typeDesc"></p>
-        </div>
+          <div class="q-body">
+            <div class="q-text" id="qText"></div>
 
-        <div class="result-block">
-          <h3>이런 강점이 있어요</h3>
-          <ul id="typeStrengths"></ul>
+            <div class="q-scale-labels">
+              <span>전혀 아니다</span>
+              <span>매우 그렇다</span>
+            </div>
+            <div id="scaleButtons" class="scale-row"></div>
+          </div>
         </div>
-
-        <div class="result-block">
-          <h3>주의하면 좋은 포인트</h3>
-          <ul id="typeWarnings"></ul>
-        </div>
-
-        <p class="small">
-          ※ 이 테스트는 진단이 아닌, 스스로의 감정 패턴을 이해하기 위한 참고용 도구입니다.
-        </p>
       </section>
-    </div>
+
+      <!-- RESULT -->
+      <section id="result" class="section">
+        <div class="result-shell">
+          <div class="result-header">
+            <div id="typeAvatar" class="avatar">✨</div>
+            <div>
+              <div id="typeName" class="result-main-title">EID 유형</div>
+              <div id="typeOneLine" class="result-badge">
+                당신의 감정 사용 패턴을 정리한 결과입니다.
+              </div>
+            </div>
+          </div>
+
+          <div class="result-body">
+            <div>
+              <div id="typeKeyword" class="pill-keyword">감정 코드</div>
+              <p id="typeDesc" class="result-desc">
+                각 유형은 좋고 나쁨을 나누기 위한 것이 아니라, 감정을 쓰는
+                방식의 차이를 설명하기 위한 코드입니다.
+              </p>
+            </div>
+
+            <div class="result-list-block">
+              <h3>이 유형의 강점</h3>
+              <ul id="typeStrengths" class="result-list"></ul>
+              <h3 style="margin-top: 10px;">주의할 점</h3>
+              <ul id="typeWarnings" class="result-list"></ul>
+            </div>
+          </div>
+
+          <p class="footer-note">
+            이 결과는 현재 당신의 경향을 설명하는 것이며, 상황·환경·경험에 따라
+            언제든 달라질 수 있습니다. 감정은 ‘고쳐야 할 것’이 아니라
+            ‘어떻게 사용할지 선택할 수 있는 자원’이라는 점을 기억해 주세요.
+          </p>
+        </div>
+      </section>
+    </main>
   </div>
 
+  <!-- =========================
+       JS : 질문 + 산출 로직
+  ========================== -->
   <script>
-    // 40문항
     const questions = [
-      // intensity (0~7)
-      "예상치 못한 소식을 들으면 몸이 먼저 반응하는 편이다.",
-      "갑자기 일정이 바뀌면 평소보다 말수가 늘거나 줄어든다.",
-      "작은 일에도 기분이 확 올라가거나 확 떨어질 때가 많다.",
-      "좋은 일이 생기면 주변 사람들도 바로 눈치챌 정도로 티가 난다.",
-      "기대했던 일이 틀어지면 한동안 다른 일도 손에 잘 안 잡힌다.",
-      "스트레스를 받으면 몸이 먼저 뻐근해지거나 긴장되는 편이다.",
-      "사소한 말 한마디에 하루 분위기가 바뀌기도 한다.",
-      "내 기분은 '잔잔한 편'보다는 '파도가 있는 편'에 가깝다.",
-      // expression (8~15)
-      "속으로만 생각하기보다는 말로 표현하면서 정리되는 편이다.",
-      "불편한 상황이 오면 표정이나 말투에 금방 드러난다.",
-      "하고 싶은 말이 있으면 어느 정도는 바로 꺼내야 속이 편하다.",
-      "감정을 표현하는 나 자신이 불편하기보다는 자연스럽다고 느낀다.",
-      "기쁜 일은 웬만하면 주변 사람들과 나누고 싶다.",
-      "상대가 내 마음을 잘 모르고 넘어가면 답답함이 남는다.",
-      "상대방 기분이 상할 것 같아도, 사실을 말해야 할 땐 말하는 편이다.",
-      "대화에서 분위기를 띄우거나 정리해 주는 역할을 자주 맡는다.",
-      // recovery (16~23)
-      "힘든 일이 있어도 잠을 자고 나면 어느 정도 정리가 되는 편이다.",
-      "상처되는 말을 들어도 시간이 지나면 '그럴 수도 있지'라고 정리한다.",
-      "안 좋은 일이 있어도 일상 루틴(출근, 식사 등)은 웬만하면 유지한다.",
-      "큰 실수를 해도 '다음에 만회하자'라는 생각으로 넘어가려 한다.",
-      "과거 일을 오래 끌고 가기보다는 현재에 집중하려고 한다.",
-      "반대로, 어떤 일은 시간이 지나도 가끔 떠오르며 마음이 쓰인다.",
-      "갈등이 한 번 생기면 다시 편하게 지내기까지 시간이 오래 걸린다.",
-      "기분이 가라앉는 날엔 하루 전체에 그 분위기가 이어지는 편이다.",
-      // resonance (24~31)
-      "주변 사람이 힘들어 보이면 나도 함께 마음이 무거워진다.",
-      "타인의 표정·눈빛·말투 변화를 빨리 눈치채는 편이다.",
-      "모임에서 누가 소외된 느낌이면 은근히 신경이 쓰인다.",
-      "상대가 상처받은 모습을 보면 오래 기억에 남는다.",
-      "가까운 사람의 기분 변화는 내 기분에도 큰 영향을 준다.",
-      "타인의 고민 상담을 듣다가도 '내 일 같다'는 느낌이 들 때가 있다.",
-      "사람이 많은 공간에 있으면, 돌아와서도 그 분위기가 오래 남는다.",
-      "반대로, 혼자 있는 시간이 길어지면 사람 생각이 더 많아지는 편이다.",
-      // regulation + situation (32~39)
-      "화가 나는 상황에서도, 바로 반응하기 전에 한 번 멈추려 한다.",
-      "갈등이 생기면 '누가 맞냐'보다 '어떻게 풀까'를 먼저 떠올린다.",
-      "감정이 격해질 것 같으면, 자리를 피하거나 말을 줄이는 편이다.",
-      "감정적인 선택보다는 실용적인 선택을 하려고 의식적으로 노력한다.",
-      "중요한 결정 앞에서는 내 감정보다 '상황 전체'를 먼저 살핀다.",
-      "상대의 말이 세게 느껴져도, 바로 맞대응하기보다 맥락을 본다.",
-      "예상과 다른 일이 생기면, 짜증보다 '대안을 찾는 모드'로 바뀐다.",
-      "내가 지금 느끼는 감정을 한 발 물러서서 관찰해 볼 때가 있다."
+      "예상치 못한 소식을 들으면, 몸이 먼저 굳거나 반응하는 편이다.",
+      "주변 사람의 말투가 조금만 달라져도 바로 눈치챈다.",
+      "처음 가는 장소에서도 분위기 변화를 빨리 감지하는 편이다.",
+      "갑작스럽게 일정이 바뀌면 머릿속이 잠시 복잡해진다.",
+      "누가 나에 대해 미묘하게 불편해하는 기색을 보이면 금방 알아차린다.",
+      "좋은 소식이 생기면 에너지가 즉시 올라와서 행동으로 이어진다.",
+      "상황이 변해도 바로 움직이기보다, 한 번 더 지켜본 뒤에 반응하는 편이다.",
+      "주변이 조금 시끄럽거나 산만해져도 크게 흔들리지 않고 일을 이어가는 편이다.",
+      "기분이 바뀌면 얼굴 표정이 금방 달라지는 편이다.",
+      "속으로 생각한 내용이 말투나 말의 속도에서 티가 난다는 소리를 들은 적이 있다.",
+      "긴장하면 말이 빨라지거나 평소와 다르게 나온다.",
+      "속상한 일이 있으면 주변 사람이 눈치챌 정도로 기운이 달라진다.",
+      "웬만한 일은 표정을 바꾸지 않고 넘어가는 편이다.",
+      "좋은 일이 있으면 자연스럽게 말이 많아지거나 농담이 늘어난다.",
+      "주변 사람들이 '기분이 얼굴에 잘 보인다'고 말하는 편이다.",
+      "웬만하면 내 상태를 들키지 않으려고, 일부러 평소처럼 행동하려고 한다.",
+      "하루에 좋지 않은 일이 있어도, 잠을 자고 나면 어느 정도 정리가 되는 편이다.",
+      "걱정이나 긴장이 있어도 시간이 지나면 자연스럽게 가라앉는다.",
+      "스트레스가 쌓이면, 산책·혼자 시간 보내기 등 나름의 회복 루틴이 있다.",
+      "안 좋은 일이 있으면 며칠 동안 계속 생각나서 다른 일에 집중하기 어렵다.",
+      "과거의 실수나 민망한 장면이 떠올라도, '지나간 일'이라고 넘길 수 있다.",
+      "기운이 떨어질 때, 쉬어야겠다는 신호를 스스로 어느 정도 알아차린다.",
+      "누가 했던 한마디가 며칠 동안 머릿속에서 반복되는 편이다.",
+      "일이 잘못돼도, '다음에 다시 해보자'라는 생각으로 방향을 바꾸는 편이다.",
+      "주변 사람이 지쳐 보이면, 집에 와서도 그 모습이 떠오를 때가 있다.",
+      "가까운 사람이 힘들다고 이야기하면, 그날 내 컨디션도 같이 내려가는 편이다.",
+      "모임 자리에서 누가 어색해하거나 소외된 느낌이면 신경이 쓰인다.",
+      "누군가의 한 말이 '혹시 이런 뜻이었나?' 하며 자꾸 떠오를 때가 있다.",
+      "상대의 표정이나 눈빛만 보고도, 대충 어떤 상태인지 짐작하는 편이다.",
+      "다른 사람이 예민한 상태여도, 나까지 같이 휘말리지 않으려고 거리를 둔다.",
+      "많은 사람 사이에 있다가 집에 오면, 여러 장면들이 한 번씩 떠오르며 피곤함이 느껴진다.",
+      "힘들다는 이야기를 오래 듣고 나면, 내 에너지까지 빠져나간 느낌이 든다.",
+      "말이 세게 오가는 상황이 되면, 내 속도 함께 빨라져서 조절이 잘 안 될 때가 있다.",
+      "마음이 거칠어질 때, 잠깐 자리를 피하거나 숨을 고르는 편이다.",
+      "일이 틀어져도, 일단 '지금 할 수 있는 것'부터 정리해 보려고 한다.",
+      "주변이 혼란스러워도, 큰 흐름을 잃지 않고 할 일을 찾아가는 편이다.",
+      "억울하거나 답답한 상황이 되면, 말을 아끼기보다 바로 반응해 버리는 편이다.",
+      "상태가 흔들려도, 어느 시점부터는 스스로 균형을 잡으려는 힘이 올라온다.",
+      "여러 가지 일이 한꺼번에 겹치면, 머릿속이 복잡해져 우선순위 정하기가 어렵다.",
+      "분위기가 과열되더라도, 한 발 물러서서 정리해 보는 편이다."
     ];
 
     const TOTAL = questions.length;
     let idx = 0;
-    const scores = {
-      intensity: 0,
-      expression: 0,
-      recovery: 0,
-      resonance: 0,
-      regulation: 0,
-      situation: 0
-    };
+
+    const scores = { rs: 0, ex: 0, rc: 0, em: 0, reg: 0 };
+    const reverseIndices = new Set([6, 7, 12, 15, 19, 22, 29, 32, 36, 38]);
 
     function showSection(id) {
-      ["intro","question","result"].forEach(sec => {
-        document.getElementById(sec).classList.remove("active");
+      ["intro", "question", "result"].forEach((sec) => {
+        const el = document.getElementById(sec);
+        if (!el) return;
+        el.classList.remove("active");
       });
-      document.getElementById(id).classList.add("active");
+      const target = document.getElementById(id);
+      if (target) target.classList.add("active");
     }
 
     function startTest() {
       idx = 0;
-      Object.keys(scores).forEach(k => scores[k] = 0);
+      Object.keys(scores).forEach((k) => (scores[k] = 0));
       showSection("question");
       renderQuestion();
     }
 
-    // Likert 버튼 구성
     const scaleArea = document.getElementById("scaleButtons");
-    const scaleConfig = [
-      { num: "1", label: "전혀 아니다" },
-      { num: "2", label: "그렇지 않은 편" },
-      { num: "3", label: "보통이다" },
-      { num: "4", label: "그런 편이다" },
-      { num: "5", label: "매우 그렇다" }
-    ];
-    scaleConfig.forEach((item, i) => {
-      const btn = document.createElement("button");
-      btn.className = "scale-btn";
-      btn.innerHTML = `<span class="num">${item.num}</span><span class="label">${item.label}</span>`;
-      btn.onclick = () => answer(i + 1);
-      scaleArea.appendChild(btn);
-    });
+    if (scaleArea && scaleArea.children.length === 0) {
+      const scaleConfig = [
+        { num: "1", label: "전혀 아니다" },
+        { num: "2", label: "그렇지 않은 편" },
+        { num: "3", label: "보통이다" },
+        { num: "4", label: "그런 편이다" },
+        { num: "5", label: "매우 그렇다" }
+      ];
+      scaleConfig.forEach((item, i) => {
+        const btn = document.createElement("button");
+        btn.className = "scale-btn";
+        btn.innerHTML = `
+          <span class="num">${item.num}</span>
+          <span class="label">${item.label}</span>
+        `;
+        btn.onclick = () => answer(i + 1);
+        scaleArea.appendChild(btn);
+      });
+    }
 
     function renderQuestion() {
       if (idx >= TOTAL) {
@@ -604,273 +928,283 @@
       const progressFill = document.getElementById("progressFill");
       const progressText = document.getElementById("progressText");
 
-      qEl.textContent = questions[idx];
-      stepEl.textContent = `질문 ${idx + 1} / ${TOTAL}`;
+      if (qEl) qEl.textContent = questions[idx];
+      if (stepEl) stepEl.textContent = `질문 ${idx + 1} / ${TOTAL}`;
       const percent = (idx / TOTAL) * 100;
-      progressFill.style.width = percent + "%";
-      progressText.textContent = `${Math.round(percent)}% 진행됨`;
+      if (progressFill) progressFill.style.width = percent + "%";
+      if (progressText) progressText.textContent = `${Math.round(percent)}% 진행됨`;
     }
 
     function answer(value) {
-      if (idx < 8) scores.intensity += value;
-      else if (idx < 16) scores.expression += value;
-      else if (idx < 24) scores.recovery += value;
-      else if (idx < 32) scores.resonance += value;
-      else if (idx < 36) scores.regulation += value;
-      else scores.situation += value;
+      if (idx >= TOTAL) return;
+      const val = reverseIndices.has(idx) ? 6 - value : value;
+
+      if (idx < 8) scores.rs += val;
+      else if (idx < 16) scores.ex += val;
+      else if (idx < 24) scores.rc += val;
+      else if (idx < 32) scores.em += val;
+      else scores.reg += val;
 
       idx++;
       renderQuestion();
     }
 
-    function finishTest() {
-      document.getElementById("progressFill").style.width = "100%";
-      document.getElementById("progressText").textContent = "100% 완료";
+    function normalize(sum) {
+      return (sum - 8) / 32;
+    }
 
-      const { intensity, expression, recovery, resonance, regulation, situation } = scores;
+    function finishTest() {
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+      if (progressFill) progressFill.style.width = "100%";
+      if (progressText) progressText.textContent = "100% 완료";
+
+      const rsN = normalize(scores.rs);
+      const exN = normalize(scores.ex);
+      const rcN = normalize(scores.rc);
+      const emN = normalize(scores.em);
+      const regN = normalize(scores.reg);
 
       let typeKey = "";
-      if (intensity >= 28 && expression >= 28) typeKey = "FLAME";
-      else if (intensity >= 26 && situation >= 24) typeKey = "DRIVE";
-      else if (recovery <= 22 && resonance >= 26) typeKey = "STORM";
-      else if (resonance >= 28) typeKey = "SPONGE";
-      else if (recovery >= 28) typeKey = "CALM";
-      else if (regulation >= 16 && situation >= 16) typeKey = "FOCUS";
-      else if (situation >= 18) typeKey = "OBSERVER";
-      else typeKey = "MUSE";
+      if (rsN >= 0.7 && regN <= 0.4) typeKey = "FR";
+      else if (emN >= 0.7 && rcN <= 0.45) typeKey = "DE";
+      else if (exN >= 0.7 && rsN >= 0.6 && regN <= 0.55) typeKey = "ES";
+      else if (rcN >= 0.7 && regN >= 0.65) typeKey = "ER";
+      else if (regN >= 0.75 && emN <= 0.6) typeKey = "RC";
+      else if (rsN <= 0.45 && exN <= 0.45) typeKey = "LS";
+      else if (exN <= 0.4 && emN <= 0.45 && rcN >= 0.5) typeKey = "FA";
+      else typeKey = "HB";
 
       const TYPE_DATA = {
-        FLAME: {
-          name: "FLAME 타입 · 반응과 표현이 빠른 직감형",
-          oneLine: "감정이 선명하게 타올랐다가 식는 속도도 빠른, 직감적인 불꽃형입니다.",
-          keyword: "에너지 · 속도 · 직감",
-          emoji: "🔥",
+        FR: {
+          name: "FR 타입 · Fast Reactive",
+          oneLine: "상황 변화에 즉각 반응하고, 에너지가 빠르게 치고 올라오는 유형입니다.",
+          keyword: "속도 · 즉흥 · 에너지",
+          emoji: "⚡",
           gradient: "linear-gradient(135deg,#f97316,#ef4444)",
           accent: "#f97316",
-          accentSoft: "rgba(254,215,170,0.7)",
+          accentSoft: "rgba(254,215,170,0.8)",
           desc:
-            "FLAME 유형은 변화에 즉각적으로 반응하고, 느낀 것을 비교적 솔직하게 드러내는 패턴을 가지고 있습니다. " +
-            "기분이 좋을 때는 주변까지 함께 끌어올리는 에너지가 있고, 하고 싶은 말이 생기면 어느 정도는 표현해야 마음이 편해집니다. " +
-            "한 번 집중이 붙으면 몰입력이 좋고, 새로운 사람·새로운 자극에서 에너지를 얻는 편입니다.",
+            "FR 타입은 주변 환경과 사람의 변화에 빠르게 반응하는 편입니다. 좋은 소식에는 즉시 기분이 올라가고, 불편한 상황에서는 몸과 마음이 동시에 반응합니다. 상황에 대한 감도가 높고 즉흥성이 있어, 기회 포착과 분위기 전환에는 강점이 있지만, 때로는 감정의 속도가 생각보다 앞서 나가 피곤해질 수 있습니다.",
           strengths: [
-            "분위기를 빠르게 띄우고 사람들을 편하게 만드는 능력",
-            "결단이 필요한 순간에 오래 망설이지 않고 움직이는 추진력",
-            "솔직한 피드백과 직감으로 상황의 핵심을 빨리 잡아냄",
-            "기회가 보이면 먼저 손을 뻗는 선제적 행동력"
+            "변화에 빠르게 반응하며 기회를 먼저 잡는 추진력",
+            "분위기가 가라앉을 때 에너지를 끌어올리는 역할",
+            "눈치가 빨라 상황 파악과 센스 있는 대응이 가능함",
+            "새로운 경험과 자극에 두려움보다 호기심이 먼저 올라오는 편"
           ],
           warnings: [
-            "순간 감정에 따라 말을 세게 했다가 후회할 수 있음",
-            "컨디션에 따라 텐션 차이가 커 보일 수 있어 오해를 부를 수 있음",
-            "내가 느낀 속도만큼 상대가 따라오지 못할 때 답답함이 커질 수 있음",
-            "중요한 결정일수록 한 번 더 '내일의 나' 입장에서 점검해 보는 것이 도움이 됨"
+            "순간 감정에 휘둘려 말이나 행동이 앞서 나갈 수 있음",
+            "에너지가 오르내리는 폭이 커 주변 사람에게 혼란을 줄 수 있음",
+            "중요한 결정일수록 한 번 더 '내일의 나' 입장에서 점검하는 습관이 필요",
+            "쉬어야 할 때를 놓치지 않도록 의식적으로 속도를 줄이는 연습이 도움이 됨"
           ]
         },
-        DRIVE: {
-          name: "DRIVE 타입 · 감정을 동력으로 바꾸는 추진형",
-          oneLine: "감정의 흔들림을 ‘해야 할 일’에 연결해 버리는 드라이브형입니다.",
-          keyword: "목표 · 실행 · 추진",
-          emoji: "🚀",
+        DE: {
+          name: "DE 타입 · Deep Empath",
+          oneLine: "타인의 상태를 깊이 받아들이고, 오래 마음에 담아두는 공감형입니다.",
+          keyword: "공감 · 흡수 · 깊이",
+          emoji: "💧",
+          gradient: "linear-gradient(135deg,#0ea5e9,#6366f1)",
+          accent: "#0ea5e9",
+          accentSoft: "rgba(191,219,254,0.85)",
+          desc:
+            "DE 타입은 주변 사람의 표정, 말투, 기운을 민감하게 받아들이는 편입니다. 누군가 힘들다고 말하면 쉽게 잊지 못하고, 혼자 있을 때도 그 장면이 떠오르곤 합니다. 공감 능력이 뛰어난 만큼 누군가에게 정서적인 지지를 주는 데 강점이 있지만, 그만큼 쉽게 지치고 감정적인 피로가 쌓일 수 있습니다.",
+          strengths: [
+            "상대의 말과 사이사이에 숨어 있는 감정까지 읽어내는 섬세함",
+            "힘든 이야기를 털어놓고 싶게 만드는 따뜻한 태도",
+            "관계와 상황을 감정의 결까지 포함해 입체적으로 바라봄",
+            "사람을 대할 때 대충 넘기지 않고 진심을 담는 편"
+          ],
+          warnings: [
+            "타인의 감정까지 떠안아 스스로 번아웃이 오기 쉬움",
+            "거절과 거리두기를 미루다 한 번에 지칠 수 있음",
+            "모든 사람을 다 챙기지 못해도 괜찮다는 허용이 필요",
+            "하루 중 '아무에게도 공감하지 않는 시간'을 만들어 두면 도움이 됨"
+          ]
+        },
+        ES: {
+          name: "ES 타입 · Expressive Sensitive",
+          oneLine: "느끼는 것도 크고, 드러나는 것도 분명한 표현형 민감 타입입니다.",
+          keyword: "표현 · 진솔함 · 온도",
+          emoji: "🎭",
+          gradient: "linear-gradient(135deg,#ec4899,#f97316)",
+          accent: "#ec4899",
+          accentSoft: "rgba(251,207,232,0.9)",
+          desc:
+            "ES 타입은 기분과 생각이 얼굴·말투·행동에 자연스럽게 드러나는 스타일입니다. 기쁜 일에는 함께 웃고, 힘든 일에는 숨기지 않고 티가 나는 편이라 주변에서 '솔직하다'는 평가를 받습니다. 감정이 풍부해 인간적인 매력이 크지만, 본인은 때때로 '너무 과한가?'라는 고민을 하기도 합니다.",
+          strengths: [
+            "분위기를 살리고 사람들을 편하게 만드는 생동감",
+            "솔직한 표현 덕분에 신뢰를 얻기 쉬운 편",
+            "좋은 에너지를 받을 때 주변까지 함께 끌어올리는 힘",
+            "자신의 상태를 숨기지 않아, 적절한 도움을 받기 쉬움"
+          ],
+          warnings: [
+            "기복이 커 보여 오해를 사거나 가볍게 보일 수 있음",
+            "상대가 예상보다 더 세게 받아들일 수 있음을 기억할 필요",
+            "감정을 표현하기 전, '어떤 방식으로 말할지'만 한 번 정리해도 큰 도움이 됨",
+            "무조건 참기보다, 표현 강도를 조절하는 연습이 유익함"
+          ]
+        },
+        ER: {
+          name: "ER 타입 · Emotionally Resilient",
+          oneLine: "흔들려도 다시 제자리로 돌아오는, 회복력이 뛰어난 유형입니다.",
+          keyword: "회복 · 안정 · 탄력",
+          emoji: "🌱",
           gradient: "linear-gradient(135deg,#22c55e,#16a34a)",
           accent: "#16a34a",
-          accentSoft: "rgba(187,247,208,0.7)",
+          accentSoft: "rgba(187,247,208,0.9)",
           desc:
-            "DRIVE 유형은 예상과 다른 일이 생겨도 비교적 빠르게 대안을 찾고, 상황을 정리해 앞으로 나아가려는 힘이 강합니다. " +
-            "스트레스를 받더라도 결국 '그래서 지금 내가 할 수 있는 건 뭔데?'라는 질문으로 돌아오는 편입니다. " +
-            "목표가 생기면 감정보다 일정과 실행 계획에 더 집중하며, 위기 상황에서 두각을 나타내기도 합니다.",
+            "ER 타입은 힘든 일이 있어도 비교적 빠르게 균형을 되찾는 편입니다. 마음이 흔들려도 어느 순간부터는 자연스럽게 정리가 되며, 과거의 일보다 현재와 앞으로에 더 집중하려 합니다. 주변에서는 '멘탈이 단단하다'거나 '금방 다시 일어선다'는 인상을 받기 쉽습니다.",
           strengths: [
-            "위기 상황에서도 비교적 침착하게 플랜 B, C를 떠올리는 능력",
-            "한 번 마음먹은 일은 꾸준히 밀어붙이는 실행력",
-            "감정에 휘둘리기보다 ‘상황 관리’에 집중하는 태도",
-            "주변 사람이 흔들릴 때 중심을 잡아주는 안정감"
+            "위기 상황에서도 쉽게 무너지지 않는 정서적 탄력성",
+            "실수를 발판 삼아 다음 선택으로 나아가는 태도",
+            "장기적인 목표를 보고 꾸준히 버티는 힘",
+            "주변 사람들에게 안정감과 든든함을 주는 존재감"
           ],
           warnings: [
-            "감정을 너무 빨리 '정리'해 버리면서, 진짜 감정을 충분히 느끼지 못하고 넘길 수 있음",
-            "스스로는 괜찮다고 느끼지만 몸은 이미 지쳐 있는 상태가 올 수 있음",
-            "상대의 감정 처리 속도가 나와 다를 수 있음을 의식적으로 기억하는 것이 필요",
-            "휴식도 '계획'이 아니라 '허용'해야 할 때가 있다는 점을 잊지 않는 것이 좋음"
+            "겉으로 괜찮아 보이지만, 실제 감정은 충분히 표현되지 않을 수 있음",
+            "스스로도 '이 정도는 괜찮지'라며 감정을 빠르게 넘겨버릴 위험",
+            "미세하게 쌓이는 피로를 무시하지 않도록, 정기 점검이 필요",
+            "누군가에게 한 번쯤은 속마음을 길게 털어놓는 경험이 도움이 됨"
           ]
         },
-        STORM: {
-          name: "STORM 타입 · 깊고 오래가는 파도형 감정가",
-          oneLine: "한 번 마음이 움직이면 그 여파가 오래 이어지는, 깊은 파도형입니다.",
-          keyword: "깊이 · 밀도 · 여운",
-          emoji: "🌊",
-          gradient: "linear-gradient(135deg,#0ea5e9,#1d4ed8)",
-          accent: "#0ea5e9",
-          accentSoft: "rgba(186,230,253,0.8)",
-          desc:
-            "STORM 유형은 사건과 말, 관계의 순간들을 깊게 받아들이는 편입니다. " +
-            "좋은 기억도 오래 남지만, 상처가 되는 경험 역시 마음속에서 오래 머무를 수 있습니다. " +
-            "감정의 밀도가 높기 때문에 타인에 대한 애정·책임감도 깊고, 관계를 쉽게 대하지 않습니다.",
-          strengths: [
-            "사람과 사건을 가볍게 소비하지 않고 진심으로 대하는 태도",
-            "타인의 고통과 상황을 깊이 공감하는 능력",
-            "한 번 마음을 준 관계에 대해 쉽게 포기하지 않는 끈기",
-            "경험을 통해 삶의 의미와 통찰을 만들어 내는 힘"
-          ],
-          warnings: [
-            "과거의 일부 장면이 반복 재생되며 스스로를 소모시킬 수 있음",
-            "‘왜 나는 아직도 이걸 못 잊지?’라는 자책이 쌓일 수 있음",
-            "감정이 깊을수록, 나를 보호하는 거리 두기도 함께 연습할 필요가 있음",
-            "생각이 복잡해질수록 몸을 먼저 움직이는 루틴(산책, 정리 등)이 도움이 됨"
-          ]
-        },
-        SPONGE: {
-          name: "SPONGE 타입 · 분위기를 흡수하는 공명형",
-          oneLine: "주변 사람의 기분과 에너지를 유난히 잘 받아들이는 흡수형입니다.",
-          keyword: "공감 · 민감함 · 온도",
-          emoji: "🫧",
-          gradient: "linear-gradient(135deg,#a855f7,#6366f1)",
-          accent: "#a855f7",
-          accentSoft: "rgba(233,213,255,0.75)",
-          desc:
-            "SPONGE 유형은 표정·말투·눈빛 같은 정서적 신호에 민감합니다. " +
-            "모임에서 누군가 어색해하거나 힘들어 보이면 그냥 지나치기 어렵고, 타인의 상태가 내 컨디션에 크게 영향을 줄 수 있습니다. " +
-            "덕분에 공감 능력이 뛰어나고, 주변에서 편안함을 느끼는 사람도 많습니다.",
-          strengths: [
-            "타인의 작은 신호를 잘 포착하는 섬세한 감수성",
-            "누군가 마음을 털어놓게 만드는 따뜻한 분위기",
-            "팀이나 모임에서 정서적 안전망 역할을 하기도 함",
-            "상대의 입장에서 상황을 다시 보는 능력"
-          ],
-          warnings: [
-            "남의 감정을 너무 많이 떠안아 스스로가 번아웃 되기 쉽다.",
-            "‘거절’과 ‘거리 두기’를 미뤄두다가 한꺼번에 지치는 패턴이 생길 수 있음",
-            "모든 사람의 기분을 다 책임지려 하지 않아도 된다는 점을 스스로 허용해야 함",
-            "하루 중 ‘아무에게도 공감하지 않는 나만의 시간’을 일부러 만들어 두면 좋음"
-          ]
-        },
-        CALM: {
-          name: "CALM 타입 · 회복력이 높은 잔잔형",
-          oneLine: "파도가 와도 결국 제자리로 돌아오는, 기본선이 안정적인 타입입니다.",
-          keyword: "안정 · 균형 · 꾸준함",
-          emoji: "🪵",
-          gradient: "linear-gradient(135deg,#0d9488,#22c55e)",
-          accent: "#0d9488",
-          accentSoft: "rgba(204,251,241,0.8)",
-          desc:
-            "CALM 유형은 감정의 높낮이가 아주 없진 않지만, 어느 선 이상으로 크게 출렁이진 않는 편입니다. " +
-            "힘든 일이 있어도 기본적인 일과는 유지하려 하고, 시간이 지나면 자연스럽게 균형점을 다시 찾아갑니다. " +
-            "주변 사람 입장에서는 '생각보다 멘탈이 단단한 사람'으로 느껴지곤 합니다.",
-          strengths: [
-            "위기에도 과하게 흔들리지 않는 안정감",
-            "꾸준함과 일관성을 바탕으로 신뢰를 쌓는 스타일",
-            "감정적 거리가 너무 가까워지지 않아, 오히려 냉정한 판단이 가능한 점",
-            "주변에 불안이 많을수록 존재만으로도 버팀목 역할을 함"
-          ],
-          warnings: [
-            "겉으로 너무 괜찮아 보여서, 정작 도움을 못 받는 경우가 생길 수 있음",
-            "스스로도 ‘이 정도는 괜찮지’라며 감정을 빠르게 무시할 위험",
-            "크게 흔들리지 않는 대신, 미세한 스트레스가 쌓여 있는지 점검할 필요가 있음",
-            "진짜 원하는 것과 ‘그냥 편한 것’을 구분해 보는 시간이 도움이 됨"
-          ]
-        },
-        FOCUS: {
-          name: "FOCUS 타입 · 감정조절이 뛰어난 전략가형",
-          oneLine: "감정보다 ‘상황과 목표’를 먼저 보는, 전략적 조절형입니다.",
-          keyword: "전략 · 거리두기 · 판단",
-          emoji: "🎯",
+        RC: {
+          name: "RC 타입 · Regulated Controller",
+          oneLine: "상황을 한 발 위에서 보며, 감정과 행동을 전략적으로 조절하는 유형입니다.",
+          keyword: "조절 · 전략 · 거리두기",
+          emoji: "🧠",
           gradient: "linear-gradient(135deg,#0f172a,#4b5563)",
           accent: "#0f172a",
-          accentSoft: "rgba(209,213,219,0.8)",
+          accentSoft: "rgba(209,213,219,0.9)",
           desc:
-            "FOCUS 유형은 감정을 느끼지 않는 것이 아니라, 감정을 바로 행동으로 옮기기 전에 '지금은 어떻게 움직이는 게 제일 이득인가?'를 한 번 더 생각하는 편입니다. " +
-            "갈등 상황에서도 감정싸움보다는 해결 루트를 찾으려 하고, 중요한 선택일수록 장기적인 그림을 떠올립니다.",
+            "RC 타입은 감정을 전혀 느끼지 않는 것이 아니라, 한 번에 터뜨리기보다 관리하고 정리하는 쪽을 택하는 유형입니다. 갈등이나 위기 상황에서도 '지금은 어떻게 움직이는 게 좋을까?'라는 관점으로 상황을 바라봅니다. 감정과 행동 사이에 항상 한 번의 간격을 두는 편입니다.",
           strengths: [
-            "복잡한 상황에서 감정과 사실을 분리해 보는 능력",
-            "위기에서 플랜과 우선순위를 다시 짜는 정리 능력",
-            "감정에 끌려가기보다는 목표를 기준으로 선택하는 힘",
-            "팀 안에서 ‘판단 맡기는 사람’ 역할을 할 때가 많음"
+            "감정이 과열될 때도 전체 그림을 잃지 않는 시야",
+            "위기에서 우선순위를 정해 실행 방향을 잡는 능력",
+            "감정에 휘둘리기보다 목표와 결과를 중심으로 판단함",
+            "팀이나 관계에서 '판단 맡기는 사람' 역할을 하기 좋음"
           ],
           warnings: [
-            "상대에게는 ‘차갑다, 무심하다’는 인상을 줄 수 있음",
-            "내 감정을 스스로도 나중에야 뒤늦게 인식하는 경우가 있음",
-            "머리로는 정리됐지만, 마음은 아직 준비되지 않은 상태일 수 있음",
-            "가끔은 전략보다 ‘내가 진짜 어떻게 느끼는지’ 먼저 적어 보는 시간이 필요함"
+            "상대에게는 차갑거나 무심한 사람으로 보일 수 있음",
+            "자신의 진짜 감정을 뒤로 밀어두고 '관리'만 할 위험",
+            "머리로는 정리됐지만, 마음은 아직 준비되지 않았을 수 있음",
+            "가끔은 전략 대신 '내가 진짜 느끼는 것'을 먼저 적어 보는 시간이 필요"
           ]
         },
-        OBSERVER: {
-          name: "OBSERVER 타입 · 한 발 물러서 보는 관찰형",
-          oneLine: "감정 한가운데 뛰어들기보다, 전체 그림을 먼저 보는 관찰형입니다.",
-          keyword: "관찰 · 거리 · 맥락",
-          emoji: "👀",
-          gradient: "linear-gradient(135deg,#6366f1,#0ea5e9)",
+        LS: {
+          name: "LS 타입 · Low Stimulus",
+          oneLine: "잔잔한 환경을 선호하고, 자극을 크게 추구하지 않는 관조형입니다.",
+          keyword: "저자극 · 관찰 · 잔잔함",
+          emoji: "🍃",
+          gradient: "linear-gradient(135deg,#38bdf8,#22c55e)",
+          accent: "#22c55e",
+          accentSoft: "rgba(187,247,208,0.9)",
+          desc:
+            "LS 타입은 큰 자극이나 과한 분위기보다, 잔잔하고 예측 가능한 환경을 선호합니다. 겉으로 티가 크게 나지 않는 편이며, 속으로 생각을 오래 굴리는 스타일입니다. 감정의 업다운이 크지 않아 주변에서 안정적으로 느끼지만, 본인은 때때로 '내가 너무 무덤덤한 것 아닌가?' 고민할 수 있습니다.",
+          strengths: [
+            "과도한 자극에도 크게 휘둘리지 않는 안정감",
+            "혼자 있는 시간에도 스스로를 잘 채우는 능력",
+            "흥분된 상황에서도 냉정한 판단을 유지하기 쉬움",
+            "주변에서 '함께 있으면 편안한 사람'이라는 말을 듣기 쉬움"
+          ],
+          warnings: [
+            "마음속 고민을 잘 드러내지 않아, 도움을 못 받을 수 있음",
+            "타인에게 무관심하거나 거리가 먼 사람처럼 비칠 수 있음",
+            "변화가 필요한 순간에도 '지금 이대로'를 선택하기 쉬움",
+            "작은 도전부터 하나씩 시도해 보는 연습이 삶에 활력을 줄 수 있음"
+          ]
+        },
+        FA: {
+          name: "FA 타입 · Flat Affect",
+          oneLine: "겉으로 감정을 많이 드러내지 않고, 일정한 톤을 유지하는 유형입니다.",
+          keyword: "냉정 · 거리 · 일정함",
+          emoji: "🪵",
+          gradient: "linear-gradient(135deg,#6b7280,#111827)",
+          accent: "#6b7280",
+          accentSoft: "rgba(209,213,219,0.9)",
+          desc:
+            "FA 타입은 안에서 느끼는 것에 비해 겉으로 드러나는 폭이 크지 않은 편입니다. 웬만한 일에도 크게 티를 내지 않고, 일정한 톤을 유지하려 합니다. 주변에서는 '침착하다, 무덤덤하다'고 느끼기 쉽지만, 실제로는 마음 안에서 조용히 많은 것들을 소화하고 있을 수 있습니다.",
+          strengths: [
+            "격한 상황에서도 함께 있으면 안정감을 주는 존재",
+            "불필요한 드라마 없이, 담담하게 상황을 처리하는 능력",
+            "감정에 크게 휘둘리지 않아 실수 확률이 줄어듦",
+            "차분한 에너지 덕분에 의지하고 싶은 대상으로 보이기도 함"
+          ],
+          warnings: [
+            "속마음을 잘 모르겠다는 이야기를 듣기 쉬움",
+            "실제로는 힘든데, 아무도 눈치채지 못할 수 있음",
+            "자신의 필요와 욕구를 표현하지 않아 손해를 볼 위험",
+            "적어도 한두 명에게는 솔직한 감정을 나눌 '안전한 공간'이 필요함"
+          ]
+        },
+        HB: {
+          name: "HB 타입 · High Balance",
+          oneLine: "다섯 축이 비교적 균형감 있게 분포된, 고균형 감정 타입입니다.",
+          keyword: "균형 · 유연성 · 조화",
+          emoji: "⚖️",
+          gradient: "linear-gradient(135deg,#22c55e,#6366f1)",
           accent: "#6366f1",
-          accentSoft: "rgba(199,210,254,0.8)",
+          accentSoft: "rgba(199,210,254,0.9)",
           desc:
-            "OBSERVER 유형은 즉각적인 반응보다 상황 파악을 우선합니다. " +
-            "갈등이나 변화가 있을 때도 나와 타인의 감정을 함께 보려 하고, 섣불리 판단하기보다 '조금 더 지켜보자'는 쪽에 가깝습니다. " +
-            "덕분에 주변에서 중재자나 관찰자 역할을 맡는 경우가 많습니다.",
+            "HB 타입은 반응 속도, 표현, 회복력, 공감, 조절력 사이의 큰 쏠림 없이, 상황에 따라 유연하게 변화를 선택하는 경향이 있습니다. 특정 하나의 특징이 아주 과하게 튀기보다는, 여러 축이 평균 이상으로 고르게 분포해 있습니다. 그래서 다양한 상황에서 역할을 바꾸며 대응하는 데 강점이 있습니다.",
           strengths: [
-            "감정적으로 휩쓸리지 않고 전체 흐름을 보는 시각",
-            "여러 사람의 입장을 동시에 비교적 차분히 살피는 능력",
-            "섣부른 결정보다 신중한 선택을 선호해 큰 실수를 줄이는 편",
-            "타인의 행동 패턴을 조용히 기록하고 이해하는 관찰력"
+            "여러 성향의 사람들과 두루 어울리기 쉬운 유연함",
+            "특정 한 쪽에 치우치지 않고 상황에 맞는 태도를 선택하는 능력",
+            "감정 사용에 있어 과도한 소모나 폭발이 적은 편",
+            "조율자·중재자 역할에 적합한 기질"
           ],
           warnings: [
-            "‘조용하다, 속을 모르겠다’는 말을 자주 들을 수 있음",
-            "내 감정을 나조차도 모호하게 만들어 버릴 위험",
-            "결정을 미루다가 기회를 놓치는 경우가 생길 수 있음",
-            "내 의견·감정도 분명히 존재한다는 걸 의식적으로 표현해 주는 연습이 필요"
-          ]
-        },
-        MUSE: {
-          name: "MUSE 타입 · 사색과 감성이 짙은 내면형",
-          oneLine: "혼자만의 생각과 감정의 세계가 깊은, 창조적인 뮤즈형입니다.",
-          keyword: "사색 · 상상 · 표현",
-          emoji: "💫",
-          gradient: "linear-gradient(135deg,#ec4899,#8b5cf6)",
-          accent: "#ec4899",
-          accentSoft: "rgba(251,207,232,0.85)",
-          desc:
-            "MUSE 유형은 겉으로 보이는 행동보다, 머릿속과 마음속에서 많은 일들이 일어나는 타입입니다. " +
-            "일상적인 장면에서도 의미를 찾고, 사람과 관계, 삶에 대한 상상을 자주 합니다. " +
-            "감정과 생각을 글, 그림, 음악, 상상 등으로 풀어낼 때 에너지가 생기곤 합니다.",
-          strengths: [
-            "평범한 상황에서도 스토리와 의미를 발견하는 능력",
-            "감정의 미세한 결을 표현할 수 있는 언어 감각",
-            "타인의 감정에도 섬세하게 공감하며 깊은 대화를 나눌 수 있음",
-            "혼자서도 지루하지 않은, 풍부한 내면 세계"
-          ],
-          warnings: [
-            "생각과 감정이 머릿속에서만 맴돌고 행동으로 이어지지 않을 수 있음",
-            "현실의 작은 피드백에 크게 흔들릴 위험이 있음",
-            "나만의 세계에 머무르다 보면 현실적인 문제 해결이 늦어질 수 있음",
-            "아이디어와 감정을 ‘작게라도 실행해 보는 습관’을 들이면 균형이 좋아짐"
+            "스스로 느끼기에 '내가 뚜렷하게 어떤 타입인지' 모호하게 느낄 수 있음",
+            "강하게 드러나는 캐릭터보다는 조용히 받쳐주는 역할을 하게 될 때가 많음",
+            "어떤 상황에서는 과감함이 부족해 보일 수 있음",
+            "균형을 강점으로 쓰되, 나만의 색을 드러내는 연습도 함께 하면 좋음"
           ]
         }
       };
 
       const data = TYPE_DATA[typeKey];
-
-      document.getElementById("typeName").textContent = data.name;
-      document.getElementById("typeOneLine").textContent = data.oneLine;
-      document.getElementById("typeDesc").textContent = data.desc;
-      document.getElementById("typeKeyword").textContent = data.keyword;
-
-      const avatar = document.getElementById("typeAvatar");
-      avatar.textContent = data.emoji;
-      avatar.style.backgroundImage = data.gradient;
-
       const root = document.documentElement;
-      root.style.setProperty('--accent', data.accent);
-      root.style.setProperty('--accent-soft', data.accentSoft);
+      if (data) {
+        const avatar = document.getElementById("typeAvatar");
+        const nameEl = document.getElementById("typeName");
+        const oneEl = document.getElementById("typeOneLine");
+        const keyEl = document.getElementById("typeKeyword");
+        const descEl = document.getElementById("typeDesc");
+        const sList = document.getElementById("typeStrengths");
+        const wList = document.getElementById("typeWarnings");
 
-      const sList = document.getElementById("typeStrengths");
-      const wList = document.getElementById("typeWarnings");
-      sList.innerHTML = "";
-      wList.innerHTML = "";
+        if (avatar) {
+          avatar.textContent = data.emoji;
+          avatar.style.backgroundImage = data.gradient;
+        }
+        if (nameEl) nameEl.textContent = data.name;
+        if (oneEl) oneEl.textContent = data.oneLine;
+        if (keyEl) keyEl.textContent = data.keyword;
+        if (descEl) descEl.textContent = data.desc;
 
-      data.strengths.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        sList.appendChild(li);
-      });
-      data.warnings.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        wList.appendChild(li);
-      });
+        if (root) {
+          root.style.setProperty("--accent", data.accent);
+          root.style.setProperty("--accent-soft", data.accentSoft);
+        }
+
+        if (sList) {
+          sList.innerHTML = "";
+          data.strengths.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            sList.appendChild(li);
+          });
+        }
+
+        if (wList) {
+          wList.innerHTML = "";
+          data.warnings.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            wList.appendChild(li);
+          });
+        }
+      }
 
       showSection("result");
     }
