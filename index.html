@@ -3,1214 +3,1261 @@
 <head>
   <meta charset="UTF-8" />
   <title>EID 감정유형 테스트</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="반응 속도 · 표현 방식 · 회복력 · 공명 · 조절력 다섯 축으로 감정 사용 습관을 진단하는 EID 감정 패턴 검사"
-  />
-
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
     :root {
-      --bg: #050816;
-      --bg-soft: #0b1020;
-      --card: rgba(12, 16, 32, 0.82);
-      --card-soft: rgba(19, 26, 48, 0.94);
-      --border-soft: rgba(148, 163, 184, 0.3);
-      --accent: #6366f1;
-      --accent-soft: rgba(129, 140, 248, 0.16);
-      --accent-strong: #4f46e5;
-      --text-main: #e5e7eb;
-      --text-soft: #9ca3af;
-      --text-muted: #6b7280;
-      --danger: #f97373;
-      --radius-xl: 32px;
-      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.65);
-      --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.7);
-      --blur: 22px;
+      --bg: #050814;
+      --card-bg: rgba(18, 24, 38, 0.88);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --accent: #5b8dff;
+      --accent-soft: rgba(91, 141, 255, 0.2);
+      --text-main: #f5f6fa;
+      --text-sub: #a9afc7;
+      --danger: #ff5c7a;
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.55);
     }
 
     * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
-        "Noto Sans KR", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", system-ui,
+        sans-serif;
+      background: radial-gradient(circle at top, #11172b 0, #050814 55%, #02030a 100%);
       color: var(--text-main);
-      background:
-        radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.28), transparent 55%),
-        radial-gradient(circle at 100% 0%, rgba(14, 165, 233, 0.26), transparent 55%),
-        radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.12), transparent 55%),
-        linear-gradient(145deg, #020617, #020617);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px 80px;
     }
 
-    .page {
+    .app {
       width: 100%;
-      max-width: 1120px;
-      padding: 32px 20px 40px;
+      max-width: 1080px;
     }
 
     header {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      margin-bottom: 32px;
-    }
-
-    .brand {
-      display: flex;
       align-items: center;
-      gap: 10px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+      padding: 8px 4px;
     }
 
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 999px;
-      background: conic-gradient(
-        from 200deg,
-        #38bdf8,
-        #6366f1,
-        #a855f7,
-        #ec4899,
-        #f97316,
-        #22c55e,
-        #38bdf8
-      );
-      padding: 3px;
-      box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.4);
+    .logo-text {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9ea6ff;
     }
 
-    .brand-mark-inner {
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      background: radial-gradient(circle at 30% 20%, #e5e7eb, #020617);
-    }
-
-    .brand-name {
-      font-size: 15px;
-      color: #e5e7eb;
-    }
-
-    .brand-sub {
+    .logo-pill {
       font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .pill {
+      padding: 4px 10px;
       border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      background: rgba(15, 23, 42, 0.7);
-      color: var(--text-soft);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pill-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #a5b4fc, #4f46e5);
+      border: 1px solid rgba(158, 166, 255, 0.4);
+      background: radial-gradient(circle at top left, rgba(180, 195, 255, 0.28), transparent);
+      color: var(--text-sub);
     }
 
     main {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 18px;
     }
 
-    .shell {
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.96));
+    .panel {
       border-radius: var(--radius-xl);
-      padding: 28px 26px 26px;
-      backdrop-filter: blur(var(--blur));
+      background: radial-gradient(circle at top left, rgba(91, 141, 255, 0.2), transparent 55%),
+                  radial-gradient(circle at bottom right, rgba(178, 116, 255, 0.2), transparent 55%),
+                  linear-gradient(135deg, #111523, #060918 55%, #04030f);
       box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(148, 163, 184, 0.28);
+      border: 1px solid var(--card-border);
+      padding: 28px 26px;
       position: relative;
       overflow: hidden;
     }
 
-    .shell::before {
-      content: "";
-      position: absolute;
-      inset: -40%;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.18), transparent 55%),
-        radial-gradient(circle at 90% 10%, rgba(129, 140, 248, 0.16), transparent 55%),
-        radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.08), transparent 60%);
-      opacity: 0.55;
-      z-index: -1;
-    }
-
-    .shell-inner {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.4fr);
-      gap: 32px;
-      align-items: center;
-    }
-
-    @media (max-width: 880px) {
-      .shell-inner {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 26px;
-      }
-    }
-
-    .hero-title-wrap {
-      margin-bottom: 16px;
-    }
-
-    .eyebrow {
-      font-size: 13px;
-      color: var(--accent-soft);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .eyebrow span.badge {
-      padding: 3px 9px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      font-size: 11px;
-      color: #e5e7eb;
-    }
-
-    h1 {
-      font-size: 32px;
-      line-height: 1.25;
-      margin: 0;
-      letter-spacing: -0.03em;
-    }
-
-    h1 strong {
-      color: #e5e7eb;
-    }
-
-    .hero-sub {
-      font-size: 14px;
-      color: var(--text-soft);
-      margin-top: 10px;
-      margin-bottom: 20px;
-    }
-
-    .hero-sub em {
-      font-style: normal;
-      color: #c4b5fd;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    @media (max-width: 880px) {
-      .steps {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .step-card {
-      background: radial-gradient(circle at 0% 0%, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.96));
-      border-radius: 20px;
-      padding: 16px 15px 14px;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: var(--shadow-card);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .step-card::after {
+    .panel::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: radial-gradient(
-        circle at 15% 0%,
-        rgba(129, 140, 248, 0.25),
-        transparent 55%
-      );
-      opacity: 0.7;
-      mix-blend-mode: screen;
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      opacity: 0.85;
       pointer-events: none;
     }
 
-    .step-label {
-      font-size: 11px;
-      color: #cbd5f5;
-      margin-bottom: 6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+    .panel-content {
+      position: relative;
+      z-index: 1;
     }
 
-    .step-label span.dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #a5b4fc;
-    }
-
-    .step-title {
-      font-size: 14px;
-      color: #e5e7eb;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .step-desc {
-      font-size: 12px;
-      color: #9ca3af;
-      line-height: 1.55;
-    }
-
-    .hero-right {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .stats-card {
-      border-radius: 20px;
-      padding: 16px 18px 14px;
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.96));
-      border: 1px solid rgba(148, 163, 184, 0.45);
-      box-shadow: var(--shadow-card);
-    }
-
-    .stats-title {
-      font-size: 13px;
-      color: #d1d5db;
+    h1 {
+      font-size: clamp(26px, 4vw, 32px);
+      letter-spacing: -0.03em;
       margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
     }
 
-    .stats-grid {
+    h1 span.highlight {
+      background: linear-gradient(90deg, #90b2ff, #e6a5ff);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.3fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 24px 10px 56px;
+      }
+      .panel {
+        padding: 22px 18px;
+        border-radius: 20px;
+      }
+      .intro-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .chip {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(190, 198, 255, 0.4);
+      color: #cdd3ff;
+      background: radial-gradient(circle at top, rgba(190, 198, 255, 0.22), transparent 55%);
+    }
+
+    .meta-card {
+      border-radius: 18px;
+      padding: 12px 14px;
+      border: 1px solid rgba(120, 130, 200, 0.45);
+      background: linear-gradient(135deg, rgba(13, 16, 35, 0.9), rgba(12, 14, 29, 0.98));
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
+      gap: 8px 14px;
       font-size: 12px;
-      color: var(--text-soft);
+      color: var(--text-sub);
+      margin-top: 4px;
     }
 
-    .stat-item {
-      padding: 9px 10px;
-      border-radius: 14px;
-      background: rgba(15, 23, 42, 0.98);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .stat-label {
+    .meta-label {
+      color: #7f8bff;
       font-size: 11px;
-      color: var(--text-muted);
+      margin-bottom: 2px;
     }
 
-    .stat-value {
-      font-size: 13px;
-      color: #e5e7eb;
+    .meta-value {
+      color: #e5e7ff;
       font-weight: 500;
     }
 
-    .pill-soft {
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      background: rgba(15, 23, 42, 0.96);
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      color: var(--text-soft);
-    }
-
-    .hero-note {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.6;
-    }
-
-    .hero-actions {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      border: none;
-      outline: none;
-      cursor: pointer;
-      padding: 13px 22px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      color: #f9fafb;
-      background: radial-gradient(circle at 0% 0%, #22c55e, transparent 55%),
-        linear-gradient(135deg, var(--accent-strong), #22c55e);
-      box-shadow: 0 14px 40px rgba(56, 189, 248, 0.6);
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-primary span.chevron {
-      font-size: 18px;
-      transform: translateY(1px);
-    }
-
-    .btn-secondary {
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: rgba(15, 23, 42, 0.9);
-      padding: 10px 14px;
-      font-size: 12px;
-      color: var(--text-soft);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
-      display: block;
-    }
-
-    /* 질문 섹션 */
-
-    .question-shell {
-      margin-top: 18px;
-      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.12), transparent 60%),
-        radial-gradient(circle at 100% 0%, rgba(45, 212, 191, 0.12), transparent 60%),
-        linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.98));
-      border-radius: var(--radius-xl);
-      padding: 24px 22px 26px;
-      backdrop-filter: blur(var(--blur));
-      border: 1px solid rgba(148, 163, 184, 0.3);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .q-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-
-    .q-title {
-      font-size: 15px;
-      color: #e5e7eb;
-      font-weight: 600;
-    }
-
-    .q-step {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .progress {
-      width: 100%;
-      height: 6px;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      overflow: hidden;
-      margin-top: 6px;
-      border: 1px solid rgba(31, 41, 55, 1);
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0;
-      border-radius: inherit;
-      background: linear-gradient(90deg, #22c55e, #38bdf8, #6366f1);
-      transition: width 0.3s ease-out;
-    }
-
-    .progress-text {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    .q-body {
-      margin-top: 16px;
-    }
-
-    .q-text {
-      font-size: 17px;
-      line-height: 1.6;
-      color: #e5e7eb;
-      letter-spacing: -0.01em;
-      margin-bottom: 18px;
-    }
-
-    .q-scale-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      padding: 0 4px;
-    }
-
-    .scale-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: space-between;
-    }
-
-    .scale-btn {
-      flex: 1 1 0;
-      min-width: 0;
-      border-radius: 999px;
-      border: 1px solid rgba(75, 85, 99, 0.9);
-      background: rgba(15, 23, 42, 0.96);
-      color: var(--text-soft);
-      font-size: 12px;
-      padding: 9px 4px;
-      cursor: pointer;
+    .start-card {
+      border-radius: 22px;
+      padding: 20px 18px;
+      border: 1px solid rgba(250, 250, 255, 0.06);
+      background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 55%),
+                  linear-gradient(135deg, rgba(3, 4, 14, 0.98), rgba(11, 12, 28, 0.98));
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      transition: all 0.18s ease-out;
+      justify-content: space-between;
+      gap: 14px;
     }
 
-    .scale-btn .num {
-      font-size: 12px;
-      opacity: 0.8;
-    }
-
-    .scale-btn .label {
-      font-size: 11px;
-      white-space: nowrap;
-    }
-
-    .scale-btn:hover {
-      border-color: var(--accent);
-      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.16), transparent 60%),
-        rgba(15, 23, 42, 1);
-      color: #e5e7eb;
-      transform: translateY(-1px);
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
-    }
-
-    @media (max-width: 640px) {
-      .scale-btn .label {
-        font-size: 10px;
-      }
-    }
-
-    /* 결과 섹션 */
-
-    .result-shell {
-      margin-top: 18px;
-      background: linear-gradient(145deg, rgba(15, 23, 42, 0.97), rgba(15, 23, 42, 1));
-      border-radius: var(--radius-xl);
-      padding: 24px 22px 26px;
-      border: 1px solid rgba(148, 163, 184, 0.32);
-      box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(var(--blur));
-    }
-
-    .result-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 18px;
-    }
-
-    .avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 30px;
-      box-shadow: var(--shadow-card);
-      background-size: 160% 160%;
-      background-position: center;
-    }
-
-    .result-main-title {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .result-badge {
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    .result-body {
-      margin-top: 10px;
-      display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.3fr);
-      gap: 22px;
-    }
-
-    @media (max-width: 880px) {
-      .result-body {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    .result-desc {
-      font-size: 13px;
-      color: var(--text-soft);
-      line-height: 1.7;
-      margin-bottom: 12px;
-    }
-
-    .pill-keyword {
+    .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: var(--accent-soft);
-      border: 1px solid rgba(129, 140, 248, 0.6);
+      background: rgba(0, 0, 0, 0.35);
+      color: #cbd2ff;
       font-size: 11px;
-      color: #e5e7eb;
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #7bf5ff;
+    }
+
+    .start-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .start-text {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.6;
+    }
+
+    .btn-primary {
+      margin-top: 4px;
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #02030b;
+      background: linear-gradient(135deg, #93b4ff, #f2a5ff);
+      box-shadow: 0 14px 30px rgba(118, 158, 255, 0.5);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+      box-shadow: 0 18px 40px rgba(118, 158, 255, 0.7);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 18px rgba(118, 158, 255, 0.55);
+    }
+
+    .progress-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+
+    .progress-label {
+      font-size: 13px;
+      color: #c8ceff;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(48, 55, 90, 0.9);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7aa3ff, #f19aff);
+      width: 0%;
+      transition: width 0.25s ease-out;
+    }
+
+    .question-index {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-bottom: 4px;
+    }
+
+    .question-text {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    .scale-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-sub);
+      margin-bottom: 6px;
+    }
+
+    .choices {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .choice {
+      flex: 1;
+      height: 34px;
+      border-radius: 999px;
+      border: 1px solid rgba(90, 101, 160, 0.8);
+      background: rgba(8, 10, 24, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-sub);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .choice.selected {
+      background: radial-gradient(circle at top, rgba(147, 180, 255, 0.36), rgba(106, 122, 255, 0.75));
+      border-color: rgba(211, 222, 255, 0.95);
+      color: #050713;
+      box-shadow: 0 0 0 1px rgba(240, 240, 255, 0.1), 0 12px 26px rgba(86, 111, 247, 0.7);
+    }
+
+    .nav-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 22px;
+      gap: 10px;
+    }
+
+    .btn-secondary,
+    .btn-ghost {
+      flex: 1;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 13px;
+      cursor: pointer;
+      border: 1px solid rgba(112, 123, 170, 0.7);
+      background: rgba(8, 11, 26, 0.9);
+      color: #d2d6ff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.12s ease;
+    }
+
+    .btn-ghost {
+      border-style: dashed;
+      opacity: 0.7;
+    }
+
+    .btn-secondary:hover,
+    .btn-ghost:hover {
+      background: rgba(17, 22, 44, 1);
+      border-color: rgba(147, 162, 230, 0.95);
+      opacity: 1;
+    }
+
+    .btn-secondary.primary {
+      background: linear-gradient(135deg, #7e9eff, #f19bff);
+      border-color: transparent;
+      color: #050814;
+      box-shadow: 0 12px 26px rgba(119, 150, 255, 0.7);
+    }
+
+    .btn-secondary.primary:hover {
+      filter: brightness(1.04);
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
       margin-bottom: 10px;
     }
 
-    .result-list-block {
-      font-size: 12px;
+    .pill {
+      font-size: 11px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(16, 24, 58, 0.9);
+      color: #c2c9ff;
     }
 
-    .result-list-block h3 {
-      font-size: 12px;
-      margin: 0 0 6px;
-      color: #e5e7eb;
+    /* 결과 영역 */
+
+    .result-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.2fr);
+      gap: 24px;
     }
 
-    .result-list {
-      list-style: none;
-      margin: 0;
-      padding-left: 0;
+    @media (max-width: 840px) {
+      .result-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .result-type-code {
+      font-size: 13px;
+      color: #9fa7ff;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .result-type-name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .result-type-tagline {
+      font-size: 13px;
+      color: var(--text-sub);
+    }
+
+    .result-chip {
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(155, 189, 255, 0.8);
+      font-size: 11px;
+      color: #d7e0ff;
+      background: radial-gradient(circle at top, rgba(130, 164, 255, 0.4), transparent);
+    }
+
+    .character-card {
+      border-radius: var(--radius-lg);
+      padding: 16px 14px;
+      background: linear-gradient(145deg, rgba(9, 12, 30, 0.95), rgba(5, 7, 18, 0.98));
+      border: 1px solid var(--card-border);
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      color: var(--text-soft);
+      align-items: center;
+      gap: 12px;
     }
 
-    .result-list li::before {
-      content: "• ";
-      color: var(--accent);
+    .character-avatar-wrap {
+      width: 160px;
+      height: 160px;
+      border-radius: 26px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, rgba(148, 178, 255, 0.4), rgba(12, 15, 35, 1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 18px 40px rgba(10, 12, 30, 0.85);
+    }
+
+    .character-avatar {
+      width: 92%;
+      height: auto;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    .character-role {
+      font-size: 12px;
+      color: #bec6ff;
+    }
+
+    .character-desc {
+      font-size: 12px;
+      color: var(--text-sub);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: #c2c8ff;
+      margin-bottom: 6px;
+    }
+
+    .traits-list {
+      font-size: 13px;
+      color: var(--text-sub);
+      line-height: 1.7;
+    }
+
+    .traits-list li {
+      margin-left: 14px;
+      margin-bottom: 2px;
+    }
+
+    .score-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+
+    .score-row span {
+      min-width: 64px;
+    }
+
+    .score-track {
+      flex: 1;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(40, 47, 80, 0.85);
+      overflow: hidden;
+    }
+
+    .score-fill {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #7fa6ff, #f39bff);
+      width: 0%;
+      transition: width 0.3s ease-out;
+    }
+
+    .recommend-box {
+      border-radius: 18px;
+      padding: 12px 14px;
+      border: 1px solid rgba(129, 140, 255, 0.55);
+      background: radial-gradient(circle at top left, rgba(129, 140, 255, 0.22), transparent 55%),
+                  linear-gradient(135deg, rgba(6, 8, 22, 0.96), rgba(12, 13, 30, 0.98));
+      font-size: 12px;
+      color: var(--text-sub);
+      line-height: 1.7;
+      margin-top: 8px;
     }
 
     .footer-note {
-      margin-top: 20px;
+      margin-top: 10px;
       font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.6;
+      color: #7c82a5;
     }
   </style>
 </head>
 <body>
-  <div class="page">
+  <div class="app">
     <header>
-      <div class="brand">
-        <div class="brand-mark">
-          <div class="brand-mark-inner"></div>
-        </div>
-        <div>
-          <div class="brand-name">EID Emotion ID</div>
-          <div class="brand-sub">감정 패턴 분석 검사</div>
-        </div>
+      <div>
+        <div class="logo-text">EID EMOTION ID</div>
+        <div class="logo-pill">Emotion Pattern Diagnostic</div>
       </div>
-      <span class="pill">
-        <span class="pill-dot"></span>
-        베타 테스트 · 개인용 리포트
-      </span>
+      <div class="logo-pill">Beta · 개인 감정 사용 습관 리포트</div>
     </header>
 
     <main>
-      <!-- INTRO -->
-      <section id="intro" class="section active">
-        <div class="shell">
-          <div class="shell-inner">
+      <!-- 인트로 -->
+      <section id="introSection" class="panel">
+        <div class="panel-content">
+          <div class="intro-grid">
             <div>
-              <div class="hero-title-wrap">
-                <div class="eyebrow">
-                  <span class="badge">EID Emotion ID</span>
-                  <span>반응 · 표현 · 회복 · 공명 · 조절 5축 감정 성향 진단</span>
-                </div>
-                <h1>
-                  당신의 감정 사용 습관을<br />
-                  <strong>8가지 EID 유형</strong>으로 진단합니다.
-                </h1>
-                <p class="hero-sub">
-                  같은 상황에서 사람마다 감정을 느끼고 쓰는 방식은<br>
-  크게 다릅니다.<br><br>
-
-  EID 감정유형 테스트는 총 5개의 축<br>
-  반응 속도 · 표현 방식 · 회복력 · 공감 · 조절을 통해<br>
-  당신의 감정 패턴을 구조적으로 살펴보는<br>
-  전문 성향 검사입니다.
-
-                </p>
+              <div class="chip-row">
+                <div class="chip">EID 감정 패턴 분석 검사</div>
+                <div class="chip">MBTI + Big5 관점 적용</div>
               </div>
-
-              <div class="steps">
-                <div class="step-card">
-                  <div class="step-label">
-                    <span class="dot"></span>
-                    1단계
-                  </div>
-                  <div class="step-title">테스트 진행</div>
-                  <p class="step-desc">
-                    40개의 짧은 질문에 답하면서, 평소의 반응과 행동 패턴을 체크합니다.
-                    모두 일상적인 상황을 바탕으로 구성되어 부담 없이 응답할 수 있습니다.
-                  </p>
-                </div>
-
-                <div class="step-card">
-                  <div class="step-label">
-                    <span class="dot"></span>
-                    2단계
-                  </div>
-                  <div class="step-title">EID 유형 분석</div>
-                  <p class="step-desc">
-                    5개 축 점수를 기반으로 8가지 EID 코드 중 하나를 산출합니다.
-                    단순 결과가 아니라, 감정의 흐름과 사용 구조를 함께 설명합니다.
-                  </p>
-                </div>
-
-                <div class="step-card">
-                  <div class="step-label">
-                    <span class="dot"></span>
-                    3단계
-                  </div>
-                  <div class="step-title">활용 가이드</div>
-                  <p class="step-desc">
-                    강점·주의점·생활 활용 팁을 제공하여 상담·관계·업무 등에서
-                    감정을 더 효율적으로 쓰는 방향을 제안합니다.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div class="hero-right">
-              <div class="stats-card">
-                <div class="stats-title">
-                  검사 정보
-                  <span class="pill-soft">베타 버전 · 무료 이용</span>
-                </div>
-                <div class="stats-grid">
-                  <div class="stat-item">
-                    <div class="stat-label">소요 시간</div>
-                    <div class="stat-value">약 5분</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-label">문항 수</div>
-                    <div class="stat-value">총 40문항</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-label">검사 유형</div>
-                    <div class="stat-value">감정 패턴 성향 검사</div>
-                  </div>
-                  <div class="stat-item">
-                    <div class="stat-label">이용 비용</div>
-                    <div class="stat-value">전액 무료</div>
-                  </div>
-                </div>
-                <p class="hero-note">
-                  결과는 성향 이해를 돕기 위한 참고용이며, 임상 진단이나 치료를
-                  대신하지 않습니다. 응답 내용은 익명으로 처리되며 서버에
-                  별도 저장되지 않습니다.
-                </p>
-                <div class="hero-actions">
-                  <button class="btn-primary" onclick="startTest()">
-                    무료 테스트 시작하기
-                    <span class="chevron">›</span>
-                  </button>
-                  <div class="btn-secondary">
-                    <span style="font-size: 13px;">ⓘ</span>
-                    평균 5분 내외로 완료됩니다.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- QUESTION -->
-      <section id="question" class="section">
-        <div class="question-shell">
-          <div class="q-header">
-            <div>
-              <div class="q-title">EID 감정유형 테스트</div>
-              <div class="q-step" id="qStep"></div>
-              <div class="progress">
-                <div id="progressFill" class="progress-fill"></div>
-              </div>
-              <div id="progressText" class="progress-text">0% 진행됨</div>
-            </div>
-          </div>
-
-          <div class="q-body">
-            <div class="q-text" id="qText"></div>
-
-            <div class="q-scale-labels">
-              <span>전혀 아니다</span>
-              <span>매우 그렇다</span>
-            </div>
-            <div id="scaleButtons" class="scale-row"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- RESULT -->
-      <section id="result" class="section">
-        <div class="result-shell">
-          <div class="result-header">
-            <div id="typeAvatar" class="avatar">✨</div>
-            <div>
-              <div id="typeName" class="result-main-title">EID 유형</div>
-              <div id="typeOneLine" class="result-badge">
-                당신의 감정 사용 패턴을 정리한 결과입니다.
-              </div>
-            </div>
-          </div>
-
-          <div class="result-body">
-            <div>
-              <div id="typeKeyword" class="pill-keyword">감정 코드</div>
-              <p id="typeDesc" class="result-desc">
-                각 유형은 좋고 나쁨을 나누기 위한 것이 아니라, 감정을 쓰는
-                방식의 차이를 설명하기 위한 코드입니다.
+              <h1>
+                같은 상황에서도<br />
+                <span class="highlight">당신의 감정 사용 습관</span>은<br />
+                완전히 다르게 작동합니다.
+              </h1>
+              <p class="subtitle">
+                같은 상황에서도 사람마다 감정을 느끼고 쓰는 방식은 크게 다릅니다.<br />
+                EID 감정유형 테스트는 총 5개의 축<br />
+                <strong>반응 속도 · 표현 방식 · 회복력 · 공명(공감) · 조절</strong>을 통해<br />
+                당신의 감정 패턴을 구조적으로 살펴보는 전문 성향 검사입니다.
               </p>
+              <div class="meta-card">
+                <div>
+                  <div class="meta-label">소요 시간</div>
+                  <div class="meta-value">약 5분</div>
+                </div>
+                <div>
+                  <div class="meta-label">문항 수</div>
+                  <div class="meta-value">총 24문항 (예시)</div>
+                </div>
+                <div>
+                  <div class="meta-label">검사 유형</div>
+                  <div class="meta-value">감정 패턴 성향 검사</div>
+                </div>
+                <div>
+                  <div class="meta-label">이용 비용</div>
+                  <div class="meta-value">전액 무료 · 익명</div>
+                </div>
+              </div>
             </div>
 
-            <div class="result-list-block">
-              <h3>이 유형의 강점</h3>
-              <ul id="typeStrengths" class="result-list"></ul>
-              <h3 style="margin-top: 10px;">주의할 점</h3>
-              <ul id="typeWarnings" class="result-list"></ul>
+            <div class="start-card">
+              <div>
+                <div class="badge">
+                  <span class="badge-dot"></span>
+                  오늘 기준, 나의 감정 사용 패턴
+                </div>
+                <div class="start-title">지금의 나, 감정을 어떻게 쓰고 있을까?</div>
+                <p class="start-text">
+                  이 검사는 진단명이 아니라 <strong>성향과 습관</strong>을 이해하기 위한 도구입니다.
+                  솔직하게 응답할수록, 나에게 가까운 리포트를 받을 수 있습니다.
+                </p>
+              </div>
+              <button id="startBtn" class="btn-primary">
+                무료 테스트 시작하기
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 테스트 영역 -->
+      <section id="testSection" class="panel" hidden>
+        <div class="panel-content">
+          <div class="progress-row">
+            <div class="progress-label" id="progressLabel">1 / 24</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
             </div>
           </div>
 
-          <p class="footer-note">
-            이 결과는 현재 당신의 경향을 설명하는 것이며, 상황·환경·경험에 따라
-            언제든 달라질 수 있습니다. 감정은 ‘고쳐야 할 것’이 아니라
-            ‘어떻게 사용할지 선택할 수 있는 자원’이라는 점을 기억해 주세요.
-          </p>
+          <div class="question-index" id="questionIndex">문항 1</div>
+          <div class="question-text" id="questionText">
+            질문 텍스트
+          </div>
+
+          <div class="scale-row">
+            <span>전혀 그렇지 않다</span>
+            <span>매우 그렇다</span>
+          </div>
+          <div class="choices" id="choices">
+            <!-- JS로 선택지 생성 -->
+          </div>
+
+          <div class="nav-row">
+            <button id="prevBtn" class="btn-ghost">이전</button>
+            <button id="nextBtn" class="btn-secondary primary">
+              다음
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 결과 영역 -->
+      <section id="resultSection" class="panel" hidden>
+        <div class="panel-content">
+          <div class="result-layout">
+            <div>
+              <div class="result-header">
+                <div>
+                  <div class="result-type-code" id="resultCode">EID · TYPE</div>
+                  <div class="result-type-name" id="resultName">유형 이름</div>
+                  <div class="result-type-tagline" id="resultTagline">
+                    당신의 감정 사용 습관을 한 문장으로 요약하면…
+                  </div>
+                </div>
+                <div class="result-chip" id="resultShortLabel">감정 패턴 프로파일</div>
+              </div>
+
+              <div class="pill-row" id="resultKeywords">
+                <!-- 키워드 pill -->
+              </div>
+
+              <div class="section-title">당신의 감정 사용 구조</div>
+              <div class="score-bars" id="scoreBars">
+                <!-- 점수 바 -->
+              </div>
+
+              <div class="section-title" style="margin-top:14px;">이 유형의 특징</div>
+              <ul class="traits-list" id="resultTraits">
+                <!-- 특징 리스트 -->
+              </ul>
+
+              <div class="section-title" style="margin-top:14px;">일상에서의 활용 팁</div>
+              <div class="recommend-box" id="resultAdvice">
+                <!-- 조언 -->
+              </div>
+
+              <div class="footer-note">
+                · 본 검사는 참고용 성향 분석으로, 의학적·임상적 진단을 대신하지 않습니다.<br />
+                · 결과가 마음에 들지 않아도 괜찮습니다. 오늘의 나를 이해하는 하나의 관점일 뿐입니다.
+              </div>
+            </div>
+
+            <div>
+              <div class="character-card">
+                <div class="character-avatar-wrap">
+                  <img id="resultCharacter" class="character-avatar" src="" alt="감정유형 캐릭터"/>
+                </div>
+                <div class="character-role" id="characterRole">
+                  역할 / 직군 이미지
+                </div>
+                <div class="character-desc" id="characterDesc">
+                  캐릭터 설명
+                </div>
+                <button id="restartBtn" class="btn-secondary" style="margin-top:8px;width:100%;">
+                  다시 검사하기
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- =========================
-       JS : 질문 + 산출 로직
-  ========================== -->
   <script>
+    // -------------------------------
+    // 질문 데이터 (예시 24문항)
+    // -------------------------------
+    // dimension: speed / expression / recovery / resonance / control
+    // direction: 1(높을수록 그렇다) / -1(낮을수록 그렇다 쪽)
     const questions = [
-      "예상치 못한 소식을 들으면, 몸이 먼저 굳거나 반응하는 편이다.",
-      "주변 사람의 말투가 조금만 달라져도 바로 눈치챈다.",
-      "처음 가는 장소에서도 분위기 변화를 빨리 감지하는 편이다.",
-      "갑작스럽게 일정이 바뀌면 머릿속이 잠시 복잡해진다.",
-      "누가 나에 대해 미묘하게 불편해하는 기색을 보이면 금방 알아차린다.",
-      "좋은 소식이 생기면 에너지가 즉시 올라와서 행동으로 이어진다.",
-      "상황이 변해도 바로 움직이기보다, 한 번 더 지켜본 뒤에 반응하는 편이다.",
-      "주변이 조금 시끄럽거나 산만해져도 크게 흔들리지 않고 일을 이어가는 편이다.",
-      "기분이 바뀌면 얼굴 표정이 금방 달라지는 편이다.",
-      "속으로 생각한 내용이 말투나 말의 속도에서 티가 난다는 소리를 들은 적이 있다.",
-      "긴장하면 말이 빨라지거나 평소와 다르게 나온다.",
-      "속상한 일이 있으면 주변 사람이 눈치챌 정도로 기운이 달라진다.",
-      "웬만한 일은 표정을 바꾸지 않고 넘어가는 편이다.",
-      "좋은 일이 있으면 자연스럽게 말이 많아지거나 농담이 늘어난다.",
-      "주변 사람들이 '기분이 얼굴에 잘 보인다'고 말하는 편이다.",
-      "웬만하면 내 상태를 들키지 않으려고, 일부러 평소처럼 행동하려고 한다.",
-      "하루에 좋지 않은 일이 있어도, 잠을 자고 나면 어느 정도 정리가 되는 편이다.",
-      "걱정이나 긴장이 있어도 시간이 지나면 자연스럽게 가라앉는다.",
-      "스트레스가 쌓이면, 산책·혼자 시간 보내기 등 나름의 회복 루틴이 있다.",
-      "안 좋은 일이 있으면 며칠 동안 계속 생각나서 다른 일에 집중하기 어렵다.",
-      "과거의 실수나 민망한 장면이 떠올라도, '지나간 일'이라고 넘길 수 있다.",
-      "기운이 떨어질 때, 쉬어야겠다는 신호를 스스로 어느 정도 알아차린다.",
-      "누가 했던 한마디가 며칠 동안 머릿속에서 반복되는 편이다.",
-      "일이 잘못돼도, '다음에 다시 해보자'라는 생각으로 방향을 바꾸는 편이다.",
-      "주변 사람이 지쳐 보이면, 집에 와서도 그 모습이 떠오를 때가 있다.",
-      "가까운 사람이 힘들다고 이야기하면, 그날 내 컨디션도 같이 내려가는 편이다.",
-      "모임 자리에서 누가 어색해하거나 소외된 느낌이면 신경이 쓰인다.",
-      "누군가의 한 말이 '혹시 이런 뜻이었나?' 하며 자꾸 떠오를 때가 있다.",
-      "상대의 표정이나 눈빛만 보고도, 대충 어떤 상태인지 짐작하는 편이다.",
-      "다른 사람이 예민한 상태여도, 나까지 같이 휘말리지 않으려고 거리를 둔다.",
-      "많은 사람 사이에 있다가 집에 오면, 여러 장면들이 한 번씩 떠오르며 피곤함이 느껴진다.",
-      "힘들다는 이야기를 오래 듣고 나면, 내 에너지까지 빠져나간 느낌이 든다.",
-      "말이 세게 오가는 상황이 되면, 내 속도 함께 빨라져서 조절이 잘 안 될 때가 있다.",
-      "마음이 거칠어질 때, 잠깐 자리를 피하거나 숨을 고르는 편이다.",
-      "일이 틀어져도, 일단 '지금 할 수 있는 것'부터 정리해 보려고 한다.",
-      "주변이 혼란스러워도, 큰 흐름을 잃지 않고 할 일을 찾아가는 편이다.",
-      "억울하거나 답답한 상황이 되면, 말을 아끼기보다 바로 반응해 버리는 편이다.",
-      "상태가 흔들려도, 어느 시점부터는 스스로 균형을 잡으려는 힘이 올라온다.",
-      "여러 가지 일이 한꺼번에 겹치면, 머릿속이 복잡해져 우선순위 정하기가 어렵다.",
-      "분위기가 과열되더라도, 한 발 물러서서 정리해 보는 편이다."
+      {
+        text: "예상치 못한 상황이 벌어지면, 생각보다 먼저 몸이나 표정이 먼저 반응한다.",
+        dimension: "speed",
+        direction: 1,
+      },
+      {
+        text: "갈등 상황이 생겨도 일단 표정과 목소리를 최대한 차분하게 유지하려 한다.",
+        dimension: "expression",
+        direction: -1,
+      },
+      {
+        text: "마음에 상처되는 일이 있어도, 하루 이틀이면 꽤 금방 일상 모드로 돌아온다.",
+        dimension: "recovery",
+        direction: 1,
+      },
+      {
+        text: "주변 사람의 말투나 분위기가 바뀌면, 이유를 알기 전에 먼저 마음이 같이 흔들린다.",
+        dimension: "resonance",
+        direction: 1,
+      },
+      {
+        text: "감정이 올라와도 '지금은 표현하면 안 된다' 싶으면 꽤 잘 눌러 두는 편이다.",
+        dimension: "control",
+        direction: 1,
+      },
+      {
+        text: "누가 나를 갑자기 불렀을 때, 몸이 먼저 움찔하고 나서 생각이 따라오는 편이다.",
+        dimension: "speed",
+        direction: 1,
+      },
+      {
+        text: "기분이 안 좋아도, 겉으로는 거의 티가 안 나는 편이다.",
+        dimension: "expression",
+        direction: -1,
+      },
+      {
+        text: "한 번 크게 실망한 일은 시간이 꽤 지나도 자꾸 떠오르고 오래 간다.",
+        dimension: "recovery",
+        direction: -1,
+      },
+      {
+        text: "영화나 드라마를 볼 때, 등장인물의 감정에 과몰입해서 같이 울거나 화난다.",
+        dimension: "resonance",
+        direction: 1,
+      },
+      {
+        text: "감정에 휩쓸리는 것보다 상황을 분석하는 것이 더 먼저라고 느낀다.",
+        dimension: "control",
+        direction: 1,
+      },
+      {
+        text: "예상하지 못한 말이나 행동을 들으면, 머리속이 잠깐 하얘지며 멍해진다.",
+        dimension: "speed",
+        direction: -1,
+      },
+      {
+        text: "좋은 일이 생기면, 주변 사람들에게 티가 날 정도로 신나서 말하게 된다.",
+        dimension: "expression",
+        direction: 1,
+      },
+      {
+        text: "스트레스가 쌓이면, 충분히 쉬어도 쉽게 풀리지 않고 몸까지 무거워진다.",
+        dimension: "recovery",
+        direction: -1,
+      },
+      {
+        text: "누군가 힘들다고 말하면, 해결책보다 먼저 그 사람의 마음이 어떨지 상상이 된다.",
+        dimension: "resonance",
+        direction: 1,
+      },
+      {
+        text: "감정 때문에 일을 망치는 게 싫어서, 중요한 자리에서는 스스로를 꽤 엄격히 컨트롤한다.",
+        dimension: "control",
+        direction: 1,
+      },
+      {
+        text: "평소에도 사소한 일에 자주 놀라거나, 분위기 변화를 예민하게 감지하는 편이다.",
+        dimension: "speed",
+        direction: 1,
+      },
+      {
+        text: "기쁘거나 화가 나도, 스스로 '이 정도면 됐다' 싶으면 감정을 스위치 끄듯 줄일 수 있다.",
+        dimension: "expression",
+        direction: -1,
+      },
+      {
+        text: "힘든 일이 있어도, '그래도 괜찮아' 하며 스스로를 달래는 편이다.",
+        dimension: "recovery",
+        direction: 1,
+      },
+      {
+        text: "주변 사람의 말투나 표정이 조금만 변해도 눈에 잘 들어오는 편이다.",
+        dimension: "resonance",
+        direction: 1,
+      },
+      {
+        text: "감정적으로 격해지면, 일부러 말수를 줄이고 상황을 한 걸음 떨어져서 본다.",
+        dimension: "control",
+        direction: 1,
+      },
+      {
+        text: "나는 감정이 생기면, 천천히 올라와 오래 머무는 편이다.",
+        dimension: "speed",
+        direction: -1,
+      },
+      {
+        text: "가까운 사람에게는 기분이 얼굴과 말투에 바로 드러나는 편이다.",
+        dimension: "expression",
+        direction: 1,
+      },
+      {
+        text: "컨디션이 안 좋아도, 나만의 회복 루틴(취미·휴식 방식 등)이 꽤 잘 잡혀 있다.",
+        dimension: "recovery",
+        direction: 1,
+      },
+      {
+        text: "어떤 공간에 들어가면, 먼저 사람들의 감정 분위기부터 느껴지는 편이다.",
+        dimension: "resonance",
+        direction: 1,
+      }
     ];
 
-    const TOTAL = questions.length;
-    let idx = 0;
+    // -------------------------------
+    // 유형 정의 (하이엔드 웹툰 캐릭터 8종)
+    // -------------------------------
+    const types = {
+      observer: {
+        code: "OBSERVER",
+        name: "오브저버",
+        tagline: "멀리서 전체를 읽어내는, 조용한 분석가형",
+        shortLabel: "차분한 관찰 · 구조적 사고",
+        keywords: ["데이터 분석가 느낌", "조용한 관찰자", "감정보다 구조"],
+        traits: [
+          "상황을 한 발짝 떨어져서 보는 편이며, 감정보다 정보와 맥락을 먼저 본다.",
+          "감정 표현은 절제되어 있지만, 안에서는 꽤 많은 생각이 오간다.",
+          "문제를 감정으로 풀기보다, 구조를 재정리해서 해결하려 한다."
+        ],
+        advice:
+          "감정보다 생각이 앞서는 강점 덕분에, 위기 상황에서도 전체 그림을 읽어낼 수 있습니다. 다만 주변에서는 당신의 속마음을 잘 모를 수 있어요. 안전하다고 느껴지는 사람에게는 의도적으로 감정을 '조금 더 나누는 연습'을 해보면 관계의 밀도가 크게 올라갑니다.",
+        characterRole: "데이터 분석가 · 리서처 느낌",
+        characterDesc:
+          "차가운 파랑 톤의 조용한 분석가 캐릭터. 얇은 금테 안경과 메모보드를 들고 전체 흐름을 관찰하는 모습입니다.",
+        image: "observer.png"
+      },
+      reactor: {
+        code: "REACTOR",
+        name: "리액터",
+        tagline: "상황에 즉각 반응하는, 예민한 레이더형",
+        shortLabel: "빠른 반응 · 순간 감정 폭발",
+        keywords: ["속도 빠름", "예민한 감지", "순간적인 표현"],
+        traits: [
+          "상황 변화에 누구보다 빨리 반응하고, 몸과 표정이 즉각적으로 움직인다.",
+          "놀람·분노·당혹감 같은 감정이 짧게, 그러나 강하게 올라오는 편이다.",
+          "위기 상황에서 즉각적인 대처가 필요한 역할에 강점을 발휘한다."
+        ],
+        advice:
+          "당신의 예민함과 빠른 반응은 큰 자산입니다. 다만 감정의 '첫 반응'이 전부는 아니라는 것만 기억해두면 좋습니다. 속으로 한 번 더 숨을 고른 뒤, 표현 강도를 10 중 7 정도로 맞추는 연습을 해보면 관계에서 피로감이 줄어듭니다.",
+        characterRole: "응급실 의사 · 속보 기자 느낌",
+        characterDesc:
+          "강렬한 오렌지 레드 조명 아래, 놀람과 집중이 동시에 섞인 표정의 캐릭터. 언제든 뛰어나갈 준비가 된 모습입니다.",
+        image: "reactor.png"
+      },
+      harmonizer: {
+        code: "HARMONIZER",
+        name: "하모나이저",
+        tagline: "사람 사이의 온도를 맞추는, 공감 조율가형",
+        shortLabel: "공감력 높음 · 감정 미세조율",
+        keywords: ["상담사 느낌", "분위기 메이커", "조화 추구"],
+        traits: [
+          "사람들의 말 뒤에 숨은 감정에 자연스럽게 귀 기울인다.",
+          "본인의 감정보다 '분위기 전체'가 편안한지가 더 신경 쓰인다.",
+          "갈등 상황에서는 본능적으로 중간에서 조율자의 역할을 맡게 된다."
+        ],
+        advice:
+          "당신의 공감 능력은 주변 사람에게 큰 위로가 됩니다. 다만 모든 분위기를 책임질 필요는 없습니다. '여기까지만 신경 쓰자'는 나만의 경계를 정해두면 감정 에너지를 오래 지킬 수 있습니다.",
+        characterRole: "상담사 · 소셜 워커 느낌",
+        characterDesc:
+          "따뜻한 베이지와 라일락 톤의 부드러운 캐릭터. 잔잔한 미소와 둥근 실루엣으로 주변 사람의 긴장을 풀어 줍니다.",
+        image: "harmonizer.png"
+      },
+      builder: {
+        code: "BUILDER",
+        name: "빌더",
+        tagline: "일을 끝까지 밀어붙이는, 실행 중심형",
+        shortLabel: "행동 우선 · 실무에 강함",
+        keywords: ["PM 느낌", "현실 감각", "결과 지향"],
+        traits: [
+          "감정이 복잡해도, 일단 해야 할 일을 끝내는 것을 우선순위에 둔다.",
+          "해야 할 일과 감정은 어느 정도 분리해서 다루는 편이다.",
+          "실행력과 책임감이 강해, 주변에서 '믿고 맡길 사람'으로 여겨진다."
+        ],
+        advice:
+          "당신의 실행력 덕분에 많은 일들이 실제로 굴러갑니다. 다만 감정이 밀린 채로 남아 있으면 어느 날 한 번에 나올 수 있어요. 중요한 프로젝트가 끝난 뒤에는 의도적으로 감정 정리 시간을 만들어 두면 좋습니다.",
+        characterRole: "프로젝트 매니저 · 엔지니어 느낌",
+        characterDesc:
+          "짙은 네이비 수트와 단단한 눈빛의 캐릭터. 손목시계를 확인하며 다음 스텝을 준비하는 모습입니다.",
+        image: "builder.png"
+      },
+      dreamer: {
+        code: "DREAMER",
+        name: "드리머",
+        tagline: "감정과 상상을 섞어 만드는, 감성 크리에이터형",
+        shortLabel: "풍부한 내면 · 감각적 표현",
+        keywords: ["창작자 느낌", "몰입형", "감성 풍부"],
+        traits: [
+          "장면·대사·상황을 머릿속에서 생생하게 다시 재생해 보는 편이다.",
+          "감정이 예술·아이디어·콘텐츠로 자연스럽게 흘러나온다.",
+          "혼자만의 시간에서 에너지를 채우고, 깊은 몰입을 경험한다."
+        ],
+        advice:
+          "당신의 감정과 상상력은 강력한 창작 자원입니다. 다만 혼자만의 세계에 오래 머무르면 현실 감각이 흐려질 수 있어요. '바깥 세계와 연결되는 루틴'을 하나 정해 두면 균형 잡힌 드리머로 성장할 수 있습니다.",
+        characterRole: "일러스트레이터 · 크리에이터 느낌",
+        characterDesc:
+          "파스텔 민트와 핑크톤의 몽환적인 캐릭터. 볼을 살짝 괴고 먼 곳을 바라보는 눈빛이 인상적입니다.",
+        image: "dreamer.png"
+      },
+      anchor: {
+        code: "ANCHOR",
+        name: "앵커",
+        tagline: "흔들리는 판 위에서 중심을 잡는, 안정 지향형",
+        shortLabel: "감정 기복 적음 · 의미 추구",
+        keywords: ["행정가 느낌", "묵직한 안정감", "신뢰감"],
+        traits: [
+          "웬만한 일에는 크게 동요하지 않고, 기본 템포를 꾸준히 유지한다.",
+          "감정보다는 원칙·절차·합리성에 따라 판단하려 한다.",
+          "주변 사람에게 '든든하다', '흔들리지 않는다'는 인상을 준다."
+        ],
+        advice:
+          "당신의 안정감은 팀과 관계의 기둥 역할을 합니다. 다만 자신의 감정을 지나치게 '안전한 곳'에만 넣어 두면, 스스로도 무엇을 느끼는지 모를 수 있어요. 신뢰하는 사람에게는 감정을 조금 더 나누어 보는 연습이 도움이 됩니다.",
+        characterRole: "공무원 · 행정가 느낌",
+        characterDesc:
+          "단정한 네이비 톤의 캐릭터. 서류를 차분히 들고 상황을 정리하는 모습이 인상적입니다.",
+        image: "anchor.png"
+      },
+      spark: {
+        code: "SPARK",
+        name: "스파크",
+        tagline: "공기를 바꾸는 한 방의 에너지, 활기 촉발형",
+        shortLabel: "외향 에너지 · 분위기 전환",
+        keywords: ["트레이너 느낌", "에너지 메이커", "즉흥적 즐거움"],
+        traits: [
+          "기분이 좋아지면 분위기가 눈에 띄게 달아오를 정도로 에너지가 크다.",
+          "사람들과 함께할 때 감정 에너지가 훨씬 잘 살아난다.",
+          "새로운 시도와 자극을 좋아하고, 몸을 움직이는 걸 통해 감정을 푼다."
+        ],
+        advice:
+          "당신의 존재만으로도 공간의 온도가 올라갑니다. 다만 모든 자리를 살려야 한다는 부담까지 짊어질 필요는 없어요. '여기서는 굳이 spark가 되지 않아도 된다'는 상황을 스스로 허락해 주면 에너지를 오래 유지할 수 있습니다.",
+        characterRole: "운동 트레이너 · 엔터테이너 느낌",
+        characterDesc:
+          "선명한 옐로우 포인트의 캐릭터. 크게 웃으며 손을 번쩍 드는 포즈가 특징입니다.",
+        image: "spark.png"
+      },
+      protector: {
+        code: "PROTECTOR",
+        name: "프로텍터",
+        tagline: "내 사람과 일을 끝까지 지키는, 방어 수호형",
+        shortLabel: "책임감 · 방어 본능",
+        keywords: ["소방관 느낌", "방어적 보호", "의리"],
+        traits: [
+          "중요한 사람이나 맡은 일에 대해서는 끝까지 책임지려고 한다.",
+          "위협을 감지하면, 먼저 '지켜야 할 것'이 무엇인지부터 떠올린다.",
+          "감정 표현은 크지 않지만, 결심했을 때의 힘은 상당하다."
+        ],
+        advice:
+          "당신의 책임감과 보호 본능은 누군가에게 큰 안전감으로 다가옵니다. 다만 모든 것을 혼자 떠맡을수록 지치는 속도도 빨라집니다. '여기까지가 내 몫'을 정리하고, 나머지는 함께 나눌 사람을 찾는 것이 장기적으로 더 건강한 방식입니다.",
+        characterRole: "소방관 · 경호원 느낌",
+        characterDesc:
+          "어두운 레드와 블랙 톤의 캐릭터. 등에 손을 얹어 '괜찮다'는 메시지를 전하는 모습입니다.",
+        image: "protector.png"
+      }
+    };
 
-    const scores = { rs: 0, ex: 0, rc: 0, em: 0, reg: 0 };
-    const reverseIndices = new Set([6, 7, 12, 15, 19, 22, 29, 32, 36, 38]);
+    // -------------------------------
+    // 상태 관리
+    // -------------------------------
+    let currentIndex = 0;
+    const answers = Array(questions.length).fill(null);
 
-    function showSection(id) {
-      ["intro", "question", "result"].forEach((sec) => {
-        const el = document.getElementById(sec);
-        if (!el) return;
-        el.classList.remove("active");
-      });
-      const target = document.getElementById(id);
-      if (target) target.classList.add("active");
-    }
+    const scores = {
+      speed: 0,
+      expression: 0,
+      recovery: 0,
+      resonance: 0,
+      control: 0
+    };
 
-    function startTest() {
-      idx = 0;
-      Object.keys(scores).forEach((k) => (scores[k] = 0));
-      showSection("question");
-      renderQuestion();
-    }
+    // -------------------------------
+    // DOM
+    // -------------------------------
+    const introSection = document.getElementById("introSection");
+    const testSection = document.getElementById("testSection");
+    const resultSection = document.getElementById("resultSection");
 
-    const scaleArea = document.getElementById("scaleButtons");
-    if (scaleArea && scaleArea.children.length === 0) {
-      const scaleConfig = [
-        { num: "1", label: "전혀 아니다" },
-        { num: "2", label: "그렇지 않은 편" },
-        { num: "3", label: "보통이다" },
-        { num: "4", label: "그런 편이다" },
-        { num: "5", label: "매우 그렇다" }
-      ];
-      scaleConfig.forEach((item, i) => {
-        const btn = document.createElement("button");
-        btn.className = "scale-btn";
-        btn.innerHTML = `
-          <span class="num">${item.num}</span>
-          <span class="label">${item.label}</span>
-        `;
-        btn.onclick = () => answer(i + 1);
-        scaleArea.appendChild(btn);
-      });
-    }
+    const startBtn = document.getElementById("startBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const restartBtn = document.getElementById("restartBtn");
+
+    const progressLabel = document.getElementById("progressLabel");
+    const progressFill = document.getElementById("progressFill");
+    const questionIndexEl = document.getElementById("questionIndex");
+    const questionTextEl = document.getElementById("questionText");
+    const choicesEl = document.getElementById("choices");
+
+    const resultCodeEl = document.getElementById("resultCode");
+    const resultNameEl = document.getElementById("resultName");
+    const resultTaglineEl = document.getElementById("resultTagline");
+    const resultShortLabelEl = document.getElementById("resultShortLabel");
+    const resultKeywordsEl = document.getElementById("resultKeywords");
+    const resultTraitsEl = document.getElementById("resultTraits");
+    const resultAdviceEl = document.getElementById("resultAdvice");
+    const scoreBarsEl = document.getElementById("scoreBars");
+    const resultCharacterEl = document.getElementById("resultCharacter");
+    const characterRoleEl = document.getElementById("characterRole");
+    const characterDescEl = document.getElementById("characterDesc");
+
+    // Likert 1~5 라벨
+    const scaleLabels = ["1", "2", "3", "4", "5"];
 
     function renderQuestion() {
-      if (idx >= TOTAL) {
-        finishTest();
-        return;
-      }
-      const qEl = document.getElementById("qText");
-      const stepEl = document.getElementById("qStep");
-      const progressFill = document.getElementById("progressFill");
-      const progressText = document.getElementById("progressText");
+      const q = questions[currentIndex];
+      progressLabel.textContent = `${currentIndex + 1} / ${questions.length}`;
+      progressFill.style.width = `${
+        ((currentIndex + 1) / questions.length) * 100
+      }%`;
+      questionIndexEl.textContent = `문항 ${currentIndex + 1}`;
+      questionTextEl.textContent = q.text;
 
-      if (qEl) qEl.textContent = questions[idx];
-      if (stepEl) stepEl.textContent = `질문 ${idx + 1} / ${TOTAL}`;
-      const percent = (idx / TOTAL) * 100;
-      if (progressFill) progressFill.style.width = percent + "%";
-      if (progressText) progressText.textContent = `${Math.round(percent)}% 진행됨`;
-    }
-
-    function answer(value) {
-      if (idx >= TOTAL) return;
-      const val = reverseIndices.has(idx) ? 6 - value : value;
-
-      if (idx < 8) scores.rs += val;
-      else if (idx < 16) scores.ex += val;
-      else if (idx < 24) scores.rc += val;
-      else if (idx < 32) scores.em += val;
-      else scores.reg += val;
-
-      idx++;
-      renderQuestion();
-    }
-
-    function normalize(sum) {
-      return (sum - 8) / 32;
-    }
-
-    function finishTest() {
-      const progressFill = document.getElementById("progressFill");
-      const progressText = document.getElementById("progressText");
-      if (progressFill) progressFill.style.width = "100%";
-      if (progressText) progressText.textContent = "100% 완료";
-
-      const rsN = normalize(scores.rs);
-      const exN = normalize(scores.ex);
-      const rcN = normalize(scores.rc);
-      const emN = normalize(scores.em);
-      const regN = normalize(scores.reg);
-
-      let typeKey = "";
-      if (rsN >= 0.7 && regN <= 0.4) typeKey = "FR";
-      else if (emN >= 0.7 && rcN <= 0.45) typeKey = "DE";
-      else if (exN >= 0.7 && rsN >= 0.6 && regN <= 0.55) typeKey = "ES";
-      else if (rcN >= 0.7 && regN >= 0.65) typeKey = "ER";
-      else if (regN >= 0.75 && emN <= 0.6) typeKey = "RC";
-      else if (rsN <= 0.45 && exN <= 0.45) typeKey = "LS";
-      else if (exN <= 0.4 && emN <= 0.45 && rcN >= 0.5) typeKey = "FA";
-      else typeKey = "HB";
-
-      const TYPE_DATA = {
-        FR: {
-          name: "FR 타입 · Fast Reactive",
-          oneLine: "상황 변화에 즉각 반응하고, 에너지가 빠르게 치고 올라오는 유형입니다.",
-          keyword: "속도 · 즉흥 · 에너지",
-          emoji: "⚡",
-          gradient: "linear-gradient(135deg,#f97316,#ef4444)",
-          accent: "#f97316",
-          accentSoft: "rgba(254,215,170,0.8)",
-          desc:
-            "FR 타입은 주변 환경과 사람의 변화에 빠르게 반응하는 편입니다. 좋은 소식에는 즉시 기분이 올라가고, 불편한 상황에서는 몸과 마음이 동시에 반응합니다. 상황에 대한 감도가 높고 즉흥성이 있어, 기회 포착과 분위기 전환에는 강점이 있지만, 때로는 감정의 속도가 생각보다 앞서 나가 피곤해질 수 있습니다.",
-          strengths: [
-            "변화에 빠르게 반응하며 기회를 먼저 잡는 추진력",
-            "분위기가 가라앉을 때 에너지를 끌어올리는 역할",
-            "눈치가 빨라 상황 파악과 센스 있는 대응이 가능함",
-            "새로운 경험과 자극에 두려움보다 호기심이 먼저 올라오는 편"
-          ],
-          warnings: [
-            "순간 감정에 휘둘려 말이나 행동이 앞서 나갈 수 있음",
-            "에너지가 오르내리는 폭이 커 주변 사람에게 혼란을 줄 수 있음",
-            "중요한 결정일수록 한 번 더 '내일의 나' 입장에서 점검하는 습관이 필요",
-            "쉬어야 할 때를 놓치지 않도록 의식적으로 속도를 줄이는 연습이 도움이 됨"
-          ]
-        },
-        DE: {
-          name: "DE 타입 · Deep Empath",
-          oneLine: "타인의 상태를 깊이 받아들이고, 오래 마음에 담아두는 공감형입니다.",
-          keyword: "공감 · 흡수 · 깊이",
-          emoji: "💧",
-          gradient: "linear-gradient(135deg,#0ea5e9,#6366f1)",
-          accent: "#0ea5e9",
-          accentSoft: "rgba(191,219,254,0.85)",
-          desc:
-            "DE 타입은 주변 사람의 표정, 말투, 기운을 민감하게 받아들이는 편입니다. 누군가 힘들다고 말하면 쉽게 잊지 못하고, 혼자 있을 때도 그 장면이 떠오르곤 합니다. 공감 능력이 뛰어난 만큼 누군가에게 정서적인 지지를 주는 데 강점이 있지만, 그만큼 쉽게 지치고 감정적인 피로가 쌓일 수 있습니다.",
-          strengths: [
-            "상대의 말과 사이사이에 숨어 있는 감정까지 읽어내는 섬세함",
-            "힘든 이야기를 털어놓고 싶게 만드는 따뜻한 태도",
-            "관계와 상황을 감정의 결까지 포함해 입체적으로 바라봄",
-            "사람을 대할 때 대충 넘기지 않고 진심을 담는 편"
-          ],
-          warnings: [
-            "타인의 감정까지 떠안아 스스로 번아웃이 오기 쉬움",
-            "거절과 거리두기를 미루다 한 번에 지칠 수 있음",
-            "모든 사람을 다 챙기지 못해도 괜찮다는 허용이 필요",
-            "하루 중 '아무에게도 공감하지 않는 시간'을 만들어 두면 도움이 됨"
-          ]
-        },
-        ES: {
-          name: "ES 타입 · Expressive Sensitive",
-          oneLine: "느끼는 것도 크고, 드러나는 것도 분명한 표현형 민감 타입입니다.",
-          keyword: "표현 · 진솔함 · 온도",
-          emoji: "🎭",
-          gradient: "linear-gradient(135deg,#ec4899,#f97316)",
-          accent: "#ec4899",
-          accentSoft: "rgba(251,207,232,0.9)",
-          desc:
-            "ES 타입은 기분과 생각이 얼굴·말투·행동에 자연스럽게 드러나는 스타일입니다. 기쁜 일에는 함께 웃고, 힘든 일에는 숨기지 않고 티가 나는 편이라 주변에서 '솔직하다'는 평가를 받습니다. 감정이 풍부해 인간적인 매력이 크지만, 본인은 때때로 '너무 과한가?'라는 고민을 하기도 합니다.",
-          strengths: [
-            "분위기를 살리고 사람들을 편하게 만드는 생동감",
-            "솔직한 표현 덕분에 신뢰를 얻기 쉬운 편",
-            "좋은 에너지를 받을 때 주변까지 함께 끌어올리는 힘",
-            "자신의 상태를 숨기지 않아, 적절한 도움을 받기 쉬움"
-          ],
-          warnings: [
-            "기복이 커 보여 오해를 사거나 가볍게 보일 수 있음",
-            "상대가 예상보다 더 세게 받아들일 수 있음을 기억할 필요",
-            "감정을 표현하기 전, '어떤 방식으로 말할지'만 한 번 정리해도 큰 도움이 됨",
-            "무조건 참기보다, 표현 강도를 조절하는 연습이 유익함"
-          ]
-        },
-        ER: {
-          name: "ER 타입 · Emotionally Resilient",
-          oneLine: "흔들려도 다시 제자리로 돌아오는, 회복력이 뛰어난 유형입니다.",
-          keyword: "회복 · 안정 · 탄력",
-          emoji: "🌱",
-          gradient: "linear-gradient(135deg,#22c55e,#16a34a)",
-          accent: "#16a34a",
-          accentSoft: "rgba(187,247,208,0.9)",
-          desc:
-            "ER 타입은 힘든 일이 있어도 비교적 빠르게 균형을 되찾는 편입니다. 마음이 흔들려도 어느 순간부터는 자연스럽게 정리가 되며, 과거의 일보다 현재와 앞으로에 더 집중하려 합니다. 주변에서는 '멘탈이 단단하다'거나 '금방 다시 일어선다'는 인상을 받기 쉽습니다.",
-          strengths: [
-            "위기 상황에서도 쉽게 무너지지 않는 정서적 탄력성",
-            "실수를 발판 삼아 다음 선택으로 나아가는 태도",
-            "장기적인 목표를 보고 꾸준히 버티는 힘",
-            "주변 사람들에게 안정감과 든든함을 주는 존재감"
-          ],
-          warnings: [
-            "겉으로 괜찮아 보이지만, 실제 감정은 충분히 표현되지 않을 수 있음",
-            "스스로도 '이 정도는 괜찮지'라며 감정을 빠르게 넘겨버릴 위험",
-            "미세하게 쌓이는 피로를 무시하지 않도록, 정기 점검이 필요",
-            "누군가에게 한 번쯤은 속마음을 길게 털어놓는 경험이 도움이 됨"
-          ]
-        },
-        RC: {
-          name: "RC 타입 · Regulated Controller",
-          oneLine: "상황을 한 발 위에서 보며, 감정과 행동을 전략적으로 조절하는 유형입니다.",
-          keyword: "조절 · 전략 · 거리두기",
-          emoji: "🧠",
-          gradient: "linear-gradient(135deg,#0f172a,#4b5563)",
-          accent: "#0f172a",
-          accentSoft: "rgba(209,213,219,0.9)",
-          desc:
-            "RC 타입은 감정을 전혀 느끼지 않는 것이 아니라, 한 번에 터뜨리기보다 관리하고 정리하는 쪽을 택하는 유형입니다. 갈등이나 위기 상황에서도 '지금은 어떻게 움직이는 게 좋을까?'라는 관점으로 상황을 바라봅니다. 감정과 행동 사이에 항상 한 번의 간격을 두는 편입니다.",
-          strengths: [
-            "감정이 과열될 때도 전체 그림을 잃지 않는 시야",
-            "위기에서 우선순위를 정해 실행 방향을 잡는 능력",
-            "감정에 휘둘리기보다 목표와 결과를 중심으로 판단함",
-            "팀이나 관계에서 '판단 맡기는 사람' 역할을 하기 좋음"
-          ],
-          warnings: [
-            "상대에게는 차갑거나 무심한 사람으로 보일 수 있음",
-            "자신의 진짜 감정을 뒤로 밀어두고 '관리'만 할 위험",
-            "머리로는 정리됐지만, 마음은 아직 준비되지 않았을 수 있음",
-            "가끔은 전략 대신 '내가 진짜 느끼는 것'을 먼저 적어 보는 시간이 필요"
-          ]
-        },
-        LS: {
-          name: "LS 타입 · Low Stimulus",
-          oneLine: "잔잔한 환경을 선호하고, 자극을 크게 추구하지 않는 관조형입니다.",
-          keyword: "저자극 · 관찰 · 잔잔함",
-          emoji: "🍃",
-          gradient: "linear-gradient(135deg,#38bdf8,#22c55e)",
-          accent: "#22c55e",
-          accentSoft: "rgba(187,247,208,0.9)",
-          desc:
-            "LS 타입은 큰 자극이나 과한 분위기보다, 잔잔하고 예측 가능한 환경을 선호합니다. 겉으로 티가 크게 나지 않는 편이며, 속으로 생각을 오래 굴리는 스타일입니다. 감정의 업다운이 크지 않아 주변에서 안정적으로 느끼지만, 본인은 때때로 '내가 너무 무덤덤한 것 아닌가?' 고민할 수 있습니다.",
-          strengths: [
-            "과도한 자극에도 크게 휘둘리지 않는 안정감",
-            "혼자 있는 시간에도 스스로를 잘 채우는 능력",
-            "흥분된 상황에서도 냉정한 판단을 유지하기 쉬움",
-            "주변에서 '함께 있으면 편안한 사람'이라는 말을 듣기 쉬움"
-          ],
-          warnings: [
-            "마음속 고민을 잘 드러내지 않아, 도움을 못 받을 수 있음",
-            "타인에게 무관심하거나 거리가 먼 사람처럼 비칠 수 있음",
-            "변화가 필요한 순간에도 '지금 이대로'를 선택하기 쉬움",
-            "작은 도전부터 하나씩 시도해 보는 연습이 삶에 활력을 줄 수 있음"
-          ]
-        },
-        FA: {
-          name: "FA 타입 · Flat Affect",
-          oneLine: "겉으로 감정을 많이 드러내지 않고, 일정한 톤을 유지하는 유형입니다.",
-          keyword: "냉정 · 거리 · 일정함",
-          emoji: "🪵",
-          gradient: "linear-gradient(135deg,#6b7280,#111827)",
-          accent: "#6b7280",
-          accentSoft: "rgba(209,213,219,0.9)",
-          desc:
-            "FA 타입은 안에서 느끼는 것에 비해 겉으로 드러나는 폭이 크지 않은 편입니다. 웬만한 일에도 크게 티를 내지 않고, 일정한 톤을 유지하려 합니다. 주변에서는 '침착하다, 무덤덤하다'고 느끼기 쉽지만, 실제로는 마음 안에서 조용히 많은 것들을 소화하고 있을 수 있습니다.",
-          strengths: [
-            "격한 상황에서도 함께 있으면 안정감을 주는 존재",
-            "불필요한 드라마 없이, 담담하게 상황을 처리하는 능력",
-            "감정에 크게 휘둘리지 않아 실수 확률이 줄어듦",
-            "차분한 에너지 덕분에 의지하고 싶은 대상으로 보이기도 함"
-          ],
-          warnings: [
-            "속마음을 잘 모르겠다는 이야기를 듣기 쉬움",
-            "실제로는 힘든데, 아무도 눈치채지 못할 수 있음",
-            "자신의 필요와 욕구를 표현하지 않아 손해를 볼 위험",
-            "적어도 한두 명에게는 솔직한 감정을 나눌 '안전한 공간'이 필요함"
-          ]
-        },
-        HB: {
-          name: "HB 타입 · High Balance",
-          oneLine: "다섯 축이 비교적 균형감 있게 분포된, 고균형 감정 타입입니다.",
-          keyword: "균형 · 유연성 · 조화",
-          emoji: "⚖️",
-          gradient: "linear-gradient(135deg,#22c55e,#6366f1)",
-          accent: "#6366f1",
-          accentSoft: "rgba(199,210,254,0.9)",
-          desc:
-            "HB 타입은 반응 속도, 표현, 회복력, 공감, 조절력 사이의 큰 쏠림 없이, 상황에 따라 유연하게 변화를 선택하는 경향이 있습니다. 특정 하나의 특징이 아주 과하게 튀기보다는, 여러 축이 평균 이상으로 고르게 분포해 있습니다. 그래서 다양한 상황에서 역할을 바꾸며 대응하는 데 강점이 있습니다.",
-          strengths: [
-            "여러 성향의 사람들과 두루 어울리기 쉬운 유연함",
-            "특정 한 쪽에 치우치지 않고 상황에 맞는 태도를 선택하는 능력",
-            "감정 사용에 있어 과도한 소모나 폭발이 적은 편",
-            "조율자·중재자 역할에 적합한 기질"
-          ],
-          warnings: [
-            "스스로 느끼기에 '내가 뚜렷하게 어떤 타입인지' 모호하게 느낄 수 있음",
-            "강하게 드러나는 캐릭터보다는 조용히 받쳐주는 역할을 하게 될 때가 많음",
-            "어떤 상황에서는 과감함이 부족해 보일 수 있음",
-            "균형을 강점으로 쓰되, 나만의 색을 드러내는 연습도 함께 하면 좋음"
-          ]
+      choicesEl.innerHTML = "";
+      scaleLabels.forEach((label, idx) => {
+        const value = idx + 1;
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = value;
+        if (answers[currentIndex] === value) {
+          btn.classList.add("selected");
         }
+        btn.addEventListener("click", () => {
+          answers[currentIndex] = value;
+          document
+            .querySelectorAll(".choice")
+            .forEach((el) => el.classList.remove("selected"));
+          btn.classList.add("selected");
+        });
+        choicesEl.appendChild(btn);
+      });
+
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.textContent =
+        currentIndex === questions.length - 1 ? "결과 보기" : "다음";
+    }
+
+    function calculateScores() {
+      // 초기화
+      scores.speed = 0;
+      scores.expression = 0;
+      scores.recovery = 0;
+      scores.resonance = 0;
+      scores.control = 0;
+
+      questions.forEach((q, idx) => {
+        const answer = answers[idx] ?? 3; // 미응답은 중간값
+        // 1~5 -> -2 ~ +2 로 변환
+        const centered = answer - 3; // -2,-1,0,1,2
+        const weighted = centered * q.direction;
+        scores[q.dimension] += weighted;
+      });
+
+      return scores;
+    }
+
+    function normalizeScore(raw, maxAbs) {
+      // -maxAbs ~ +maxAbs -> 0 ~ 100
+      const clamped = Math.max(-maxAbs, Math.min(maxAbs, raw));
+      return Math.round(((clamped + maxAbs) / (2 * maxAbs)) * 100);
+    }
+
+    function determineType(normalized) {
+      const high = {};
+      Object.keys(normalized).forEach((key) => {
+        high[key] = normalized[key] >= 55; // 55 이상이면 높은 축
+      });
+
+      // 간단한 의사결정 트리 (8유형)
+      if (!high.speed && high.control && !high.resonance) {
+        return "observer";
+      }
+      if (high.speed && high.expression && !high.control) {
+        return "reactor";
+      }
+      if (high.resonance && !high.control && high.expression) {
+        return "harmonizer";
+      }
+      if (high.control && !high.resonance && high.recovery) {
+        return "builder";
+      }
+      if (!high.control && high.resonance && !high.speed && high.recovery) {
+        return "dreamer";
+      }
+      if (high.control && !high.speed && !high.expression) {
+        return "anchor";
+      }
+      if (high.speed && high.expression && high.resonance) {
+        return "spark";
+      }
+      // 기본값: protector
+      return "protector";
+    }
+
+    function renderScores(normalized) {
+      scoreBarsEl.innerHTML = "";
+      const labels = {
+        speed: "반응 속도",
+        expression: "표현 방식",
+        recovery: "회복력",
+        resonance: "공명(공감)",
+        control: "조절"
+      };
+      Object.keys(labels).forEach((key) => {
+        const row = document.createElement("div");
+        row.className = "score-row";
+        const label = document.createElement("span");
+        label.textContent = labels[key];
+        const track = document.createElement("div");
+        track.className = "score-track";
+        const fill = document.createElement("div");
+        fill.className = "score-fill";
+        fill.style.width = normalized[key] + "%";
+        track.appendChild(fill);
+        const val = document.createElement("span");
+        val.style.minWidth = "34px";
+        val.style.textAlign = "right";
+        val.textContent = normalized[key];
+        row.appendChild(label);
+        row.appendChild(track);
+        row.appendChild(val);
+        scoreBarsEl.appendChild(row);
+      });
+    }
+
+    function renderResult() {
+      const raw = calculateScores();
+      // 대략 최대 절대값 추정: 24문항 / 각 축당 5문항 정도 * 2
+      const maxAbs = 12;
+      const normalized = {
+        speed: normalizeScore(raw.speed, maxAbs),
+        expression: normalizeScore(raw.expression, maxAbs),
+        recovery: normalizeScore(raw.recovery, maxAbs),
+        resonance: normalizeScore(raw.resonance, maxAbs),
+        control: normalizeScore(raw.control, maxAbs)
       };
 
-      const data = TYPE_DATA[typeKey];
-      const root = document.documentElement;
-      if (data) {
-        const avatar = document.getElementById("typeAvatar");
-        const nameEl = document.getElementById("typeName");
-        const oneEl = document.getElementById("typeOneLine");
-        const keyEl = document.getElementById("typeKeyword");
-        const descEl = document.getElementById("typeDesc");
-        const sList = document.getElementById("typeStrengths");
-        const wList = document.getElementById("typeWarnings");
+      const typeKey = determineType(normalized);
+      const t = types[typeKey];
 
-        if (avatar) {
-          avatar.textContent = data.emoji;
-          avatar.style.backgroundImage = data.gradient;
-        }
-        if (nameEl) nameEl.textContent = data.name;
-        if (oneEl) oneEl.textContent = data.oneLine;
-        if (keyEl) keyEl.textContent = data.keyword;
-        if (descEl) descEl.textContent = data.desc;
+      resultCodeEl.textContent = `EID · ${t.code}`;
+      resultNameEl.textContent = t.name;
+      resultTaglineEl.textContent = t.tagline;
+      resultShortLabelEl.textContent = t.shortLabel;
 
-        if (root) {
-          root.style.setProperty("--accent", data.accent);
-          root.style.setProperty("--accent-soft", data.accentSoft);
-        }
+      resultKeywordsEl.innerHTML = "";
+      t.keywords.forEach((kw) => {
+        const pill = document.createElement("div");
+        pill.className = "pill";
+        pill.textContent = kw;
+        resultKeywordsEl.appendChild(pill);
+      });
 
-        if (sList) {
-          sList.innerHTML = "";
-          data.strengths.forEach((item) => {
-            const li = document.createElement("li");
-            li.textContent = item;
-            sList.appendChild(li);
-          });
-        }
+      resultTraitsEl.innerHTML = "";
+      t.traits.forEach((item) => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        resultTraitsEl.appendChild(li);
+      });
 
-        if (wList) {
-          wList.innerHTML = "";
-          data.warnings.forEach((item) => {
-            const li = document.createElement("li");
-            li.textContent = item;
-            wList.appendChild(li);
-          });
-        }
-      }
+      resultAdviceEl.textContent = t.advice;
 
-      showSection("result");
+      renderScores(normalized);
+
+      // 캐릭터 이미지 (이미지는 /images 폴더에 넣고 경로 맞춰주기)
+      resultCharacterEl.src = "images/" + t.image;
+      resultCharacterEl.alt = t.name + " 캐릭터";
+      characterRoleEl.textContent = t.characterRole;
+      characterDescEl.textContent = t.characterDesc;
     }
+
+    // -------------------------------
+    // 이벤트
+    // -------------------------------
+    startBtn.addEventListener("click", () => {
+      introSection.hidden = true;
+      testSection.hidden = false;
+      renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    prevBtn.addEventListener("click", () => {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (answers[currentIndex] == null) {
+        // 미응답 방지 원하면 alert 추가 가능
+      }
+      if (currentIndex < questions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        // 결과 보기
+        testSection.hidden = true;
+        resultSection.hidden = false;
+        renderResult();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      currentIndex = 0;
+      for (let i = 0; i < answers.length; i++) answers[i] = null;
+      introSection.hidden = false;
+      testSection.hidden = true;
+      resultSection.hidden = true;
+      progressFill.style.width = "0%";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
   </script>
 </body>
 </html>
+
 
 
 
