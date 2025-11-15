@@ -387,7 +387,6 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
     }
 
     .section {
@@ -519,24 +518,42 @@
       box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
     }
 
-    .scale-btn.active {
+    .scale-btn.selected {
       border-color: var(--accent);
       background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.3), transparent 60%),
         rgba(15, 23, 42, 1);
       color: #e5e7eb;
-      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.9);
+      box-shadow: 0 12px 34px rgba(37, 99, 235, 0.6);
+    }
+
+    .q-footer {
+      margin-top: 18px;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    .btn-prev {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 7px 14px;
+      font-size: 12px;
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-prev:disabled {
+      opacity: 0.4;
+      cursor: default;
     }
 
     @media (max-width: 640px) {
       .scale-btn .label {
         font-size: 10px;
       }
-    }
-
-    .q-nav {
-      margin-top: 20px;
-      display: flex;
-      justify-content: flex-start;
     }
 
     /* 결과 섹션 */
@@ -559,9 +576,9 @@
     }
 
     .avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 20px;
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -569,10 +586,20 @@
       box-shadow: var(--shadow-card);
       background-size: 160% 160%;
       background-position: center;
+      overflow: hidden;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      background: radial-gradient(circle at 0% 0%, rgba(129, 140, 248, 0.35), rgba(15, 23, 42, 1));
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .result-main-title {
-      font-size: 18px;
+      font-size: 20px;
       margin-bottom: 4px;
     }
 
@@ -637,6 +664,54 @@
     .result-list li::before {
       content: "• ";
       color: var(--accent);
+    }
+
+    /* 그래프 */
+
+    .result-graph {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(31, 41, 55, 0.9);
+      font-size: 12px;
+      color: var(--text-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .graph-row {
+      display: grid;
+      grid-template-columns: 80px minmax(0, 1fr) 40px;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .graph-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .graph-bar-bg {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+      border: 1px solid rgba(31, 41, 55, 1);
+    }
+
+    .graph-bar-fill {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #22c55e, #38bdf8, #6366f1);
+      transition: width 0.45s ease-out;
+    }
+
+    .graph-value {
+      font-size: 11px;
+      text-align: right;
+      color: #e5e7eb;
     }
 
     .footer-note {
@@ -796,12 +871,12 @@
               <span>매우 그렇다</span>
             </div>
             <div id="scaleButtons" class="scale-row"></div>
+          </div>
 
-            <div class="q-nav">
-              <button type="button" class="btn-secondary" onclick="prevQuestion()">
-                ← 이전 질문 보기
-              </button>
-            </div>
+          <div class="q-footer">
+            <button id="prevBtn" class="btn-prev" onclick="prevQuestion()">
+              ← 이전 질문
+            </button>
           </div>
         </div>
       </section>
@@ -826,6 +901,44 @@
                 각 유형은 좋고 나쁨을 나누기 위한 것이 아니라, 감정을 쓰는
                 방식의 차이를 설명하기 위한 코드입니다.
               </p>
+
+              <div class="result-graph">
+                <div class="graph-row">
+                  <div class="graph-label">반응 속도</div>
+                  <div class="graph-bar-bg">
+                    <div id="bar-rs" class="graph-bar-fill"></div>
+                  </div>
+                  <div id="val-rs" class="graph-value">0%</div>
+                </div>
+                <div class="graph-row">
+                  <div class="graph-label">표현</div>
+                  <div class="graph-bar-bg">
+                    <div id="bar-ex" class="graph-bar-fill"></div>
+                  </div>
+                  <div id="val-ex" class="graph-value">0%</div>
+                </div>
+                <div class="graph-row">
+                  <div class="graph-label">회복력</div>
+                  <div class="graph-bar-bg">
+                    <div id="bar-rc" class="graph-bar-fill"></div>
+                  </div>
+                  <div id="val-rc" class="graph-value">0%</div>
+                </div>
+                <div class="graph-row">
+                  <div class="graph-label">공명</div>
+                  <div class="graph-bar-bg">
+                    <div id="bar-em" class="graph-bar-fill"></div>
+                  </div>
+                  <div id="val-em" class="graph-value">0%</div>
+                </div>
+                <div class="graph-row">
+                  <div class="graph-label">조절</div>
+                  <div class="graph-bar-bg">
+                    <div id="bar-reg" class="graph-bar-fill"></div>
+                  </div>
+                  <div id="val-reg" class="graph-value">0%</div>
+                </div>
+              </div>
             </div>
 
             <div class="result-list-block">
@@ -850,75 +963,55 @@
        JS : 질문 + 산출 로직
   ========================== -->
   <script>
-    // 40문항 – 각 문항은 특정 상황 기준으로 설계
-    // 0~7   : 반응 속도(rs)
-    // 8~15  : 표현(ex)
-    // 16~23 : 회복력(rc)
-    // 24~31 : 공명/공감(em)
-    // 32~39 : 조절(reg)
-    // reverseIndices: 높은 점수가 해당 특성 '낮음'을 의미하는 문항 (역채점)
     const questions = [
-      // 0~7 : 반응 속도 (rs)
-      "알람이 갑자기 울리거나 전화가 오면, 몸과 마음이 바로 ‘긴장 모드’로 전환되는 편이다.",
-      "회의나 수업에서 예상치 못한 질문이 나올 때, 생각보다 표정이나 몸이 먼저 반응하는 편이다.",
-      "단체 카톡방에서 갑자기 분위기가 싸해지면, 다른 일 하다가도 바로 신경이 쓰인다.",
-      "길을 걷다가 경적 소리나 큰 소리가 나면, 주변 사람들보다 먼저 몸이 움찔하는 것 같다.",
-      "상대의 표정이 살짝 굳기만 해도, ‘무슨 일 있나?’ 하는 생각이 거의 자동으로 올라온다.",
-      "좋은 소식(합격, 승인, 칭찬 등)을 들으면, 머릿속 계산보다 기분이 먼저 확 올라간다.",
-      "큰일이 생겨도 처음에는 ‘그렇구나’ 하고, 감정이 한참 뒤에야 천천히 올라오는 편이다.",
-      "주변에서 모두 급하게 움직여도, 내 속도는 잘 빨라지지 않고 천천히 움직이는 편이다.",
-
-      // 8~15 : 표현 (ex)
-      "친한 사람과 있을 때는, 기분이 좋으면 말투·표정에서 바로 티가 나는 편이다.",
-      "속상한 일이 있으면 하루쯤은 표정이나 말수가 확 줄어드는 게 스스로도 느껴진다.",
-      "기쁜 일이 생기면, 주변 사람들에게 바로 공유하고 자랑하고 싶은 마음이 든다.",
-      "화가 나거나 억울한 일이 있으면, ‘나 화났다’는 게 말투에서 거의 숨겨지지 않는다.",
-      "힘든 일이 있어도 ‘괜찮아’라고 웃어 넘기고, 웬만하면 표정을 유지하려 한다.",
-      "모임 자리에서는 내 컨디션과 상관없이, 분위기를 위해 일부러 더 밝게 행동하는 편이다.",
-      "정말 힘들 때도, 내 상태를 알리는 것보다 혼자 조용히 버티는 쪽이 더 편하다.",
-      "주변 사람들이 ‘너는 속마음이 얼굴에 잘 안 드러나는 편이야’라고 말한 적이 있다.",
-
-      // 16~23 : 회복력 (rc)
-      "하루 동안 기분 나빴던 일이 있어도, 다음 날 아침에는 ‘새 판 깔린 느낌’이 드는 편이다.",
-      "실수하거나 창피한 일을 겪어도, ‘다음에 잘하면 되지’ 하고 비교적 빨리 넘기는 편이다.",
-      "스트레스가 쌓이면, 산책·취미·혼자만의 루틴으로 조금씩 정리가 되는 경험을 한다.",
-      "일이 틀어져도 ‘그래도 여기까진 해냈다’며 나름대로 의미를 찾아보려 한다.",
-      "마음이 무너지면, 잠을 자고 일어나도 며칠씩 기운이 돌아오지 않는 편이다.",
-      "예전에 했던 실수나 상처되는 장면이, 몇 년이 지나도 가끔 생생하게 떠오른다.",
-      "컨디션이 정말 바닥까지 떨어져도, 어느 순간 ‘이제 다시 해보자’ 하는 힘이 올라온다.",
-      "한 번 깊이 실망한 사람이나 상황은, 회복하는 데 정말 오랜 시간이 걸리는 편이다.",
-
-      // 24~31 : 공명/공감 (em)
-      "지하철이나 카페에서 우울해 보이는 사람을 보면, 그 사람 사연을 상상하게 될 때가 많다.",
-      "지인에게 힘든 이야기를 들으면, 집에 돌아와서도 그 장면이 떠올라 마음이 무거워진다.",
-      "드라마·영화를 볼 때, 인물의 감정에 몰입해서 같이 웃고 울다가 끝나는 편이다.",
-      "모임에서 누군가 혼자 따로 떨어져 있으면, 괜히 신경이 쓰이고 챙겨주고 싶어진다.",
-      "주변 사람이 예민해져 있어도, ‘내 일이 아니면’ 적당히 거리를 두려고 하는 편이다.",
-      "뉴스나 댓글에서 부정적인 내용을 오래 보다 보면, 내 기분까지 쉽게 가라앉는다.",
-      "지인이 한마디 툭 던진 말을, ‘혹시 이런 뜻이었나?’ 하며 여러 번 곱씹는 편이다.",
-      "다른 사람의 감정 기복에 크게 끌려다니지 않고, 내 컨디션을 우선 챙기려는 편이다.",
-
-      // 32~39 : 조절 (reg)
-      "기분이 확 상하면, 계획과 상관없이 바로 말이나 행동이 먼저 튀어나오는 편이다.",
-      "회의나 중요한 대화에서, 감정이 올라와도 일단 상황 정리부터 하려고 한다.",
-      "화를 내고 싶을 때도, ‘지금 여기서 다 터뜨리면 손해다’라는 계산이 먼저 돌아간다.",
-      "기분에 따라 하고 싶은 말이 많아져도, ‘지금은 말 안 하는 게 낫다’며 삼키는 편이다.",
-      "기분이 안 좋으면, 쇼핑·배달·폭식·게임 등으로 즉시 해소하려는 패턴이 있다.",
-      "중요한 결정을 할 때, 순간 감정보다 자료와 정보부터 찾아보는 편이다.",
-      "힘든 일이 겹치면, 해야 할 일을 정리하기보다 그냥 멍하니 시간을 보내버릴 때가 많다.",
-      "갈등 상황에서 감정이 욱 올라오면, 그 자리에서 정리하기보다 일단 피하고 싶어진다."
+      "예상치 못한 소식을 들으면, 몸이 먼저 굳거나 반응하는 편이다.",
+      "주변 사람의 말투가 조금만 달라져도 바로 눈치챈다.",
+      "처음 가는 장소에서도 분위기 변화를 빨리 감지하는 편이다.",
+      "갑작스럽게 일정이 바뀌면 머릿속이 잠시 복잡해진다.",
+      "누가 나에 대해 미묘하게 불편해하는 기색을 보이면 금방 알아차린다.",
+      "좋은 소식이 생기면 에너지가 즉시 올라와서 행동으로 이어진다.",
+      "상황이 변해도 바로 움직이기보다, 한 번 더 지켜본 뒤에 반응하는 편이다.",
+      "주변이 조금 시끄럽거나 산만해져도 크게 흔들리지 않고 일을 이어가는 편이다.",
+      "기분이 바뀌면 얼굴 표정이 금방 달라지는 편이다.",
+      "속으로 생각한 내용이 말투나 말의 속도에서 티가 난다는 소리를 들은 적이 있다.",
+      "긴장하면 말이 빨라지거나 평소와 다르게 나온다.",
+      "속상한 일이 있으면 주변 사람이 눈치챌 정도로 기운이 달라진다.",
+      "웬만한 일은 표정을 바꾸지 않고 넘어가는 편이다.",
+      "좋은 일이 있으면 자연스럽게 말이 많아지거나 농담이 늘어난다.",
+      "주변 사람들이 '기분이 얼굴에 잘 보인다'고 말하는 편이다.",
+      "웬만하면 내 상태를 들키지 않으려고, 일부러 평소처럼 행동하려고 한다.",
+      "하루에 좋지 않은 일이 있어도, 잠을 자고 나면 어느 정도 정리가 되는 편이다.",
+      "걱정이나 긴장이 있어도 시간이 지나면 자연스럽게 가라앉는다.",
+      "스트레스가 쌓이면, 산책·혼자 시간 보내기 등 나름의 회복 루틴이 있다.",
+      "안 좋은 일이 있으면 며칠 동안 계속 생각나서 다른 일에 집중하기 어렵다.",
+      "과거의 실수나 민망한 장면이 떠올라도, '지나간 일'이라고 넘길 수 있다.",
+      "기운이 떨어질 때, 쉬어야겠다는 신호를 스스로 어느 정도 알아차린다.",
+      "누가 했던 한마디가 며칠 동안 머릿속에서 반복되는 편이다.",
+      "일이 잘못돼도, '다음에 다시 해보자'라는 생각으로 방향을 바꾸는 편이다.",
+      "주변 사람이 지쳐 보이면, 집에 와서도 그 모습이 떠오를 때가 있다.",
+      "가까운 사람이 힘들다고 이야기하면, 그날 내 컨디션도 같이 내려가는 편이다.",
+      "모임 자리에서 누가 어색해하거나 소외된 느낌이면 신경이 쓰인다.",
+      "누군가의 한 말이 '혹시 이런 뜻이었나?' 하며 자꾸 떠오를 때가 있다.",
+      "상대의 표정이나 눈빛만 보고도, 대충 어떤 상태인지 짐작하는 편이다.",
+      "다른 사람이 예민한 상태여도, 나까지 같이 휘말리지 않으려고 거리를 둔다.",
+      "많은 사람 사이에 있다가 집에 오면, 여러 장면들이 한 번씩 떠오르며 피곤함이 느껴진다.",
+      "힘들다는 이야기를 오래 듣고 나면, 내 에너지까지 빠져나간 느낌이 든다.",
+      "말이 세게 오가는 상황이 되면, 내 속도 함께 빨라져서 조절이 잘 안 될 때가 있다.",
+      "마음이 거칠어질 때, 잠깐 자리를 피하거나 숨을 고르는 편이다.",
+      "일이 틀어져도, 일단 '지금 할 수 있는 것'부터 정리해 보려고 한다.",
+      "주변이 혼란스러워도, 큰 흐름을 잃지 않고 할 일을 찾아가는 편이다.",
+      "억울하거나 답답한 상황이 되면, 말을 아끼기보다 바로 반응해 버리는 편이다.",
+      "상태가 흔들려도, 어느 시점부터는 스스로 균형을 잡으려는 힘이 올라온다.",
+      "여러 가지 일이 한꺼번에 겹치면, 머릿속이 복잡해져 우선순위 정하기가 어렵다.",
+      "분위기가 과열되더라도, 한 발 물러서서 정리해 보는 편이다."
     ];
 
     const TOTAL = questions.length;
     let idx = 0;
 
-    // 반응 속도(rs), 표현(ex), 회복력(rc), 공명(em), 조절(reg)
     const scores = { rs: 0, ex: 0, rc: 0, em: 0, reg: 0 };
-    // 사용자의 개별 응답 저장 (1~5)
-    const answers = new Array(TOTAL).fill(null);
-
-    // 역채점 문항 인덱스 (0부터 시작)
     const reverseIndices = new Set([6, 7, 12, 15, 19, 22, 29, 32, 36, 38]);
+    const answers = Array(TOTAL).fill(null); // 1~5 저장
 
     function showSection(id) {
       ["intro", "question", "result"].forEach((sec) => {
@@ -932,7 +1025,6 @@
 
     function startTest() {
       idx = 0;
-      for (let k of Object.keys(scores)) scores[k] = 0;
       for (let i = 0; i < TOTAL; i++) answers[i] = null;
       showSection("question");
       renderQuestion();
@@ -959,16 +1051,13 @@
       });
     }
 
-    function updateScaleActive() {
-      const current = answers[idx];
-      const buttons = document.querySelectorAll(".scale-btn");
-      buttons.forEach((btn, i) => {
-        if (current === i + 1) {
-          btn.classList.add("active");
-        } else {
-          btn.classList.remove("active");
-        }
-      });
+    function updateProgress() {
+      const answeredCount = answers.filter((v) => v !== null).length;
+      const percent = (answeredCount / TOTAL) * 100;
+      const progressFill = document.getElementById("progressFill");
+      const progressText = document.getElementById("progressText");
+      if (progressFill) progressFill.style.width = percent + "%";
+      if (progressText) progressText.textContent = `${Math.round(percent)}% 진행됨`;
     }
 
     function renderQuestion() {
@@ -978,19 +1067,24 @@
       }
       const qEl = document.getElementById("qText");
       const stepEl = document.getElementById("qStep");
-      const progressFill = document.getElementById("progressFill");
-      const progressText = document.getElementById("progressText");
+      const prevBtn = document.getElementById("prevBtn");
 
       if (qEl) qEl.textContent = questions[idx];
       if (stepEl) stepEl.textContent = `질문 ${idx + 1} / ${TOTAL}`;
-      const percent = (idx / TOTAL) * 100;
-      if (progressFill) progressFill.style.width = percent + "%";
-      if (progressText) progressText.textContent = `${Math.round(percent)}% 진행됨`;
+      if (prevBtn) prevBtn.disabled = idx === 0;
 
-      updateScaleActive();
+      // 선택 상태 반영
+      const allBtns = document.querySelectorAll(".scale-btn");
+      allBtns.forEach((btn, i) => {
+        btn.classList.remove("selected");
+        if (answers[idx] === i + 1) {
+          btn.classList.add("selected");
+        }
+      });
+
+      updateProgress();
     }
 
-    // 답 클릭 시 -> 현재 문항에 답 저장하고 자동으로 다음 문항으로
     function answer(value) {
       if (idx >= TOTAL) return;
       answers[idx] = value;
@@ -1003,33 +1097,24 @@
       }
     }
 
-    // 이전 버튼: 점수는 나중에 한 번에 계산하므로 단순히 인덱스만 이동
     function prevQuestion() {
-      if (idx <= 0) return;
-      idx--;
-      renderQuestion();
+      if (idx > 0) {
+        idx--;
+        renderQuestion();
+      }
     }
 
-    // 합계 -> 0~1 사이로 정규화
     function normalize(sum) {
-      // 각 축 8문항, (1~5)합계 8~40 → 0~1로 변환
+      // 각 축 8~40 점수 → 0~1로 정규화
       return (sum - 8) / 32;
     }
 
-    function finishTest() {
-      const progressFill = document.getElementById("progressFill");
-      const progressText = document.getElementById("progressText");
-      if (progressFill) progressFill.style.width = "100%";
-      if (progressText) progressText.textContent = "100% 완료";
+    function computeScores() {
+      scores.rs = scores.ex = scores.rc = scores.em = scores.reg = 0;
 
-      // 점수 초기화
-      for (let k of Object.keys(scores)) scores[k] = 0;
-
-      // 모든 응답을 기준으로 다시 계산 (실수 줄이기)
       for (let i = 0; i < TOTAL; i++) {
-        let raw = answers[i];
-        if (raw == null) raw = 3; // 혹시 비어있으면 중간값
-
+        const raw = answers[i];
+        if (raw == null) continue;
         const val = reverseIndices.has(i) ? 6 - raw : raw;
 
         if (i < 8) scores.rs += val;
@@ -1038,6 +1123,11 @@
         else if (i < 32) scores.em += val;
         else scores.reg += val;
       }
+    }
+
+    function finishTest() {
+      // 모든 점수를 다시 계산
+      computeScores();
 
       const rsN = normalize(scores.rs);
       const exN = normalize(scores.ex);
@@ -1045,284 +1135,270 @@
       const emN = normalize(scores.em);
       const regN = normalize(scores.reg);
 
-      let typeKey = decideType(rsN, exN, rcN, emN, regN);
-      renderResult(typeKey, rsN, exN, rcN, emN, regN);
-      showSection("result");
-    }
+      // 그래프 채우기
+      const graphData = [
+        { key: "rs", val: rsN },
+        { key: "ex", val: exN },
+        { key: "rc", val: rcN },
+        { key: "em", val: emN },
+        { key: "reg", val: regN }
+      ];
+      graphData.forEach(({ key, val }) => {
+        const percent = Math.round(val * 100);
+        const bar = document.getElementById(`bar-${key}`);
+        const label = document.getElementById(`val-${key}`);
+        if (bar) bar.style.width = `${percent}%`;
+        if (label) label.textContent = `${percent}%`;
+      });
 
-    // 유형 산출 로직 – 패턴 우선, 애매하면 지배적인 축으로 결정
-    function decideType(rsN, exN, rcN, emN, regN) {
-      // 전형적 패턴 먼저
-      if (rsN >= 0.7 && exN >= 0.6 && regN <= 0.55) return "ES"; // 표현 풍부 + 빠른 반응
-      if (rsN >= 0.7 && regN <= 0.5) return "FR";               // 속도 빠름 + 조절 낮음
-      if (emN >= 0.7 && rcN <= 0.55) return "DE";               // 공감 높음 + 회복 느림
-      if (rcN >= 0.7 && regN >= 0.65) return "ER";              // 회복력 + 조절 둘 다 높음
-      if (regN >= 0.75 && emN <= 0.6) return "RC";              // 조절 매우 높음, 공감은 과하지 않음
-      if (rsN <= 0.4 && exN <= 0.4) return "LS";                // 저자극, 표현 적음
-      if (exN <= 0.45 && emN <= 0.45 && rcN >= 0.55) return "FA"; // 표현·공감 낮고 회복은 괜찮음
+      // 유형 판별
+      let typeKey = "";
+      if (rsN >= 0.7 && regN <= 0.4) typeKey = "SPARK";          // 빠르고 즉흥적
+      else if (emN >= 0.7 && rcN <= 0.45) typeKey = "RIPPLE";    // 공감 흡수형
+      else if (exN >= 0.7 && rsN >= 0.6 && regN <= 0.55) typeKey = "BRIEFING"; // 표현·전달
+      else if (rcN >= 0.7 && regN >= 0.65) typeKey = "SPRING";   // 회복 탄성
+      else if (regN >= 0.75 && emN <= 0.6) typeKey = "PILOT";    // 조절·조종
+      else if (rsN <= 0.45 && exN <= 0.45) typeKey = "COLDBLUE"; // 저자극·쿨톤
+      else if (exN <= 0.4 && emN <= 0.45 && rcN >= 0.5) typeKey = "ZEROWAVE"; // 파동 적음
+      else typeKey = "BALANCER";                                 // 균형형
 
-      // 균형형 여부 확인
-      const values = [rsN, exN, rcN, emN, regN];
-      const maxVal = Math.max(...values);
-      const minVal = Math.min(...values);
-      if (maxVal - minVal < 0.22) {
-        return "HB"; // 다섯 축이 큰 쏠림 없이 골고루인 경우
-      }
+      const TYPE_DATA = {
+        SPARK: {
+          name: "스파크형 · Spark Type",
+          oneLine: "상황 변화에 즉각 반응하고, 에너지가 번쩍이는 스타터형입니다.",
+          keyword: "속도 · 즉흥 · 에너지",
+          accent: "#f97316",
+          accentSoft: "rgba(254,215,170,0.8)",
+          image: "./img/spark.png",
+          desc:
+            "스파크형은 주변 환경과 사람의 변화에 빠르게 반응하는 타입입니다. 좋은 소식에는 바로 기분이 치고 올라가고, 답답한 상황에서는 몸과 마음이 동시에 반응합니다. 기회 포착과 분위기 전환에는 강점이 크지만, 감정의 속도가 생각보다 앞서 나가 피곤해질 때도 있습니다.",
+          strengths: [
+            "변화에 빠르게 반응하며 기회를 먼저 잡는 추진력",
+            "분위기가 가라앉을 때 에너지를 끌어올리는 능력",
+            "눈치가 빨라 상황 파악과 센스 있는 대응이 가능함",
+            "새로운 경험과 자극에 두려움보다 호기심이 먼저 올라오는 편"
+          ],
+          warnings: [
+            "순간 감정에 휘둘려 말이나 행동이 앞서 나갈 수 있음",
+            "에너지 등락이 커서 주변에서 기복이 크다고 느낄 수 있음",
+            "중요한 결정일수록 한 번 더 ‘내일의 나’ 입장에서 점검하는 습관이 필요",
+            "쉬어야 할 때를 놓치지 않도록, 의도적으로 속도를 줄이는 연습이 도움 됨"
+          ]
+        },
+        RIPPLE: {
+          name: "리플형 · Ripple Type",
+          oneLine: "타인의 감정이 파문처럼 번져 들어오는, 깊은 공명형입니다.",
+          keyword: "공감 · 흡수 · 여운",
+          accent: "#0ea5e9",
+          accentSoft: "rgba(191,219,254,0.85)",
+          image: "./img/ripple.png",
+          desc:
+            "리플형은 주변 사람의 표정, 말투, 기운을 민감하게 받아들이는 편입니다. 누군가 힘들다고 말하면 쉽게 잊지 못하고, 혼자 있을 때도 그 장면이 자주 떠오릅니다. 공감 능력이 뛰어나 정서적인 지지를 잘 해주지만, 그만큼 감정 피로도 쌓이기 쉬운 타입입니다.",
+          strengths: [
+            "상대의 말과 사이사이에 숨어 있는 감정까지 읽어내는 섬세함",
+            "힘든 이야기를 털어놓고 싶게 만드는 따뜻한 태도",
+            "관계와 상황을 감정의 결까지 포함해 입체적으로 바라봄",
+            "사람을 대할 때 대충 넘기지 않고 진심을 담는 편"
+          ],
+          warnings: [
+            "타인의 감정까지 떠안아 스스로 번아웃이 오기 쉬움",
+            "거절과 거리두기를 미루다 한 번에 지칠 수 있음",
+            "모든 사람을 다 챙기지 못해도 괜찮다는 허용이 필요",
+            "하루 중 ‘아무에게도 공감하지 않는 시간’을 확보하면 큰 도움이 됨"
+          ]
+        },
+        BRIEFING: {
+          name: "브리핑형 · Briefing Type",
+          oneLine: "느낀 것을 바로 말과 표정으로 풀어내는, 표현 중심형입니다.",
+          keyword: "표현 · 전달 · 생동감",
+          accent: "#ec4899",
+          accentSoft: "rgba(251,207,232,0.9)",
+          image: "./img/briefing.png",
+          desc:
+            "브리핑형은 생각과 감정이 말과 표정에 비교적 그대로 드러나는 스타일입니다. 기쁜 일에는 함께 떠들고, 답답한 일에는 바로 티가 나는 편이라 주변에서 ‘솔직하다’는 인상을 받습니다. 분위기를 살리고 사람들을 편하게 만드는 장점이 크지만, 감정의 강도가 그대로 전달되면서 오해를 살 때도 있습니다.",
+          strengths: [
+            "분위기를 살리고 사람들을 편하게 만드는 생동감",
+            "솔직한 표현 덕분에 신뢰를 얻기 쉬움",
+            "좋은 에너지를 받을 때 주변까지 함께 끌어올리는 힘",
+            "자신의 상태를 숨기지 않아, 적절한 도움을 받기 쉬움"
+          ],
+          warnings: [
+            "기복이 커 보이거나, 감정이 과하게 전달될 수 있음",
+            "상대가 예상보다 더 세게 받아들일 수 있음을 기억할 필요",
+            "표현하기 전에 ‘어떤 톤으로 말할지’만 한 번 정리해도 큰 도움이 됨",
+            "무조건 참기보다, 강도와 타이밍을 조절하는 연습이 유익함"
+          ]
+        },
+        SPRING: {
+          name: "스프링형 · Spring Type",
+          oneLine: "한 번 눌려도 다시 튀어 오르는, 회복 탄성형입니다.",
+          keyword: "회복 · 탄력 · 재도전",
+          accent: "#16a34a",
+          accentSoft: "rgba(187,247,208,0.9)",
+          image: "./img/spring.png",
+          desc:
+            "스프링형은 힘든 일이 있어도 비교적 빠르게 균형을 되찾는 편입니다. 마음이 흔들려도 시간이 지나면 자연스럽게 정리되고, 과거의 일보다는 앞으로 무엇을 할지에 더 초점을 맞춥니다. 주변에서는 ‘멘탈이 단단하다, 금방 다시 일어선다’는 인상을 받기 쉽습니다.",
+          strengths: [
+            "위기 상황에서도 쉽게 무너지지 않는 정서적 탄력성",
+            "실수를 발판 삼아 다음 선택으로 나아가는 태도",
+            "장기적인 목표를 보고 꾸준히 버티는 힘",
+            "주변 사람들에게 안정감과 든든함을 주는 존재감"
+          ],
+          warnings: [
+            "겉으로 괜찮아 보여 실제 감정이 충분히 표현되지 않을 수 있음",
+            "스스로도 ‘이 정도면 괜찮지’라며 감정을 빠르게 넘길 위험",
+            "미세하게 쌓이는 피로를 무시하지 않도록 정기 점검이 필요",
+            "누군가에게는 한 번쯤 속마음을 길게 털어놓는 경험이 도움이 됨"
+          ]
+        },
+        PILOT: {
+          name: "파일럿형 · Pilot Type",
+          oneLine: "상황을 한 발 위에서 조종하며, 감정을 전략적으로 다루는 유형입니다.",
+          keyword: "조절 · 전략 · 조타",
+          accent: "#0f172a",
+          accentSoft: "rgba(209,213,219,0.9)",
+          image: "./img/pilot.png",
+          desc:
+            "파일럿형은 감정을 전혀 느끼지 않는 것이 아니라, 한 번에 터뜨리기보다 조절하고 관리하는 쪽을 택하는 타입입니다. 갈등이나 위기 상황에서도 ‘지금은 어떻게 움직이는 게 좋을까?’라는 관점으로 상황을 바라봅니다. 감정과 행동 사이에 항상 한 번의 간격을 두는 편입니다.",
+          strengths: [
+            "감정이 과열될 때도 전체 그림을 잃지 않는 시야",
+            "위기에서 우선순위를 정해 실행 방향을 잡는 능력",
+            "감정에 휘둘리기보다 목표와 결과를 중심으로 판단함",
+            "팀이나 관계에서 ‘판단을 맡기는 사람’ 역할을 하기 좋음"
+          ],
+          warnings: [
+            "상대에게는 차갑거나 무심한 사람으로 보일 수 있음",
+            "자신의 진짜 감정을 뒤로 미루고 ‘관리’만 할 위험",
+            "머리로는 정리됐지만, 마음은 아직 따라오지 못했을 수 있음",
+            "가끔은 전략 대신 ‘내가 진짜 느끼는 것’을 먼저 적어 보는 시간이 필요"
+          ]
+        },
+        COLDBLUE: {
+          name: "콜드블루형 · Cold Blue Type",
+          oneLine: "겉으로는 잔잔하고 차분하지만, 안에서 조용히 처리하는 쿨톤형입니다.",
+          keyword: "차분 · 저자극 · 관조",
+          accent: "#6b7280",
+          accentSoft: "rgba(209,213,219,0.9)",
+          image: "./img/coldblue.png",
+          desc:
+            "콜드블루형은 안에서 느끼는 것에 비해 겉으로 드러나는 폭이 크지 않은 편입니다. 웬만한 일에도 크게 티를 내지 않고, 일정한 온도를 유지하려 합니다. 주변에서는 ‘침착하다, 무덤덤하다’고 느끼지만, 실제로는 마음 안에서 조용히 많은 것들을 소화하고 있을 수 있습니다.",
+          strengths: [
+            "격한 상황에서도 함께 있으면 안정감을 주는 존재",
+            "불필요한 드라마 없이 담담하게 상황을 처리하는 능력",
+            "감정에 크게 휘둘리지 않아 실수 확률이 줄어듦",
+            "차분한 에너지 덕분에 의지하고 싶은 대상으로 보이기도 함"
+          ],
+          warnings: [
+            "속마음을 잘 모르겠다는 이야기를 듣기 쉬움",
+            "실제로는 힘든데 아무도 눈치채지 못할 수 있음",
+            "자신의 필요와 욕구를 표현하지 않아 손해를 볼 위험",
+            "적어도 한두 명에게는 솔직한 감정을 나눌 ‘안전한 공간’이 필요함"
+          ]
+        },
+        ZEROWAVE: {
+          name: "제로웨이브형 · Zero Wave Type",
+          oneLine: "큰 파동 없이 잔잔함을 유지하는, 저자극 미니멀형입니다.",
+          keyword: "저자극 · 안정 · 미니멀",
+          accent: "#22c55e",
+          accentSoft: "rgba(187,247,208,0.9)",
+          image: "./img/zerowave.png",
+          desc:
+            "제로웨이브형은 큰 자극이나 과열된 분위기보다는 잔잔하고 예측 가능한 환경을 선호합니다. 감정의 업다운이 크지 않아 주변에서 ‘편안하다’고 느끼지만, 본인은 때때로 ‘내가 너무 무덤덤한 건 아닌가?’ 고민하기도 합니다.",
+          strengths: [
+            "과도한 자극에도 크게 휘둘리지 않는 안정감",
+            "혼자 있는 시간에도 스스로를 잘 채우는 능력",
+            "흥분된 상황에서도 냉정한 판단을 유지하기 쉬움",
+            "주변에서 ‘함께 있으면 편한 사람’이라는 말을 듣기 쉬움"
+          ],
+          warnings: [
+            "마음속 고민을 잘 드러내지 않아, 도움을 못 받을 수 있음",
+            "타인에게 무관심하거나 거리가 먼 사람으로 보일 수 있음",
+            "변화가 필요한 순간에도 ‘지금 이대로’를 선택하기 쉬움",
+            "작은 도전부터 하나씩 시도해 보는 연습이 삶에 활력을 줄 수 있음"
+          ]
+        },
+        BALANCER: {
+          name: "밸런서형 · Balancer Type",
+          oneLine: "다섯 축이 비교적 고르게 분포된, 유연한 균형형입니다.",
+          keyword: "균형 · 조율 · 유연성",
+          accent: "#6366f1",
+          accentSoft: "rgba(199,210,254,0.9)",
+          image: "./img/balancer.png",
+          desc:
+            "밸런서형은 반응 속도, 표현, 회복력, 공명, 조절력 사이의 큰 쏠림 없이 상황에 맞게 태도를 바꾸는 경향이 있습니다. 특정 하나가 강하게 튀기보다는 여러 축이 평균 이상으로 고르게 분포해 있어, 다양한 역할을 오가며 조율자·중재자 포지션을 맡기 좋습니다.",
+          strengths: [
+            "여러 성향의 사람들과 두루 어울리기 쉬운 유연함",
+            "상황에 맞는 태도를 선택하는 실용적인 감각",
+            "감정 사용에 있어 과도한 소모나 폭발이 적은 편",
+            "팀 안에서 균형을 잡아주는 조율자 역할에 적합함"
+          ],
+          warnings: [
+            "스스로 느끼기에 ‘내가 뚜렷하게 어떤 타입인지’ 모호하게 느껴질 수 있음",
+            "강하게 드러나는 캐릭터보다는 조용히 받쳐주는 역할을 맡게 될 수 있음",
+            "어떤 상황에서는 과감함이 부족해 보일 수 있음",
+            "균형을 강점으로 쓰되, 나만의 색을 의도적으로 드러내는 연습도 필요함"
+          ]
+        }
+      };
 
-      // 그 외에는 가장 두드러진 축 기준으로 결정
-      if (maxVal === rsN) {
-        return rsN >= 0.6 ? "FR" : "LS";
-      }
-      if (maxVal === emN) {
-        return emN >= 0.6 ? "DE" : "HB";
-      }
-      if (maxVal === regN) {
-        return regN >= 0.6 ? "RC" : "HB";
-      }
-      if (maxVal === rcN) {
-        return rcN >= 0.6 ? "ER" : "HB";
-      }
-      if (maxVal === exN) {
-        return exN >= 0.6 ? "ES" : "FA";
-      }
-      return "HB";
-    }
-
-    // 결과 텍스트 – “내가 이런 사람이다” 느낌으로 정리
-    const TYPE_DATA = {
-      FR: {
-        name: "FR 타입 · Fast Reactive",
-        oneLine: "나는 상황 변화에 가장 먼저 반응하는, 빠른 레이더형입니다.",
-        keyword: "속도 · 즉흥 · 에너지",
-        emoji: "⚡",
-        gradient: "linear-gradient(135deg,#f97316,#ef4444)",
-        accent: "#f97316",
-        accentSoft: "rgba(254,215,170,0.8)",
-        desc:
-          "FR 타입은 변화에 바로 반응하는 사람입니다. 분위기 변화, 톤 변화, 새로운 소식에 누구보다 먼저 반응하고 몸과 마음이 바로 움직입니다. 그래서 주변에서는 ‘눈치 빠르고 센스 있는 사람’으로 보이기도 합니다. 다만 감정의 속도가 너무 빠르다 보니, 내가 생각하는 것보다 더 세게 전달될 때가 있을 수 있습니다.",
-        strengths: [
-          "새로운 기회와 변화를 먼저 포착하는 빠른 레이더",
-          "가라앉은 분위기를 다시 살려낼 수 있는 에너지",
-          "위기 상황에서 먼저 움직이는 ‘선발대’ 역할",
-          "단조로운 일상보다 변화를 통해 성장하는 힘"
-        ],
-        warnings: [
-          "순간 감정에 따라 말이나 행동이 먼저 나갈 수 있음",
-          "내 입장에서는 ‘그냥 한 말’이 상대에게는 강하게 남을 수 있음",
-          "중요한 결정일수록, 한 번 더 ‘내일의 나’ 입장에서 생각해 보기",
-          "쉬어야 할 타이밍을 놓치지 않도록, 의도적인 감속 구간을 만들어 두면 좋음"
-        ]
-      },
-      DE: {
-        name: "DE 타입 · Deep Empath",
-        oneLine: "나는 남의 마음을 깊이 받아들이는, 공감 안테나형입니다.",
-        keyword: "공감 · 흡수 · 깊이",
-        emoji: "💧",
-        gradient: "linear-gradient(135deg,#0ea5e9,#6366f1)",
-        accent: "#0ea5e9",
-        accentSoft: "rgba(191,219,254,0.85)",
-        desc:
-          "DE 타입은 사람의 표정, 말투, 분위기에 자연스럽게 감응하는 사람입니다. 누군가 힘들다고 말하면 쉽게 잊히지 않고, 집에 돌아와서도 그 장면이 떠오를 수 있습니다. 그래서 주변 사람 입장에서는 ‘내 이야기를 진짜 들어주는 사람’으로 느껴집니다. 다만 남의 기분까지 대신 떠안는 경우가 많아, 나도 모르게 지쳐 있을 수 있습니다.",
-        strengths: [
-          "말 뒤에 숨은 진짜 감정을 알아채는 섬세함",
-          "사람들이 고민을 털어놓고 싶어지는 포근한 존재감",
-          "상대 입장에서 생각하는 능력 덕분에 관계 깊이가 쉽게 생김",
-          "정서적인 지지가 필요한 자리에서 강점을 발휘"
-        ],
-        warnings: [
-          "남의 힘듦을 내 몫처럼 떠안아 번아웃이 올 수 있음",
-          "거절과 거리두기를 미루다가 한 번에 터질 위험",
-          "‘모두를 다 챙기지 못해도 된다’라는 기준을 스스로 허락할 필요",
-          "하루에 최소 한 구간은, 아무도 돌보지 않고 나만 돌보는 시간으로 두기"
-        ]
-      },
-      ES: {
-        name: "ES 타입 · Expressive Sensitive",
-        oneLine: "나는 느끼는 것도 크고, 드러나는 것도 분명한 표현형입니다.",
-        keyword: "표현 · 진솔함 · 온도",
-        emoji: "🎭",
-        gradient: "linear-gradient(135deg,#ec4899,#f97316)",
-        accent: "#ec4899",
-        accentSoft: "rgba(251,207,232,0.9)",
-        desc:
-          "ES 타입은 감정이 얼굴·말투·행동에 잘 드러나는 사람입니다. 기쁘면 티가 나고, 서운하면 말수가 줄어드는 식으로 주변에서도 금방 눈치챕니다. 그래서 사람들은 당신에게 ‘솔직해서 좋다, 눈치 안 보고 편하다’는 인상을 받기 쉽습니다. 다만 그대로 노출되는 만큼, 스스로는 ‘내가 너무 감정적이었나?’라는 후회를 할 때도 있을 수 있습니다.",
-        strengths: [
-          "분위기를 따뜻하게 만들고, 사람들을 편하게 하는 능력",
-          "진심이 느껴지는 표현 덕분에 신뢰를 얻기 쉬움",
-          "좋은 에너지를 받을 때 주변까지 함께 끌어올리는 힘",
-          "도움을 요청하거나 신호를 보내는 데 비교적 솔직함"
-        ],
-        warnings: [
-          "기분 변화가 커 보일 수 있어, 상대에게는 피곤하게 느껴질 때도 있음",
-          "즉각적인 한마디가 관계에 오래 남을 수 있다는 점을 의식할 필요",
-          "감정을 억누르기보다는, ‘어떻게 말할지’만 한 번 정리하고 표현해 보기",
-          "감정이 폭발하기 전에, 나만의 ‘감속 버튼(산책, 메모, 쉬기)’을 챙겨두면 좋음"
-        ]
-      },
-      ER: {
-        name: "ER 타입 · Emotionally Resilient",
-        oneLine: "나는 한 번 흔들려도, 다시 중심을 찾는 회복형입니다.",
-        keyword: "회복 · 안정 · 탄력",
-        emoji: "🌱",
-        gradient: "linear-gradient(135deg,#22c55e,#16a34a)",
-        accent: "#16a34a",
-        accentSoft: "rgba(187,247,208,0.9)",
-        desc:
-          "ER 타입은 힘든 일이 있어도 결국 다시 자기 템포를 회복하는 사람입니다. 상처나 스트레스가 없다는 뜻은 아니지만, 어느 순간부터는 자연스럽게 다시 일상으로 돌아갈 힘이 올라옵니다. 그래서 주변에서는 ‘멘탈이 강하다, 금방 다시 일어선다’는 인상을 받습니다.",
-        strengths: [
-          "위기 상황에서 오래 버티는 체력과 멘탈",
-          "실수·실패 이후에도 다시 도전할 수 있는 탄력",
-          "장기적인 목표를 보고 꾸준히 나아가는 힘",
-          "주위 사람들에게 ‘같이 있으면 든든한 사람’으로 느껴짐"
-        ],
-        warnings: [
-          "겉으로 괜찮아 보이지만, 안쪽 감정은 충분히 정리되지 않았을 수 있음",
-          "‘이 정도는 괜찮지’라며 너무 빨리 덮어버리는 습관",
-          "감정이 쌓였다가 어느 순간 뒤늦게 터질 위험",
-          "주기적으로 ‘나 요즘은 진짜 어떤 기분이지?’를 점검하는 시간이 필요"
-        ]
-      },
-      RC: {
-        name: "RC 타입 · Regulated Controller",
-        oneLine: "나는 감정과 행동 사이에 항상 ‘생각 한 번’을 두는 조절형입니다.",
-        keyword: "조절 · 전략 · 거리두기",
-        emoji: "🧠",
-        gradient: "linear-gradient(135deg,#0f172a,#4b5563)",
-        accent: "#0f172a",
-        accentSoft: "rgba(209,213,219,0.9)",
-        desc:
-          "RC 타입은 감정을 바로 드러내기보다, 상황과 손익을 먼저 계산하는 사람입니다. 화가 나도 ‘지금 여기서 이렇게 말하면 나한테 이득인가?’를 한 번 생각하는 식입니다. 그래서 조직이나 팀에서는 위기 상황에서도 침착하게 정리하는 역할을 맡기 좋습니다.",
-        strengths: [
-          "감정에 휘둘리기보다, 한 발 위에서 상황을 바라보는 시야",
-          "갈등 상황에서 말과 행동을 전략적으로 선택하는 능력",
-          "자극적인 순간에도 전체 흐름을 잃지 않는 안정감",
-          "중요한 의사결정에서 든든한 판단자 역할"
-        ],
-        warnings: [
-          "상대에게는 차갑거나 감정이 없는 사람으로 보일 수 있음",
-          "스스로도 ‘나는 괜찮다’고 생각하지만 사실 감정이 쌓여 있을 수 있음",
-          "너무 이성적으로만 정리하다 보면, 본인 마음의 속도와 엇갈릴 위험",
-          "때로는 손익 계산을 내려놓고, ‘나한테 솔직한 선택’도 허용해 주기"
-        ]
-      },
-      LS: {
-        name: "LS 타입 · Low Stimulus",
-        oneLine: "나는 저자극 환경을 선호하는, 잔잔한 관찰형입니다.",
-        keyword: "저자극 · 관찰 · 잔잔함",
-        emoji: "🍃",
-        gradient: "linear-gradient(135deg,#38bdf8,#22c55e)",
-        accent: "#22c55e",
-        accentSoft: "rgba(187,247,208,0.9)",
-        desc:
-          "LS 타입은 과하게 시끄럽거나 자극적인 환경보다, 익숙하고 차분한 환경을 선호합니다. 감정의 업다운 폭이 크지 않고, 겉으로 티를 크게 내지 않는 편입니다. 그래서 사람들은 ‘무던하다, 안정적이다’라는 인상을 받기 쉽습니다.",
-        strengths: [
-          "작은 자극에는 크게 휘둘리지 않는 안정적인 기분선",
-          "혼자 있는 시간에도 스스로를 꽤 잘 관리하는 능력",
-          "주변 사람들이 편안함을 느끼는 잔잔한 에너지",
-          "감정적 드라마보다 현실적인 일상을 꾸준히 유지하는 힘"
-        ],
-        warnings: [
-          "속마음을 잘 드러내지 않아, 도움을 못 받는 상황이 생길 수 있음",
-          "주변에서 ‘무관심하다, 차갑다’고 오해할 여지가 있음",
-          "변화가 필요할 때도, 안전한 현재를 선택하며 기회를 놓칠 수 있음",
-          "작은 변화부터 천천히 시도해 보는 연습이 삶의 활력을 높여 줄 수 있음"
-        ]
-      },
-      FA: {
-        name: "FA 타입 · Flat Affect",
-        oneLine: "나는 감정을 크게 흔들리지 않게 잠궈두는, 담담한 타입입니다.",
-        keyword: "담담함 · 거리 · 일정함",
-        emoji: "🪵",
-        gradient: "linear-gradient(135deg,#6b7280,#111827)",
-        accent: "#6b7280",
-        accentSoft: "rgba(209,213,219,0.9)",
-        desc:
-          "FA 타입은 안에서 느끼는 것에 비해 겉으로 드러내는 폭이 작습니다. 웬만한 일에는 크게 요동치지 않고, 말과 표정을 일정하게 유지하려는 편입니다. 그래서 사람들은 ‘침착하다, 무덤덤하다’고 느끼지만, 실제로는 마음속에서 혼자 많이 소화하고 있을 수 있습니다.",
-        strengths: [
-          "격한 상황에서도 함께 있으면 안정감을 주는 존재",
-          "불필요한 감정 소모 없이 상황을 담담하게 처리하는 능력",
-          "기분에 따라 행동이 휘청거리는 경우가 상대적으로 적음",
-          "섣불리 약속하지 않고, 말을 신중하게 고르는 편"
-        ],
-        warnings: [
-          "‘무슨 생각을 하는지 모르겠다’는 얘기를 들을 수 있음",
-          "힘들다는 신호를 내지 않아, 아무도 모르는 채 혼자 버틸 위험",
-          "감정과 필요를 표현하지 않아 손해를 보는 경우가 생길 수 있음",
-          "적어도 한두 명에게는 솔직한 감정과 욕구를 털어놓는 연습이 필요"
-        ]
-      },
-      HB: {
-        name: "HB 타입 · High Balance",
-        oneLine: "나는 상황에 따라 태도를 바꾸는, 유연한 균형형입니다.",
-        keyword: "균형 · 유연성 · 조화",
-        emoji: "⚖️",
-        gradient: "linear-gradient(135deg,#22c55e,#6366f1)",
-        accent: "#6366f1",
-        accentSoft: "rgba(199,210,254,0.9)",
-        desc:
-          "HB 타입은 다섯 축이 한쪽으로 극단적으로 치우치기보다, 상황에 따라 태도를 조절하는 편입니다. 필요하면 공감적으로, 필요하면 이성적으로, 필요하면 에너지를 끌어올릴 줄 아는 유연한 스타일입니다.",
-        strengths: [
-          "여러 유형의 사람들과 두루 섞여 지내기 좋은 성향",
-          "상황에 맞는 감정 사용법을 고를 수 있는 유연함",
-          "극단적인 기복보다 상대적으로 안정적인 흐름",
-          "조율자·중재자 역할에서 강점을 보이기 쉬움"
-        ],
-        warnings: [
-          "스스로 느끼기에 ‘내가 어떤 사람인지’ 뚜렷하지 않게 느껴질 수 있음",
-          "강한 캐릭터들 사이에서 조용히 받쳐주는 역할만 맡게 될 위험",
-          "가끔은 균형보다 ‘내 색깔’을 드러내는 선택도 필요",
-          "나만의 핵심 가치 2~3가지를 정리해 두면 방향성이 더 또렷해짐"
-        ]
-      }
-    };
-
-    function renderResult(typeKey, rsN, exN, rcN, emN, regN) {
-      const data = TYPE_DATA[typeKey] || TYPE_DATA["HB"];
+      const data = TYPE_DATA[typeKey];
       const root = document.documentElement;
+      if (data) {
+        const avatar = document.getElementById("typeAvatar");
+        const nameEl = document.getElementById("typeName");
+        const oneEl = document.getElementById("typeOneLine");
+        const keyEl = document.getElementById("typeKeyword");
+        const descEl = document.getElementById("typeDesc");
+        const sList = document.getElementById("typeStrengths");
+        const wList = document.getElementById("typeWarnings");
 
-      const avatar = document.getElementById("typeAvatar");
-      const nameEl = document.getElementById("typeName");
-      const oneEl = document.getElementById("typeOneLine");
-      const keyEl = document.getElementById("typeKeyword");
-      const descEl = document.getElementById("typeDesc");
-      const sList = document.getElementById("typeStrengths");
-      const wList = document.getElementById("typeWarnings");
+        if (avatar) {
+          avatar.innerHTML = "";
+          if (data.image) {
+            const img = document.createElement("img");
+            img.src = data.image;
+            img.alt = data.name;
+            avatar.appendChild(img);
+          } else {
+            avatar.textContent = "✨";
+          }
+        }
+        if (nameEl) nameEl.textContent = data.name;
+        if (oneEl) oneEl.textContent = data.oneLine;
+        if (keyEl) keyEl.textContent = data.keyword;
+        if (descEl) descEl.textContent = data.desc;
 
-      if (avatar) {
-        avatar.textContent = data.emoji;
-        avatar.style.backgroundImage = data.gradient;
+        if (root) {
+          root.style.setProperty("--accent", data.accent);
+          root.style.setProperty("--accent-soft", data.accentSoft);
+        }
+
+        if (sList) {
+          sList.innerHTML = "";
+          data.strengths.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            sList.appendChild(li);
+          });
+        }
+
+        if (wList) {
+          wList.innerHTML = "";
+          data.warnings.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            wList.appendChild(li);
+          });
+        }
       }
-      if (nameEl) nameEl.textContent = data.name;
-      if (oneEl) oneEl.textContent = data.oneLine;
-      if (keyEl) keyEl.textContent = data.keyword;
-      if (descEl) descEl.textContent = data.desc;
 
-      if (root) {
-        root.style.setProperty("--accent", data.accent);
-        root.style.setProperty("--accent-soft", data.accentSoft);
-      }
-
-      if (sList) {
-        sList.innerHTML = "";
-        data.strengths.forEach((item) => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          sList.appendChild(li);
-        });
-      }
-
-      if (wList) {
-        wList.innerHTML = "";
-        data.warnings.forEach((item) => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          wList.appendChild(li);
-        });
-      }
+      showSection("result");
     }
   </script>
 </body>
 </html>
+
+
 
 
 
