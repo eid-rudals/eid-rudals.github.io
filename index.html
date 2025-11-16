@@ -27,6 +27,45 @@
       --shadow-card: 0 18px 45px rgba(15, 23, 42, 0.7);
       --blur: 22px;
     }
+    .report-actions {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(55, 65, 81, 0.9);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .report-text {
+      font-size: 12px;
+      color: var(--text-soft);
+      line-height: 1.6;
+    }
+
+    .btn-download {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #f9fafb;
+      background: radial-gradient(circle at 0% 0%, #22c55e, transparent 55%),
+        linear-gradient(135deg, var(--accent-strong), #22c55e);
+      box-shadow: 0 10px 28px rgba(56, 189, 248, 0.55);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-download span.icon {
+      font-size: 16px;
+    }
 
     * {
       box-sizing: border-box;
@@ -947,11 +986,26 @@
             </div>
           </div>
 
-          <p class="footer-note">
+                    <p class="footer-note">
             이 결과는 현재 당신의 경향을 설명하는 것이며, 상황·환경·경험에 따라
             언제든 달라질 수 있습니다. 감정은 ‘고쳐야 할 것’이 아니라
             ‘어떻게 사용할지 선택할 수 있는 자원’이라는 점을 기억해 주세요.
           </p>
+
+          <!-- ▼ 기본 PDF 다운로드 영역 (옵션 A) ▼ -->
+          <div class="report-actions">
+            <div class="report-text">
+              <strong>옵션 A · 기본 리포트 PDF (무료)</strong><br />
+              지금 보이는 결과 카드 그대로를 한 장짜리 PDF로 저장할 수 있어요.
+              상담 기록, 자기 이해 노트, 지인과 공유용으로 활용해 보세요.
+            </div>
+            <button class="btn-download" onclick="downloadBasicPdf()">
+              <span class="icon">⬇</span>
+              기본 PDF 다운로드 (무료)
+            </button>
+          </div>
+          <!-- ▲ 기본 PDF 다운로드 영역 ▲ -->
+
         </div>
       </section>
     </main>
@@ -1448,9 +1502,77 @@
 
     showSection("result");
   }
+      // ============================
+    // 기본 PDF 다운로드 (옵션 A)
+    // ============================
+    async function downloadBasicPdf() {
+      const resultShell = document.querySelector(".result-shell");
+      if (!resultShell) {
+        alert("먼저 테스트를 완료한 뒤에 PDF를 다운로드할 수 있습니다.");
+        return;
+      }
+
+      try {
+        // 결과 카드만 캡처
+        const canvas = await html2canvas(resultShell, {
+          scale: 2,
+          useCORS: true,
+          backgroundColor: "#020617"
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({
+          orientation: "p",
+          unit: "mm",
+          format: "a4"
+        });
+
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+
+        // 여백 10mm 기준으로 비율 맞추기
+        const pdfWidth = pageWidth - 20;
+        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        const x = 10;
+        // 세로 중앙 정렬 비슷하게
+        const y = pdfHeight < pageHeight
+          ? (pageHeight - pdfHeight) / 2
+          : 10;
+
+        pdf.addImage(imgData, "PNG", x, y, pdfWidth, pdfHeight, undefined, "FAST");
+        pdf.save("EID_기본리포트.pdf");
+      } catch (e) {
+        console.error(e);
+        alert("PDF 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
+      }
+    }
+
+
+  
+  function addPDFButton() {
+    const resultSection = document.getElementById("result");
+    if (!resultSection) return;
+
+    const pdfBox = document.createElement("div");
+    pdfBox.className = "report-actions";
+    pdfBox.innerHTML = `
+      <p class="report-text">📄 결과를 PDF로 저장하고 싶다면 아래 버튼을 클릭하세요.</p>
+      <button class="btn-download" onclick="downloadPDF()">PDF 다운로드</button>
+    `;
+    resultSection.appendChild(pdfBox);
+  }
+
+  function downloadPDF() {
+    alert("PDF 다운로드 기능은 현재 준비 중입니다.");
+  }
+
 </script>
+
 </body>
 </html>
+
 
 
 
