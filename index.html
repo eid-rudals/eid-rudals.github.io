@@ -8,6 +8,20 @@
     name="description"
     content="반응 속도 · 표현 방식 · 회복력 · 공명 · 조절력 다섯 축으로 감정 사용 습관을 진단하는 EID 감정 패턴 검사"
   />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSVH87DKXR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-SSVH87DKXR');
+
+    
+    function trackEvent(name, params) {
+      if (typeof gtag === 'function') {
+        gtag('event', name, params || {});
+      }
+    }
+  </script>
 
   <!-- ✅ PDF용 라이브러리들을 먼저 로드 -->
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
@@ -1101,6 +1115,11 @@
     function startTest() {
       idx = 0;
       for (let i = 0; i < TOTAL; i++) answers[i] = null;
+      trackEvent('test_start', {
+        event_category: 'engagement',
+        event_label: 'EID 감정유형 테스트'
+      });
+
       showSection("question");
       renderQuestion();
     }
@@ -1265,7 +1284,16 @@
 
         typeKey = bestScore === Infinity ? "BALANCER" : bestType || "BALANCER";
       }
-
+trackEvent('test_complete', {
+  event_category: 'engagement',
+  event_label: 'EID 감정유형 테스트',
+  eid_type: typeKey,
+  rs: rsN,
+  ex: exN,
+  rc: rcN,
+  em: emN,
+  reg: regN
+});
       // ---------- 유형 설명 데이터 ----------
       const TYPE_DATA = {
         SPARK: {
@@ -1552,6 +1580,7 @@
   </script>
 </body>
 </html>
+
 
 
 
