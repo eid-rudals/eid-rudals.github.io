@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <title>EID 감정유형 테스트</title>
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
+<script>
+  Kakao.init("934e47a028ff3731959cca6342dddfed");
+  console.log("Kakao SDK loaded?", Kakao.isInitialized());
+</script>
+
   
 <meta property="og:title" content="EID 감정유형 테스트" />
 <meta property="og:description" content="5가지 감정축 기반 성향 분석. 당신의 감정 패턴은 무엇인가요?" />
@@ -1610,7 +1616,8 @@ trackEvent('test_complete', {
             title: "EID 감정유형 테스트",
             description:
               "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5가지 축으로 감정 사용 습관을 분석하는 EID 감정유형 테스트",
-            imageUrl: "https://예시도메인.com/eid_og_image.png", // ✅ 너가 올린 썸네일 이미지 주소로 바꾸기
+           imageUrl: "https://eid-test.com/og.png"
+
             link: {
               mobileWebUrl: window.location.href,
               webUrl: window.location.href
@@ -1628,16 +1635,10 @@ trackEvent('test_complete', {
         });
       });
     }
-
-  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
-  <script>
-    Kakao.init("934e47a028ff3731959cca6342dddfed");
-    console.log("Kakao SDK loaded?", Kakao.isInitialized());
-  </script>
-
   </script>
 </body>
 </html>
+
 
 
 
