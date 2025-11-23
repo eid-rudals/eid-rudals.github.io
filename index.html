@@ -3,10 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>EID 감정유형 테스트</title>
-  <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
-<script>
-    Kakao.init("934e47a028ff3731959cca6342dddfed");
-</script>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta
@@ -1626,9 +1622,16 @@ trackEvent('test_complete', {
       });
     }
 
+  <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" crossorigin="anonymous"></script>
+  <script>
+    Kakao.init("934e47a028ff3731959cca6342dddfed");
+    console.log("Kakao SDK loaded?", Kakao.isInitialized());
+  </script>
+
   </script>
 </body>
 </html>
+
 
 
 
