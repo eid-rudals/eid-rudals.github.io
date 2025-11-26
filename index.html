@@ -1644,80 +1644,66 @@ trackEvent('test_complete', {
         alert("PDF 생성 중 오류가 발생했습니다. 다시 시도해 주세요.");
       }
     }
-        // ============================
-    // 카카오톡 공유 버튼 동작
-    // ============================
-    const kakaoBtn = document.getElementById("kakao-share-btn");
-    if (kakaoBtn) {
-      kakaoBtn.addEventListener("click", function () {
-        if (!window.Kakao || !Kakao.isInitialized()) {
-          alert("카카오 공유를 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.");
-          return;
-        }
+       
+    (function () {
+      // 카카오톡 공유
+      const kakaoBtn = document.getElementById("kakao-share-btn");
+      if (kakaoBtn && window.Kakao) {
+        kakaoBtn.addEventListener("click", function () {
+          if (!Kakao.isInitialized()) {
+            alert("카카오 공유를 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.");
+            return;
+          }
 
-        Kakao.Share.sendDefault({
-          objectType: "feed",
-          content: {
-            title: "EID 감정유형 테스트",
-            description:
-              "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5가지 축으로 감정 사용 습관을 분석하는 EID 감정유형 테스트",
-           imageUrl: "https://eid-test.com/og.png",
-
-            link: {
-              mobileWebUrl: window.location.href,
-              webUrl: window.location.href
-            }
-          },
-          buttons: [
-            {
-              title: "나도 테스트 해보기",
+          Kakao.Share.sendDefault({
+            objectType: "feed",
+            content: {
+              title: "EID 감정유형 테스트 결과",
+              description:
+                "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5축 기반 감정 패턴 분석",
+              imageUrl: "https://eid-test.com/og.png",
               link: {
                 mobileWebUrl: window.location.href,
                 webUrl: window.location.href
               }
-            }
-          ]
+            },
+            buttons: [
+              {
+                title: "나도 테스트 해보기",
+                link: {
+                  mobileWebUrl: "https://eid-test.com",
+                  webUrl: "https://eid-test.com"
+                }
+              }
+            ]
+          });
         });
-      });
-    }
-    const kakaoBtn = document.getElementById("kakao-share-btn");
-if (kakaoBtn) {
-  kakaoBtn.addEventListener("click", function () {
-    Kakao.Share.sendDefault({
-      objectType: "feed",
-      content: {
-        title: "EID 감정유형 테스트 결과",
-        description:
-          "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5축 기반 감정 패턴 분석",
-        imageUrl: "https://eid-test.com/og.png",
-        link: { mobileWebUrl: window.location.href, webUrl: window.location.href }
-      },
-      buttons: [
-        {
-          title: "나도 테스트 해보기",
-          link: { mobileWebUrl: "https://eid-test.com", webUrl: "https://eid-test.com" }
-        }
-      ]
-    });
-  });
-}
+      }
 
+      // 인스타그램 공유 (URL 복사)
+      const instaBtn = document.getElementById("insta-share-btn");
+      if (instaBtn) {
+        instaBtn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            alert(
+              "링크 복사 완료!\n인스타그램 스토리 또는 프로필에 붙여넣어 공유해주세요."
+            );
+          } catch (e) {
+            prompt(
+              "복사를 지원하지 않는 환경입니다. 아래 주소를 복사해주세요:",
+              window.location.href
+            );
+          }
+        });
+      }
+    })();
 
-const instaBtn = document.getElementById("insta-share-btn");
-if (instaBtn) {
-  instaBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert("링크 복사 완료!\n인스타그램 스토리 또는 프로필에 붙여넣어 공유해주세요.");
-    } catch {
-      prompt("복사를 지원하지 않는 환경입니다. 아래 주소를 복사해주세요:", window.location.href);
-    }
-  });
-}
 
   </script>
 </body>
 </html>
+
 
 
 
