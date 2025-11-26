@@ -627,6 +627,40 @@
     }
 
     /* 결과 섹션 */
+/* ===== SNS 공유 버튼 스타일 ===== */
+.share-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.55);
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--text-soft);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.share-btn:hover {
+  border-color: var(--accent);
+  color: #e5e7eb;
+  transform: translateY(-1px);
+}
+
+.share-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: cover;
+  border-radius: 5px;
+}
 
     .result-shell {
       margin-top: 18px;
@@ -1009,15 +1043,28 @@
                 </div>
               </div>
             </div>
-            <div class="share-wrapper">
-        <button id="kakao-share-btn" class="kakao-btn">
-          <img
-            src="https://developers.kakao.com/assets/img/about/logos/kakaotalk_sharing_btn_medium.png"
-            alt="카카오톡 공유"
-            class="kakao-icon"
-          />
-        </button>
-      </div>
+          <!-- 🔽 SNS 공유 버튼 -->
+<div class="share-wrapper">
+  <button id="kakao-share-btn" class="share-btn">
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/3670/3670042.png"
+      alt="카카오톡 공유"
+      class="share-icon"
+    />
+    카카오톡 공유
+  </button>
+
+  <button id="insta-share-btn" class="share-btn">
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/174/174855.png"
+      alt="인스타그램 공유"
+      class="share-icon"
+    />
+    인스타그램 공유
+  </button>
+</div>
+
+
 
             <div class="result-list-block">
               <h3>이 유형의 강점</h3>
@@ -1052,9 +1099,42 @@
     </main>
   </div>
 
-  <!-- =========================
-       JS : 질문 + 산출 로직
-  ========================== -->
+
+const kakaoBtn = document.getElementById("kakao-share-btn");
+if (kakaoBtn) {
+  kakaoBtn.addEventListener("click", function () {
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "EID 감정유형 테스트 결과",
+        description:
+          "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5축 기반 감정 패턴 분석",
+        imageUrl: "https://eid-test.com/og.png",
+        link: { mobileWebUrl: window.location.href, webUrl: window.location.href }
+      },
+      buttons: [
+        {
+          title: "나도 테스트 해보기",
+          link: { mobileWebUrl: "https://eid-test.com", webUrl: "https://eid-test.com" }
+        }
+      ]
+    });
+  });
+}
+
+
+const instaBtn = document.getElementById("insta-share-btn");
+if (instaBtn) {
+  instaBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("링크 복사 완료!\n인스타그램 스토리 또는 프로필에 붙여넣어 공유해주세요.");
+    } catch {
+      prompt("복사를 지원하지 않는 환경입니다. 아래 주소를 복사해주세요:", window.location.href);
+    }
+  });
+}
+
   <script>
     const questions = [
       // 0~7 : 반응 속도 (rs)
@@ -1638,6 +1718,7 @@ trackEvent('test_complete', {
   </script>
 </body>
 </html>
+
 
 
 
