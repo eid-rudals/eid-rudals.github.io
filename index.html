@@ -1100,41 +1100,6 @@
   </div>
 
 
-const kakaoBtn = document.getElementById("kakao-share-btn");
-if (kakaoBtn) {
-  kakaoBtn.addEventListener("click", function () {
-    Kakao.Share.sendDefault({
-      objectType: "feed",
-      content: {
-        title: "EID 감정유형 테스트 결과",
-        description:
-          "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5축 기반 감정 패턴 분석",
-        imageUrl: "https://eid-test.com/og.png",
-        link: { mobileWebUrl: window.location.href, webUrl: window.location.href }
-      },
-      buttons: [
-        {
-          title: "나도 테스트 해보기",
-          link: { mobileWebUrl: "https://eid-test.com", webUrl: "https://eid-test.com" }
-        }
-      ]
-    });
-  });
-}
-
-
-const instaBtn = document.getElementById("insta-share-btn");
-if (instaBtn) {
-  instaBtn.addEventListener("click", async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert("링크 복사 완료!\n인스타그램 스토리 또는 프로필에 붙여넣어 공유해주세요.");
-    } catch {
-      prompt("복사를 지원하지 않는 환경입니다. 아래 주소를 복사해주세요:", window.location.href);
-    }
-  });
-}
-
   <script>
     const questions = [
       // 0~7 : 반응 속도 (rs)
@@ -1715,9 +1680,45 @@ trackEvent('test_complete', {
         });
       });
     }
+    const kakaoBtn = document.getElementById("kakao-share-btn");
+if (kakaoBtn) {
+  kakaoBtn.addEventListener("click", function () {
+    Kakao.Share.sendDefault({
+      objectType: "feed",
+      content: {
+        title: "EID 감정유형 테스트 결과",
+        description:
+          "반응 속도 · 표현 · 회복력 · 공명 · 조절력 5축 기반 감정 패턴 분석",
+        imageUrl: "https://eid-test.com/og.png",
+        link: { mobileWebUrl: window.location.href, webUrl: window.location.href }
+      },
+      buttons: [
+        {
+          title: "나도 테스트 해보기",
+          link: { mobileWebUrl: "https://eid-test.com", webUrl: "https://eid-test.com" }
+        }
+      ]
+    });
+  });
+}
+
+
+const instaBtn = document.getElementById("insta-share-btn");
+if (instaBtn) {
+  instaBtn.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("링크 복사 완료!\n인스타그램 스토리 또는 프로필에 붙여넣어 공유해주세요.");
+    } catch {
+      prompt("복사를 지원하지 않는 환경입니다. 아래 주소를 복사해주세요:", window.location.href);
+    }
+  });
+}
+
   </script>
 </body>
 </html>
+
 
 
 
